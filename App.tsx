@@ -1,74 +1,68 @@
-import React from "react";
+import React from 'react';
 import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
+	Text,
+	HStack,
+	Switch,
+	Center,
+	useColorMode,
+	NativeBaseProvider,
+	extendTheme,
+	VStack,
+	Box,
+	Code
+} from 'native-base';
+import NativeBaseIcon from './components/NativeBaseIcon';
+import { SignUp } from './screens/SignUp';
+
+const LinearGradient = require('expo-linear-gradient').LinearGradient;
 
 // Define the config
 const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
+	dependencies: {
+		'linear-gradient': LinearGradient
+	},
+	useSystemColorMode: false,
+	initialColorMode: 'light'
 };
 
 // extend the theme
 export const theme = extendTheme({ config });
 type MyThemeType = typeof theme;
-declare module "native-base" {
-  interface ICustomTheme extends MyThemeType {}
+declare module 'native-base' {
+	interface ICustomTheme extends MyThemeType {}
 }
+function Example() {
+	return (
+		<NativeBaseProvider config={config}>
+			<Center flex={1}>
+				<SignUp />
+			</Center>
+		</NativeBaseProvider>
+	);
+}
+
 export default function App() {
-  return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Code>App.tsx</Code>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
-  );
+	return (
+		<NativeBaseProvider config={config}>
+			<Center flex={1}>
+				<SignUp />
+			</Center>
+		</NativeBaseProvider>
+	);
 }
 
 // Color Switch Component
 function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
-  );
+	const { colorMode, toggleColorMode } = useColorMode();
+	return (
+		<HStack space={2} alignItems="center">
+			<Text>Dark</Text>
+			<Switch
+				isChecked={colorMode === 'light'}
+				onToggle={toggleColorMode}
+				aria-label={colorMode === 'light' ? 'switch to dark mode' : 'switch to light mode'}
+			/>
+			<Text>Light</Text>
+		</HStack>
+	);
 }
