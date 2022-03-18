@@ -1,23 +1,11 @@
 import React from 'react';
-import {
-	Text,
-	Link,
-	HStack,
-	Center,
-	Heading,
-	Switch,
-	useColorMode,
-	NativeBaseProvider,
-	extendTheme,
-	VStack,
-	Code,
-	Box,
-	Flex
-} from 'native-base';
+import { Flex, VStack } from 'native-base';
+
+import { TextInput } from '../components/TextInput';
 
 export const SignUp = () => {
 	return (
-		<Box
+		<Flex
 			bg={{
 				linearGradient: {
 					colors: [ '#5D429D', '#28BDD7' ],
@@ -32,6 +20,12 @@ export const SignUp = () => {
 			}}
 			height="full"
 			width="full"
-		/>
+		>
+			<VStack top="30%" padding="10px">
+				<TextInput label="Username" text="Hello" />
+				<TextInput label="Email" text="Hello" />
+				<TextInput label="Password" text="Hello" />
+			</VStack>
+		</Flex>
 	);
 };
