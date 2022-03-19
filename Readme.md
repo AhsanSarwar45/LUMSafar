@@ -2,7 +2,8 @@
 
 A social hub app for LUMS students.
 
-
+# Build Status 
+![EAS Build](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/eas-build.yml/badge.svg)
 
 # Setting up dev environment
 
