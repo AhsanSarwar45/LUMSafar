@@ -1,30 +1,27 @@
 import React from 'react';
-import { Flex, VStack } from 'native-base';
+import { Flex, VStack, useTheme } from 'native-base';
 
 import { TextInput } from '../components/TextInput';
 
 export const SignUp = () => {
+	const { gradient } = useTheme();
+
 	return (
 		<Flex
 			bg={{
 				linearGradient: {
-					colors: [ '#5D429D', '#28BDD7' ],
+					colors: [ gradient.start, gradient.end ],
 					start: [ -0.5, 0 ],
-					end: [ 1.5, 0 ]
+					end: [ 1.75, 0 ]
 				}
-			}}
-			_text={{
-				fontSize: 'md',
-				fontWeight: 'bold',
-				color: 'white'
 			}}
 			height="full"
 			width="full"
 		>
 			<VStack top="30%" padding="10px">
-				<TextInput label="Username" text="Hello" />
-				<TextInput label="Email" text="Hello" />
-				<TextInput label="Password" text="Hello" />
+				<TextInput label="Username" placeholder="" />
+				<TextInput label="Email" placeholder="example@site.com" />
+				<TextInput label="Password" placeholder="" />
 			</VStack>
 		</Flex>
 	);
