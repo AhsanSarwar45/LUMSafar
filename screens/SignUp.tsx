@@ -6,7 +6,8 @@ import { TextInput } from '../components/TextInput';
 
 export const SignUp = () => {
 	const { gradient } = useTheme();
-
+	// let x;
+	// x.toString();
 	return (
 		<Flex
 			bg={{
