@@ -1,27 +1,26 @@
 import React from 'react';
-import {
-	Text,
-	HStack,
-	Switch,
-	Center,
-	useColorMode,
-	NativeBaseProvider,
-	extendTheme,
-	VStack,
-	Box,
-	Code
-} from 'native-base';
+import { Text, HStack, Switch, Center, useColorMode, NativeBaseProvider } from 'native-base';
 import NativeBaseIcon from './components/NativeBaseIcon';
 import { SignUp } from './screens/SignUp';
 import { theme, config } from './themes/Theme';
+import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
+import AppLoading from 'expo-app-loading';
 
 export default function App() {
-	return (
+	let [ fontsLoaded ] = useFonts({
+		Jost_300Light,
+		Jost_500Medium,
+		Jost_700Bold
+	});
+
+	return fontsLoaded ? (
 		<NativeBaseProvider config={config} theme={theme}>
 			<Center flex={1}>
 				<SignUp />
 			</Center>
 		</NativeBaseProvider>
+	) : (
+		<AppLoading />
 	);
 }
 

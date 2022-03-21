@@ -29,11 +29,36 @@ export const theme = extendTheme({
 			700: '#006BA1',
 			800: '#005885',
 			900: '#003F5E'
+		},
+
+		whiteColor: {
+			100: '#0088CC',
+			500: '#FFFFFF'
 		}
 	},
 	config: {
 		// Changing initialColorMode to 'dark'
 		initialColorMode: 'light'
+	},
+	fontConfig: {
+		Jost: {
+			300: {
+				normal: 'Jost_300Light'
+			},
+			500: {
+				normal: 'Jost_500Medium'
+			},
+			700: {
+				normal: 'Jost_700Bold'
+			}
+		}
+	},
+
+	// Make sure values below matches any of the keys in `fontConfig`
+	fonts: {
+		heading: 'Jost',
+		body: 'Jost',
+		mono: 'Jost'
 	}
 });
 

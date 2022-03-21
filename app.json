@@ -1,34 +1,35 @@
 {
-  "expo": {
-    "name": "LUMSafar",
-    "slug": "LUMSafar",
-    "version": "0.1.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.ahsansarwar.LUMSafar"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.ahsansarwar.LUMSafar"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "LUMSafar",
+		"slug": "LUMSafar",
+		"version": "0.1.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": [ "**/*" ],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.ahsansarwar.LUMSafar"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#FFFFFF"
+			},
+			"package": "com.ahsansarwar.LUMSafar"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"androidStatusBar": {
+			"backgroundColor": "#000000"
+		}
+	}
 }

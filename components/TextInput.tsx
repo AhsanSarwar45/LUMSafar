@@ -8,7 +8,7 @@ interface TextInputProps {
 
 export const TextInput = (props: TextInputProps) => {
 	return (
-		<VStack paddingLeft="10px" paddingRight="10px" paddingBottom="5px">
+		<VStack>
 			<Text margin={0} color="rgba(255, 255, 255, 0.5)" fontWeight="bold" paddingLeft={6}>
 				{props.label}
 			</Text>
@@ -19,11 +19,15 @@ export const TextInput = (props: TextInputProps) => {
 				paddingLeft={6}
 				paddingTop={3}
 				paddingBottom={3}
-				margin="5px"
 				fontWeight="bold"
 				fontSize="lg"
+				_focus={{
+					borderWidth: 1,
+					borderColor: 'rgba(255, 255, 255, 0.5)',
+					color: 'white'
+				}}
 				// shadow="4"
-				// style={{ color: 'rgba(255, 255, 255, 0.5)' }}
+				style={{ color: 'white' }}
 				placeholder={props.placeholder}
 				placeholderTextColor="rgba(255, 255, 255, 0.5)"
 			/>
