@@ -14,11 +14,12 @@ export const TextInput = (props: TextInputProps) => {
 			</Text>
 			<Input
 				bg="rgba(255, 255, 255, 0.2)"
+				// size="cs"
 				variant="filled"
 				borderRadius={100}
 				paddingLeft={6}
-				paddingTop={3}
-				paddingBottom={3}
+				paddingTop={2}
+				paddingBottom={2}
 				fontWeight="bold"
 				fontSize="lg"
 				_focus={{

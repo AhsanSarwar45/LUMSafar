@@ -3,6 +3,8 @@ import { Flex, VStack, HStack, Button, KeyboardAvoidingView, Text, Center, useTh
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
+import LUMSafarLogo from '../assets/logos/LUMSafar.svg';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const SignUp = () => {
 	const { gradient } = useTheme();
@@ -19,10 +21,11 @@ export const SignUp = () => {
 			height="full"
 			width="full"
 		>
-			<VStack px="40px" width="full">
+			<VStack px="40px" width="full" height="full" alignItems="center">
 				<KeyboardAvoidingView behavior="position" width="full">
-					<Center paddingTop="200px" width="full">
-						<VStack space="10px" width="full">
+					<Center width="full">
+						<LUMSafarLogo width="90%" height={200} />
+						<VStack marginTop="-40px" space="10px" width="full">
 							<TextInput label="University Email" placeholder="example@site.com" />
 							<TextInput label="Password" placeholder="" />
 							<TextInput label="Confirm Password" placeholder="" />
@@ -59,6 +62,14 @@ export const SignUp = () => {
 				<Text p="20px" width="full" textAlign="center" fontSize="xs" color="rgba(255, 255, 255, 0.5)">
 					By signing up, you agree to our terms and conditions
 				</Text>
+
+				<HStack space="5px" alignItems="center" paddingTop="20px">
+					<Text fontSize="md" color="white" fontWeight={700}>
+						Sign up as a society instead
+					</Text>
+
+					<MaterialIcons name="arrow-forward" size={24} color="white" />
+				</HStack>
 			</VStack>
 		</Flex>
 	);
