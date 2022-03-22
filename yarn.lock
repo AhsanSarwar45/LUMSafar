@@ -1431,6 +1431,13 @@
     "@hapi/hoek" "8.x.x"
     "@hapi/topo" "3.x.x"
 
+"@hapi/topo@^5.0.0":
+  "integrity" "sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg=="
+  "resolved" "https://registry.npmjs.org/@hapi/topo/-/topo-5.1.0.tgz"
+  "version" "5.1.0"
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
 "@hapi/topo@3.x.x":
   "integrity" "sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ=="
   "resolved" "https://registry.npmjs.org/@hapi/topo/-/topo-3.1.6.tgz"
@@ -2493,6 +2500,18 @@
   "version" "3.0.1"
   dependencies:
     "@types/istanbul-lib-report" "*"
+
+"@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
+  "integrity" "sha512-BLO9bBq59vW3fxCpD4o0N4U+DXsvwvIcl+jofw0frQo/GrBFC+/jRZj1E7kgp6dvTyNmA4y6JCV5Id/r3mNP5A=="
+  "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.10.tgz"
+  "version" "7.0.10"
+
+"@types/keyv@*":
+  "integrity" "sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg=="
+  "resolved" "https://registry.npmjs.org/@types/keyv/-/keyv-3.1.4.tgz"
+  "version" "3.1.4"
+  dependencies:
+    "@types/node" "*"
 
 "@types/lodash.has@^4.5.6":
   "integrity" "sha512-SpUCvze0uHilQX/mt4K/cak5OQny1pVfz3pJx6H70dE3Tvw9s7EtlMK+vY6UBS+PQgETDfv6vhwoa3FPS2wrhg=="

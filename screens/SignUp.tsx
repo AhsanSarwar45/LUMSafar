@@ -8,7 +8,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export const SignUp = () => {
 	const { gradient } = useTheme();
-
+	// let x;
+	// x.toString();
 	return (
 		<Flex
 			bg={{
