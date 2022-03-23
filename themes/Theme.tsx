@@ -11,11 +11,6 @@ export const config = {
 };
 
 export const theme = extendTheme({
-	gradient: {
-		start: '#5D429D',
-		end: '#28BDD7'
-	},
-
 	colors: {
 		// Add new color
 		primary: {
@@ -29,13 +24,22 @@ export const theme = extendTheme({
 			700: '#006BA1',
 			800: '#005885',
 			900: '#003F5E'
-		},
-
-		whiteColor: {
-			100: '#0088CC',
-			500: '#FFFFFF'
 		}
 	},
+
+	shadows: {
+		cardLight: {
+			shadowColor: 'black',
+			shadowOffset: {
+				width: 0,
+				height: 4
+			},
+			shadowOpacity: 0.1,
+			shadowRadius: 13,
+			elevation: 5
+		}
+	},
+
 	config: {
 		// Changing initialColorMode to 'dark'
 		initialColorMode: 'light'

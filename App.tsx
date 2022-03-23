@@ -6,6 +6,10 @@ import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
 import AppLoading from 'expo-app-loading';
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([ 'NativeBase:' ]);
+
 export default function App() {
 	let [ fontsLoaded ] = useFonts({
 		Jost_300Light,
