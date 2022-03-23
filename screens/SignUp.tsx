@@ -17,7 +17,7 @@ import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
 import LUMSafarLogo from '../assets/logos/LUMSafar.svg';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
 
 interface SignUpData {
@@ -69,11 +69,13 @@ export const SignUp = () => {
 						validate={Validate}
 					>
 						{(props) => (
-							<VStack pt="30px" space="10px" width="80%">
-								<MaterialIcons name="arrow-back" size={24} color="black" />
-								<Heading size="xl" py="20px">
-									Sign Up
-								</Heading>
+							<VStack pt="40px" space="10px" width="80%" height="full" justifyContent="center">
+								<HStack alignItems="center" space={5}>
+									<FontAwesome5 name="arrow-left" size={24} color="black" />
+									<Heading size="xl" py="20px" color="black" mt={1}>
+										Sign Up
+									</Heading>
+								</HStack>
 								<TextInput
 									label="University Email"
 									value={props.values.email}
@@ -140,7 +142,7 @@ export const SignUp = () => {
 										SignUp
 									</Button>
 								</HStack>
-								<Text width="full" textAlign="center" fontSize="xs" color="rgba(0, 0, 0, 0.5)">
+								<Text width="90%" textAlign="center" fontSize="xs" color="rgba(0, 0, 0, 0.5)">
 									By signing up, you agree to our terms and conditions
 								</Text>
 

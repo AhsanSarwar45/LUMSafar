@@ -32,7 +32,7 @@ export const theme = extendTheme({
 			shadowColor: 'black',
 			shadowOffset: {
 				width: 0,
-				height: 4
+				height: 10
 			},
 			shadowOpacity: 0.1,
 			shadowRadius: 13,
