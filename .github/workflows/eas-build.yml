@@ -8,6 +8,10 @@ jobs:
   build:
     name: Install and build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
     steps:
       - uses: actions/checkout@v2
 
@@ -18,7 +22,6 @@ jobs:
           cache: npm
 
       - name: Setup Expo and EAS
-        working-directory: ./client
         uses: expo/expo-github-action@v7
         with:
           expo-version: 5.x
@@ -26,9 +29,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        working-directory: ./client
         run: npm ci
         
       - name: Build on EAS
-        working-directory: ./client
         run: eas build --platform android --non-interactive
