@@ -1,6 +1,13 @@
 # LUMSafar
 
-A social hub app for LUMS students.
+A social hub application for LUMS students. 
+
+Developed using: 
+- [Expo](https://github.com/expo/expo)
+- [Node](https://github.com/nodejs/node)
+- [Express](https://github.com/expressjs/express) 
+- [MongoDB](https://www.mongodb.com/)
+- [NativeBase](https://github.com/GeekyAnts/NativeBase)
 
 # Build Status 
 ![EAS Build](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/eas-build.yml/badge.svg)
