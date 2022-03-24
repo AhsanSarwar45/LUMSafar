@@ -2,19 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { Box, Input, Text, VStack, Icon, FormControl, HStack } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Shadow } from 'react-native-shadow-2';
+import { FormikProps } from 'formik';
 
 interface TextInputProps {
 	label: string;
-	value: string;
 	placeholder: string;
 	name: string;
-	error: string;
-	isInvalid: boolean;
-	isTouched: boolean;
 	isRequired: boolean;
-	handleBlur: Function;
-	handleChange: Function;
 	isPassword: boolean;
+	formikProps: any;
 }
 
 export const TextInput = (props: TextInputProps) => {
@@ -23,7 +19,10 @@ export const TextInput = (props: TextInputProps) => {
 	const handleClick = () => setShow(!show);
 
 	return (
-		<FormControl isRequired isInvalid={props.isInvalid && props.isTouched}>
+		<FormControl
+			isRequired
+			isInvalid={props.name in props.formikProps.errors && props.formikProps.touched[props.name]}
+		>
 			<Shadow
 				startColor={'rgba(0, 0, 1, 0.03)'}
 				offset={isFocused ? [ 0, 3 ] : [ 0, 0 ]}
@@ -52,11 +51,11 @@ export const TextInput = (props: TextInputProps) => {
 						fontWeight={700}
 						fontSize="md"
 						onBlur={() => {
-							props.handleBlur(props.name);
+							props.formikProps.handleBlur(props.name);
 							setFocused(false);
 						}}
-						onChangeText={props.handleChange(props.name)}
-						value={props.value}
+						onChangeText={props.formikProps.handleChange(props.name)}
+						value={props.formikProps.values[props.name]}
 						onFocus={() => setFocused(true)}
 						color="rgba(0, 0, 0, 1)"
 						// shadow="cardLight"
@@ -82,7 +81,7 @@ export const TextInput = (props: TextInputProps) => {
 						}
 					/>
 					<FormControl.ErrorMessage my={0} fontWeight="bold">
-						{props.error}
+						{props.formikProps.errors[props.name]}
 					</FormControl.ErrorMessage>
 				</VStack>
 			</Shadow>
@@ -92,12 +91,7 @@ export const TextInput = (props: TextInputProps) => {
 
 TextInput.defaultProps = {
 	name: '',
-	error: '',
 	placeholder: '',
-	isInvalid: false,
 	isRequired: false,
-	isTouched: false,
-	isPassword: false,
-	handleBlur: (key: String) => {},
-	handleChange: (key: String) => {}
+	isPassword: false
 };

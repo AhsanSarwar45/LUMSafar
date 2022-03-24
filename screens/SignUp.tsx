@@ -78,40 +78,25 @@ export const SignUp = () => {
 								</HStack>
 								<TextInput
 									label="University Email"
-									value={props.values.email}
-									isTouched={props.touched.email}
 									name="email"
 									isRequired
-									isInvalid={'email' in props.errors}
-									handleBlur={props.handleBlur}
-									handleChange={props.handleChange}
-									error={props.errors.email}
 									placeholder="example@site.com"
+									formikProps={props}
 								/>
 								<TextInput
 									label="Password"
-									value={props.values.password}
-									isTouched={props.touched.password}
 									name="password"
 									isRequired
-									isInvalid={'password' in props.errors}
-									handleBlur={props.handleBlur}
-									handleChange={props.handleChange}
-									error={props.errors.password}
 									isPassword={true}
+									formikProps={props}
 								/>
 
 								<TextInput
 									label="Confirm Password"
-									value={props.values.confirmPassword}
-									isTouched={props.touched.confirmPassword}
 									name="confirmPassword"
 									isRequired
-									isInvalid={'confirmPassword' in props.errors}
-									handleBlur={props.handleBlur}
-									handleChange={props.handleChange}
-									error={props.errors.confirmPassword}
 									isPassword={true}
+									formikProps={props}
 								/>
 
 								<HStack marginTop="20px" justifyContent="center">
