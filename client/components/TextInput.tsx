@@ -24,7 +24,7 @@ export const TextInput = (props: TextInputProps) => {
 			isInvalid={props.name in props.formikProps.errors && props.formikProps.touched[props.name]}
 		>
 			<Shadow
-				startColor={'rgba(0, 0, 1, 0.03)'}
+				startColor={'rgba(0, 0, 1, 0.1)'}
 				offset={isFocused ? [ 0, 3 ] : [ 0, 0 ]}
 				distance={isFocused ? 6 : 0}
 				radius={20}
@@ -32,7 +32,7 @@ export const TextInput = (props: TextInputProps) => {
 			>
 				<VStack
 					borderWidth={isFocused ? 0 : 1}
-					borderColor="rgba(0, 0, 0, 0.06)"
+					borderColor="rgba(0, 0, 0, 0.1)"
 					space={0}
 					bg="rgba(255, 255, 255, 1)"
 					borderRadius={20}
