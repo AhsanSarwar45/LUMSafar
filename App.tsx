@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, HStack, Switch, Center, useColorMode, NativeBaseProvider } from 'native-base';
-import NativeBaseIcon from './components/NativeBaseIcon';
 import { SignUp } from './screens/SignUp';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';

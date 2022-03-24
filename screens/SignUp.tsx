@@ -69,7 +69,7 @@ export const SignUp = () => {
 						validate={Validate}
 					>
 						{(props) => (
-							<VStack pt="40px" space="10px" width="80%" height="full" justifyContent="center">
+							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 								<HStack alignItems="center" space={5}>
 									<FontAwesome5 name="arrow-left" size={24} color="black" />
 									<Heading size="xl" py="20px" color="black" mt={1}>
@@ -142,7 +142,7 @@ export const SignUp = () => {
 										SignUp
 									</Button>
 								</HStack>
-								<Text width="90%" textAlign="center" fontSize="xs" color="rgba(0, 0, 0, 0.5)">
+								<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
 									By signing up, you agree to our terms and conditions
 								</Text>
 

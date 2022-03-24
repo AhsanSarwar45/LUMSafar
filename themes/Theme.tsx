@@ -1,4 +1,5 @@
 import { extendTheme } from 'native-base';
+import { ShadowProps } from 'react-native-shadow-2';
 
 const LinearGradient = require('expo-linear-gradient').LinearGradient;
 
@@ -8,6 +9,14 @@ export const config = {
 	},
 	useSystemColorMode: false,
 	initialColorMode: 'light'
+};
+
+export const ShadowPresets = {
+	button: {
+		offset: [ 0, 1 ],
+		distance: 1,
+		startColor: '#0003'
+	} as ShadowProps
 };
 
 export const theme = extendTheme({
@@ -24,19 +33,6 @@ export const theme = extendTheme({
 			700: '#006BA1',
 			800: '#005885',
 			900: '#003F5E'
-		}
-	},
-
-	shadows: {
-		cardLight: {
-			shadowColor: 'black',
-			shadowOffset: {
-				width: 0,
-				height: 10
-			},
-			shadowOpacity: 0.1,
-			shadowRadius: 13,
-			elevation: 5
 		}
 	},
 
