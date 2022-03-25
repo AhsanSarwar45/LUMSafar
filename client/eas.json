@@ -16,8 +16,5 @@
 	},
 	"submit": {
 		"production": {}
-	},
-	"expo": {
-		"jsEngine": "hermes"
 	}
 }
