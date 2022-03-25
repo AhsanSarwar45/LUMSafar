@@ -21,6 +21,7 @@
     "@expo-google-fonts/jost": "^0.2.2",
     "@expo-google-fonts/nunito": "^0.2.2",
     "@expo/rudder-sdk-node": "^1.1.1",
+    "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
     "axios": "^0.26.1",
     "expo": "^44.0.0",
