@@ -32,7 +32,7 @@ export const TextInput = (props: TextInputProps) => {
 			>
 				<VStack
 					borderWidth={isFocused ? 0 : 1}
-					borderColor="rgba(0, 0, 0, 0.1)"
+					borderColor="rgba(0, 0, 0, 0.08)"
 					space={0}
 					bg="rgba(255, 255, 255, 1)"
 					borderRadius={20}

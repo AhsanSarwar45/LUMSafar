@@ -1,22 +1,7 @@
 import React from 'react';
-import {
-	Box,
-	Flex,
-	VStack,
-	FormControl,
-	HStack,
-	Button,
-	Text,
-	Center,
-	useTheme,
-	View,
-	Input,
-	Heading
-} from 'native-base';
-import { Platform } from 'react-native';
+import { Box, VStack, HStack, Button, Text, Center, Heading } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
-import LUMSafarLogo from '../assets/logos/LUMSafar.svg';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
 
@@ -44,7 +29,7 @@ const Validate = (values: SignUpData) => {
 	return errors;
 };
 
-export const SignUp = () => {
+export const SignUp = ({ navigation }: any) => {
 	const OnSubmit = (data: SignUpData) => {
 		console.log('submitting with ', data);
 	};
@@ -71,7 +56,12 @@ export const SignUp = () => {
 						{(props) => (
 							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 								<HStack alignItems="center" space={5}>
-									<FontAwesome5 name="arrow-left" size={24} color="black" />
+									<FontAwesome5
+										onPress={() => navigation.goBack()}
+										name="arrow-left"
+										size={24}
+										color="black"
+									/>
 									<Heading size="xl" py="20px" color="black" mt={1}>
 										Sign Up
 									</Heading>
@@ -100,7 +90,8 @@ export const SignUp = () => {
 								/>
 
 								<HStack marginTop="20px" justifyContent="center">
-									<Button
+									{/* <Button
+										onPress={() => navigation.navigate('Login')}
 										size="lg"
 										borderRadius={100}
 										width="50%"
@@ -110,13 +101,13 @@ export const SignUp = () => {
 											fontWeight: 700
 										}}
 									>
-										Login
-									</Button>
+										Login Instead
+									</Button> */}
 									<Button
 										onPress={() => props.handleSubmit()}
 										size="lg"
 										borderRadius={100}
-										width="50%"
+										width="100%"
 										variant="solid"
 										colorScheme="primary"
 										shadow={2}
@@ -132,11 +123,21 @@ export const SignUp = () => {
 								</Text>
 
 								<HStack space="5px" justifyContent="center" py={5}>
-									<Text fontSize="md" color="black" fontWeight={700}>
-										Sign up as a society instead
+									<Text
+										onPress={() => navigation.navigate('Login')}
+										fontSize="md"
+										color="black"
+										fontWeight={700}
+									>
+										Already one of us? Login
 									</Text>
 
-									<MaterialIcons name="arrow-forward" size={24} color="black" />
+									<MaterialIcons
+										nPress={() => navigation.navigate('Login')}
+										name="arrow-forward"
+										size={24}
+										color="black"
+									/>
 								</HStack>
 							</VStack>
 						)}

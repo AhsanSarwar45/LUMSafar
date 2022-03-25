@@ -43,7 +43,7 @@ Developed using:
 
 # Running the Client
 
-After running `expo start`, you can run the client either on a physical device or an emulator.
+After running `expo start`, you can run the client either on a physical device or an emulator. The app will reload automatically when you save any changes.
 
 ### Physical Device
 1. Download Expo Go app on your smartphone.
@@ -51,8 +51,8 @@ After running `expo start`, you can run the client either on a physical device o
 3. Scan the QR code using Expo Go app.
 
 ### Emulator
-1. Download Android Studio.
-2. Install an AVD Device.
+1. Download [Android Studio](https://developer.android.com/studio).
+2. Install an AVD Device. Refer to [this](https://developer.android.com/studio/run/managing-avds) guide.
 3. Start the AVD Device.
 2. After running `npm start`, press <kbd>A</kbd> and Expo will start the app on the emulator.
 
