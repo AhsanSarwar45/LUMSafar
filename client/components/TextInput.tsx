@@ -58,7 +58,6 @@ export const TextInput = (props: TextInputProps) => {
 						value={props.formikProps.values[props.name]}
 						onFocus={() => setFocused(true)}
 						color="rgba(0, 0, 0, 1)"
-						// shadow="cardLight"
 						placeholder={props.placeholder}
 						placeholderTextColor="rgba(0, 0, 0, 0.2)"
 						InputRightElement={

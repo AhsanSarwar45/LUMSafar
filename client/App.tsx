@@ -7,10 +7,13 @@ import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-goo
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { enableScreens } from 'react-native-screens';
 
 import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs([ 'NativeBase:' ]);
+
+enableScreens();
 
 const Stack = createNativeStackNavigator();
 
