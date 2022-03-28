@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading } from 'native-base';
+import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -122,23 +122,15 @@ export const SignUp = ({ navigation }: any) => {
 									By signing up, you agree to our terms and conditions
 								</Text>
 
-								<HStack space="5px" justifyContent="center" py={5}>
-									<Text
-										onPress={() => navigation.navigate('Login')}
-										fontSize="md"
-										color="black"
-										fontWeight={700}
-									>
-										Already one of us? Login
-									</Text>
+								<Pressable onPress={() => navigation.navigate('Login')}>
+									<HStack space="5px" justifyContent="center" py={5}>
+										<Text fontSize="md" color="black" fontWeight={700}>
+											Already one of us? Login
+										</Text>
 
-									<MaterialIcons
-										nPress={() => navigation.navigate('Login')}
-										name="arrow-forward"
-										size={24}
-										color="black"
-									/>
-								</HStack>
+										<MaterialIcons name="arrow-forward" size={24} color="black" />
+									</HStack>
+								</Pressable>
 							</VStack>
 						)}
 					</Formik>

@@ -59,6 +59,29 @@ export const theme = extendTheme({
 		heading: 'Jost',
 		body: 'Jost',
 		mono: 'Jost'
+	},
+
+	shadows: {
+		0: {
+			shadowColor: 'rgba(0, 0, 1, 0.01)',
+			shadowOffset: {
+				width: 0,
+				height: 1
+			},
+			shadowOpacity: 0.18,
+			shadowRadius: 1.0,
+			elevation: 0
+		},
+		1: {
+			shadowColor: 'rgba(0, 0, 1, 0.01)',
+			shadowOffset: {
+				width: 0,
+				height: 1
+			},
+			shadowOpacity: 0.18,
+			shadowRadius: 1.0,
+			elevation: 5
+		}
 	}
 });
 

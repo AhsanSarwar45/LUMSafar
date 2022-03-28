@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading } from 'native-base';
+import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable } from 'native-base';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
@@ -84,23 +84,15 @@ export const Login = ({ navigation }: any) => {
 										Login
 									</Button>
 								</HStack>
-								<HStack space="5px" justifyContent="center" py={5}>
-									<Text
-										onPress={() => navigation.navigate('SignUp')}
-										fontSize="md"
-										color="black"
-										fontWeight={700}
-									>
-										New here? Sign Up
-									</Text>
+								<Pressable onPress={() => navigation.navigate('SignUp')}>
+									<HStack space="5px" justifyContent="center" py={5}>
+										<Text fontSize="md" color="black" fontWeight={700}>
+											New here? Sign Up
+										</Text>
 
-									<MaterialIcons
-										onPress={() => navigation.navigate('SignUp')}
-										name="arrow-forward"
-										size={24}
-										color="black"
-									/>
-								</HStack>
+										<MaterialIcons name="arrow-forward" size={24} color="black" />
+									</HStack>
+								</Pressable>
 							</VStack>
 						)}
 					</Formik>
