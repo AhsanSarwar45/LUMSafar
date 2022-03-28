@@ -27,8 +27,8 @@ export const TextInput = (props: TextInputProps) => {
 				borderColor: 'rgba(0, 0, 0, 0.08)',
 				borderRadius: 20,
 				bg: 'rgba(255, 255, 255, 1)',
-				py: 3,
-				px: 5
+				py: 2,
+				px: 3
 			}}
 		>
 			<Text sx={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: 12, fontWeight: 'bold' }}>{props.label}</Text>

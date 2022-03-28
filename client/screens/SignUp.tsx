@@ -263,8 +263,9 @@ export const SignUp = ({ navigation }: any) => {
 										Login
 									</Button>
                                     </HStack> */}
-							<Flex sx={{ flexDirection: 'row', justifyContent: 'center', paddingY: 5 }}>
-								<Pressable onPress={() => navigation.navigate('Login')}>
+
+							<Pressable onPress={() => navigation.navigate('Login')}>
+								<Flex sx={{ flexDirection: 'row', justifyContent: 'center', paddingY: 5 }}>
 									<Text
 										sx={{
 											fontSize: 20,
@@ -275,8 +276,8 @@ export const SignUp = ({ navigation }: any) => {
 										Already one if us? Login
 									</Text>
 									<MaterialIcons name="arrow-forward" size={24} color="black" />
-								</Pressable>
-							</Flex>
+								</Flex>
+							</Pressable>
 						</Flex>
 					)}
 				</Formik>

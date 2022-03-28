@@ -31,7 +31,7 @@ export const Login = ({ navigation }: any) => {
 	// let x;
 	// x.toString();
 	return (
-		<View sx={{ height: '100%', width: '100%' }}>
+		<Flex sx={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
 			<KeyboardAwareScrollView
 				style={{
 					width: '100%'
@@ -89,8 +89,8 @@ export const Login = ({ navigation }: any) => {
 										Login
 									</Button>
 								</HStack>*/}
-							<Flex sx={{ flexDirection: 'row', justifyContent: 'center', paddingY: 5 }}>
-								<Pressable onPress={() => navigation.navigate('SignUp')}>
+							<Pressable onPress={() => navigation.navigate('SignUp')}>
+								<Flex sx={{ flexDirection: 'row', justifyContent: 'center', paddingY: 5 }}>
 									<Text
 										sx={{
 											fontSize: 20,
@@ -98,16 +98,16 @@ export const Login = ({ navigation }: any) => {
 											fontWeight: '700'
 										}}
 									>
-										New here? Sign Up
+										New here? Sign up
 									</Text>
 									<MaterialIcons name="arrow-forward" size={24} color="black" />
-								</Pressable>
-							</Flex>
+								</Flex>
+							</Pressable>
 						</Flex>
 					)}
 				</Formik>
 				{/* </Center> */}
 			</KeyboardAwareScrollView>
-		</View>
+		</Flex>
 	);
 };
