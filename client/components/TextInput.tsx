@@ -63,7 +63,13 @@ export const TextInput = (props: TextInputProps) => {
 					)
 				}
 			/>
-			<FormControl.ErrorMessage my={0} fontWeight="bold">
+			<FormControl.ErrorMessage
+				my={0}
+				_text={{
+					fontWeight: 'bold',
+					fontSize: 10
+				}}
+			>
 				{props.formikProps.errors[props.name]}
 			</FormControl.ErrorMessage>
 		</VStack>

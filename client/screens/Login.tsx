@@ -24,9 +24,12 @@ const Validate = (values: LoginData) => {
 };
 
 export const Login = ({ navigation }: any) => {
-	const OnSubmit = (data: LoginData) => {
-		console.log('submitting with ', data);
-	};
+	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+	async function SubmitForm(data: LoginData) {
+		console.log('submitted', data);
+		await delay(500);
+	}
 	// let x;
 	// x.toString();
 	return (
@@ -43,10 +46,10 @@ export const Login = ({ navigation }: any) => {
 							email: '',
 							password: ''
 						}}
-						onSubmit={OnSubmit}
+						onSubmit={SubmitForm}
 						validate={Validate}
 					>
-						{(props) => (
+						{(formikProps) => (
 							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 								<HStack alignItems="center" space={5}>
 									<Heading size="xl" py="20px" color="black" mt={1}>
@@ -58,25 +61,30 @@ export const Login = ({ navigation }: any) => {
 									name="email"
 									isRequired
 									placeholder="example@site.com"
-									formikProps={props}
+									formikProps={formikProps}
 								/>
 								<TextInput
 									label="Password"
 									name="password"
 									isRequired
 									isPassword={true}
-									formikProps={props}
+									formikProps={formikProps}
 								/>
 
 								<HStack marginTop="20px" justifyContent="center">
 									<Button
-										onPress={() => props.handleSubmit()}
+										disabled={formikProps.isSubmitting}
+										onPress={() => {
+											formikProps.handleSubmit();
+										}}
 										size="lg"
 										borderRadius={100}
 										width="100%"
 										variant="solid"
 										colorScheme="primary"
 										shadow={2}
+										isLoading={formikProps.isSubmitting}
+										isLoadingText="Checking"
 										_text={{
 											fontWeight: 700
 										}}
@@ -85,12 +93,18 @@ export const Login = ({ navigation }: any) => {
 									</Button>
 								</HStack>
 								<Pressable onPress={() => navigation.navigate('SignUp')}>
-									<HStack space="5px" justifyContent="center" py={5}>
+									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md" color="black" fontWeight={700}>
 											New here? Sign Up
 										</Text>
 
-										<MaterialIcons name="arrow-forward" size={24} color="black" />
+										<FontAwesome5
+											onPress={() => navigation.goBack()}
+											name="arrow-right"
+											size={16}
+											color="black"
+											// marginTop={5}
+										/>
 									</HStack>
 								</Pressable>
 							</VStack>

@@ -29,10 +29,18 @@ const Validate = (values: SignUpData) => {
 	return errors;
 };
 
+// const SubmitForm = (data: SignUpData, setSubmitting: Function) => {
+// 	console.log('submitting with ', data);
+// 	setSubmitting(false);
+// };
+
 export const SignUp = ({ navigation }: any) => {
-	const OnSubmit = (data: SignUpData) => {
-		console.log('submitting with ', data);
-	};
+	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+	async function SubmitForm(data: SignUpData) {
+		console.log('submitted', data);
+		await delay(500);
+	}
 	// let x;
 	// x.toString();
 	return (
@@ -50,10 +58,10 @@ export const SignUp = ({ navigation }: any) => {
 							password: '',
 							confirmPassword: ''
 						}}
-						onSubmit={OnSubmit}
+						onSubmit={SubmitForm}
 						validate={Validate}
 					>
-						{(props) => (
+						{(formikProps) => (
 							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 								<HStack alignItems="center" space={5}>
 									<FontAwesome5
@@ -71,14 +79,14 @@ export const SignUp = ({ navigation }: any) => {
 									name="email"
 									isRequired
 									placeholder="example@site.com"
-									formikProps={props}
+									formikProps={formikProps}
 								/>
 								<TextInput
 									label="Password"
 									name="password"
 									isRequired
 									isPassword={true}
-									formikProps={props}
+									formikProps={formikProps}
 								/>
 
 								<TextInput
@@ -86,7 +94,7 @@ export const SignUp = ({ navigation }: any) => {
 									name="confirmPassword"
 									isRequired
 									isPassword={true}
-									formikProps={props}
+									formikProps={formikProps}
 								/>
 
 								<HStack marginTop="20px" justifyContent="center">
@@ -104,13 +112,18 @@ export const SignUp = ({ navigation }: any) => {
 										Login Instead
 									</Button> */}
 									<Button
-										onPress={() => props.handleSubmit()}
+										disabled={formikProps.isSubmitting}
+										onPress={() => {
+											formikProps.handleSubmit();
+										}}
 										size="lg"
 										borderRadius={100}
 										width="100%"
 										variant="solid"
 										colorScheme="primary"
 										shadow={2}
+										isLoading={formikProps.isSubmitting}
+										isLoadingText="Checking"
 										_text={{
 											fontWeight: 700
 										}}
@@ -123,12 +136,17 @@ export const SignUp = ({ navigation }: any) => {
 								</Text>
 
 								<Pressable onPress={() => navigation.navigate('Login')}>
-									<HStack space="5px" justifyContent="center" py={5}>
+									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md" color="black" fontWeight={700}>
 											Already one of us? Login
 										</Text>
-
-										<MaterialIcons name="arrow-forward" size={24} color="black" />
+										<FontAwesome5
+											onPress={() => navigation.goBack()}
+											name="arrow-right"
+											size={16}
+											color="black"
+											// marginTop={5}
+										/>
 									</HStack>
 								</Pressable>
 							</VStack>
