@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading } from 'native-base';
+// import { Box, VStack, HStack, Button, Text, Center, Heading } from 'native-base';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
+import { Flex, H1, View, Text, Pressable } from 'dripsy';
 
 interface LoginData {
 	email?: string;
@@ -30,45 +31,49 @@ export const Login = ({ navigation }: any) => {
 	// let x;
 	// x.toString();
 	return (
-		<Box bg="white" height="full" width="full">
+		<View sx={{ height: '100%', width: '100%' }}>
 			<KeyboardAwareScrollView
 				style={{
 					width: '100%'
 				}}
 			>
-				<Center width="full">
-					{/* <LUMSafarLogo width="70%" height={200} /> */}
-					<Formik
-						initialValues={{
-							email: '',
-							password: ''
-						}}
-						onSubmit={OnSubmit}
-						validate={Validate}
-					>
-						{(props) => (
-							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
-								<HStack alignItems="center" space={5}>
-									<Heading size="xl" py="20px" color="black" mt={1}>
-										Login
-									</Heading>
-								</HStack>
-								<TextInput
-									label="University Email"
-									name="email"
-									isRequired
-									placeholder="example@site.com"
-									formikProps={props}
-								/>
-								<TextInput
-									label="Password"
-									name="password"
-									isRequired
-									isPassword={true}
-									formikProps={props}
-								/>
+				{/* <LUMSafarLogo width="70%" height={200} /> */}
 
-								<HStack marginTop="20px" justifyContent="center">
+				<Formik
+					initialValues={{
+						email: '',
+						password: ''
+					}}
+					onSubmit={OnSubmit}
+					validate={Validate}
+				>
+					{(props) => (
+						<Flex
+							sx={{
+								flexDirection: 'column',
+								paddingTop: 40,
+								width: '80%',
+								height: '100%',
+								justifyContent: 'center'
+							}}
+						>
+							<H1>Login</H1>
+							<TextInput
+								label="University Email"
+								name="email"
+								isRequired
+								placeholder="example@site.com"
+								formikProps={props}
+							/>
+							<TextInput
+								label="Password"
+								name="password"
+								isRequired
+								isPassword={true}
+								formikProps={props}
+							/>
+
+							{/* <HStack marginTop="20px" justifyContent="center">
 									<Button
 										onPress={() => props.handleSubmit()}
 										size="lg"
@@ -83,29 +88,26 @@ export const Login = ({ navigation }: any) => {
 									>
 										Login
 									</Button>
-								</HStack>
-								<HStack space="5px" justifyContent="center" py={5}>
+								</HStack>*/}
+							<Flex sx={{ flexDirection: 'row', justifyContent: 'center', paddingY: 5 }}>
+								<Pressable onPress={() => navigation.navigate('SignUp')}>
 									<Text
-										onPress={() => navigation.navigate('SignUp')}
-										fontSize="md"
-										color="black"
-										fontWeight={700}
+										sx={{
+											fontSize: 20,
+											color: 'black',
+											fontWeight: '700'
+										}}
 									>
 										New here? Sign Up
 									</Text>
-
-									<MaterialIcons
-										onPress={() => navigation.navigate('SignUp')}
-										name="arrow-forward"
-										size={24}
-										color="black"
-									/>
-								</HStack>
-							</VStack>
-						)}
-					</Formik>
-				</Center>
+									<MaterialIcons name="arrow-forward" size={24} color="black" />
+								</Pressable>
+							</Flex>
+						</Flex>
+					)}
+				</Formik>
+				{/* </Center> */}
 			</KeyboardAwareScrollView>
-		</Box>
+		</View>
 	);
 };
