@@ -13,7 +13,7 @@ interface TextInputProps {
 	formikProps: any;
 }
 
-export const TextInput = (props: TextInputProps) => {
+const TextInput = (props: TextInputProps) => {
 	const [ show, setShow ] = React.useState(false);
 	const [ isFocused, setFocused ] = React.useState(false);
 	const handleClick = () => setShow(!show);
@@ -103,3 +103,5 @@ TextInput.defaultProps = {
 	isRequired: false,
 	isPassword: false
 };
+
+export default TextInput;

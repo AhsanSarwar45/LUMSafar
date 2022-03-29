@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable } from 'native-base';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TextInput } from '../components/TextInput';
+import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
 
@@ -92,7 +92,7 @@ export const Login = ({ navigation }: any) => {
 										Login
 									</Button>
 								</HStack>
-								<Pressable onPress={() => navigation.navigate('SignUp')}>
+								<Pressable onPress={() => navigation.navigate('SignUpStart')}>
 									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md" color="black" fontWeight={700}>
 											New here? Sign Up

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, HStack, Switch, Center, useColorMode, NativeBaseProvider } from 'native-base';
-import { SignUp } from './screens/SignUp';
+import { SignUp, AccountType } from './screens/SignUp';
 import { Login } from './screens/Login';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
@@ -30,6 +30,7 @@ export default function App() {
 				<Stack.Navigator initialRouteName="Login">
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+					<Stack.Screen options={{ headerShown: false }} name="SignUpStart" component={AccountType} />
 					{/* <Login /> */}
 				</Stack.Navigator>
 			</NavigationContainer>
