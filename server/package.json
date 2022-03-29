@@ -1,0 +1,20 @@
+{
+	"name": "server",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "node src",
+		"test": "jest"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.17.3",
+		"mongoose": "^6.2.9"
+	},
+	"devDependencies": {
+		"jest": "^27.5.1",
+		"supertest": "^6.2.2"
+	}
+}
