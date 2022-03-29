@@ -1,4 +1,4 @@
-name: EAS Build Client
+name: Client EAS Build
 on:
   workflow_dispatch:
   push:

@@ -11,6 +11,7 @@ Developed using:
 
 # Build Status 
 ![EAS Build](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/eas-build.yml/badge.svg)
+![Server Build and Test](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/server-build-and-test.yml/badge.svg)
 
 # Setting up dev environment
 
