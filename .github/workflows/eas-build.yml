@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 16.x
           cache: npm
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: 'client/package-lock.json'
 
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v7
