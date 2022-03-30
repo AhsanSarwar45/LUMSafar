@@ -39,7 +39,7 @@ Developed using:
 
 1. Navigate to client directory using `cd server`.
 2. Install required packages using `npm ci`.
-4. Start the server using `node index.js`, or if you have nodemon `nodemon index.js`. With nodemon, the server gets automatically restarted when you save any changes.
+4. Start the server using `npm run build`, or if you have nodemon `nodemon src/index.js`. With nodemon, the server gets automatically restarted when you save any changes.
 
 
 # Running the Client
