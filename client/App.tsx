@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, HStack, Switch, Center, useColorMode, NativeBaseProvider } from 'native-base';
+import React, { useEffect } from 'react';
+import { NativeBaseProvider } from 'native-base';
 import { SignUp, AccountType } from './screens/SignUp';
 import { Login } from './screens/Login';
 import { theme, config } from './themes/Theme';
@@ -9,12 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
 
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs([ 'NativeBase:' ]);
-
 enableScreens();
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -37,21 +32,5 @@ export default function App() {
 		</NativeBaseProvider>
 	) : (
 		<AppLoading />
-	);
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-	const { colorMode, toggleColorMode } = useColorMode();
-	return (
-		<HStack space={2} alignItems="center">
-			<Text>Dark</Text>
-			<Switch
-				isChecked={colorMode === 'light'}
-				onToggle={toggleColorMode}
-				aria-label={colorMode === 'light' ? 'switch to dark mode' : 'switch to light mode'}
-			/>
-			<Text>Light</Text>
-		</HStack>
 	);
 }
