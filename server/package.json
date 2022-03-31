@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "node src",
+		"start": "node src",
+		"start-n" : "nodemon src",
 		"test": "jest"
 	},
 	"author": "",
