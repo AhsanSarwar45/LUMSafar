@@ -2,36 +2,13 @@ import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
-import Switch from '../components/Switch';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-interface SignUpData {
-	email?: string;
-	password?: string;
-	confirmPassword?: string;
-}
-
-const Validate = (values: SignUpData) => {
-	const errors: SignUpData = {};
-
-	if (!values.email) {
-		errors.email = 'Required';
-	}
-	if (!values.password) {
-		errors.password = 'Required';
-	}
-	if (!values.confirmPassword) {
-		errors.confirmPassword = 'Required';
-	} else if (values.confirmPassword != values.password) {
-		errors.confirmPassword = 'Passwords do not match';
-	}
-
-	return errors;
-};
+import Axios from 'axios';
+import { LUMSAFAR_SERVER_URL } from '@env';
 
 // const SubmitForm = (data: SignUpData, setSubmitting: Function) => {
 // 	console.log('submitting with ', data);
@@ -96,14 +73,49 @@ export const AccountType = ({ navigation }: any) => {
 	);
 };
 
+interface SignUpData {
+	email?: string;
+	password?: string;
+	confirmPassword?: string;
+	isSociety?: boolean;
+}
+
+const Validate = (values: SignUpData) => {
+	const errors: SignUpData = {};
+
+	if (!values.email) {
+		errors.email = 'Required';
+	}
+	if (!values.password) {
+		errors.password = 'Required';
+	}
+	if (!values.confirmPassword) {
+		errors.confirmPassword = 'Required';
+	} else if (values.confirmPassword != values.password) {
+		errors.confirmPassword = 'Passwords do not match';
+	}
+
+	return errors;
+};
+
 export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	const { isSociety } = route.params;
 
-	async function SubmitForm(data: SignUpData) {
-		console.log('submitted', data);
+	async function SubmitForm(data: SignUpData, actions: any) {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/sign_up`, data, {
+			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+		}).then((response) => {
+			console.log(response.data);
+			if (response.data === 'success') {
+				// navigate('/sign_up_success');
+			} else if (response.data === 'duplicate-entry') {
+				// setIsDup(true);
+			}
+		});
 		await delay(500);
+		actions.setSubmitting(false);
 	}
 
 	useEffect(() => {
@@ -127,7 +139,8 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 								initialValues={{
 									email: '',
 									password: '',
-									confirmPassword: ''
+									confirmPassword: '',
+									isSociety: isSociety
 								}}
 								onSubmit={SubmitForm}
 								validate={Validate}

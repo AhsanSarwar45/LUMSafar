@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable } from 'native-base';
-import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
+import { LUMSAFAR_SERVER_URL } from '@env';
+import Axios from 'axios';
 
 interface LoginData {
 	email?: string;
@@ -26,10 +27,20 @@ const Validate = (values: LoginData) => {
 export const Login = ({ navigation }: any) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-	async function SubmitForm(data: LoginData) {
-		console.log('submitted', data);
+	async function SubmitForm(data: LoginData, actions: any) {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
+			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+		}).then((response) => {
+			console.log(response.data);
+			if (response.data === 'success') {
+				// navigate('/sign_up_success');
+			} else if (response.data === 'not-found') {
+			}
+		});
 		await delay(500);
+		actions.setSubmitting(false);
 	}
+
 	// let x;
 	// x.toString();
 	return (

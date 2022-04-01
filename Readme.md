@@ -27,6 +27,7 @@ Developed using:
 1. Clone the repository to local machine using
 ```git clone https://github.com/AhsanSarwar45/LUMSafar```.
 2. Open the cloned directory in VSCode either manually or using ```code LUMSafar```.
+3. Open the `.env` file in the `client/` directory and set `LUMSAFAR_SERVER_URL` to your `'http://<your ipv4 address>:3001`.
 
 ### Client
 
