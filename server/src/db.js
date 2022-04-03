@@ -1,37 +1,59 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://Lumsafar:bulbul123@cluster0.trz98.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const events = require('./models/event_model.js');
+const users = require('./models/user_model.js');
+const spaces = require('./models/space_model.js');
+// mongoose.connect('mongodb+srv://Lumsafar:bulbul123@cluster0.trz98.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 
-const CatSchema = mongoose.Schema({
-    name:String, 
-    age:Number, 
-    test:Boolean
-})
+const uri = 'mongodb+srv://Lumsafar:bulbul123@cluster0.trz98.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+// let connectDb = mongoose.connect('mongodb+srv://Lumsafar:bulbul123@cluster0.trz98.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 
-const Cat = mongoose.model("Cat", CatSchema);
-
-// const kitty = new Cat({ name: 'Zildjian' });
-const pussy = new Cat(
-    {
-        name:"Omer",
-        age:69,
-        test:true
-    }
-);
-const kitty = new Cat(
-    {
-        name:"Muiz gandu",
-        age:70,
-        test:false
-    }
-);
-
-Cat.insertMany([pussy, kitty],(err)=>{
-    if(err)
-    {
-        console.log(err);
-    }
-    else{
-        console.log("Succesfully inserted ");
-    }
+const client = new MongoClient(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	serverApi: ServerApiVersion.v1
 });
+client.connect((err) => {
+	if (err) {
+		console.log(err);
+	} else {
+		const collection = client.db('test').collection('devices');
+		// perform actions on the collection object
+		client.close();
+	}
+});
+
+// const CatSchema = mongoose.Schema({
+//     name:String,
+//     age:Number,
+//     test:Boolean
+// })
+
+// const Cat = mongoose.model("Cat", CatSchema);
+
+// // const kitty = new Cat({ name: 'Zildjian' });
+// const pussy = new Cat(
+//     {
+//         name:"Omer",
+//         age:69,
+//         test:true
+//     }
+// );
+// const kitty = new Cat(
+//     {
+//         name:"Muiz gandu",
+//         age:70,
+//         test:false
+//     }
+// );
+
+// Cat.insertMany([pussy, kitty],(err)=>{
+//     if(err)
+//     {
+//         console.log(err);
+//     }
+//     else{
+//         console.log("Succesfully inserted ");
+//     }
+// });
 // kitty.save().then(() => console.log('meow'));

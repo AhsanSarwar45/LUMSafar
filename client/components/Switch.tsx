@@ -22,8 +22,8 @@ const Switch = (props: SwitchProps) => {
 		<View>
 			<View
 				style={{
-					height: 44,
-					width: 215,
+					height: 80,
+					width: '80%',
 					backgroundColor: 'white',
 					borderRadius: props.borderRadius ? 25 : 0,
 					borderWidth: 1,
