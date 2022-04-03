@@ -13,6 +13,7 @@ const client = new MongoClient(uri, {
 	useUnifiedTopology: true,
 	serverApi: ServerApiVersion.v1
 });
+
 client.connect((err) => {
 	if (err) {
 		console.log(err);
@@ -22,6 +23,8 @@ client.connect((err) => {
 		client.close();
 	}
 });
+
+module.exports = client;
 
 // const CatSchema = mongoose.Schema({
 //     name:String,
