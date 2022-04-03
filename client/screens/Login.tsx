@@ -28,17 +28,33 @@ export const Login = ({ navigation }: any) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	async function SubmitForm(data: LoginData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
+		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		}).then((response) => {
-			console.log(response.data);
-			if (response.data === 'success') {
-				// navigate('/sign_up_success');
-			} else if (response.data === 'not-found') {
-			}
-		});
-		await delay(500);
-		actions.setSubmitting(false);
+		})
+		// console.log(response.data);
+		if (response.data === 'success') {
+			// navigate('/sign_up_success');
+			//log user in
+			// sessionStorage.setItem('user', response.data.email);
+			// navgate('/user')
+			// console.log('success');
+		} else if (response.data === 'not-found') {
+			console.log('not found');
+		}
+
+		await actions.setSubmitting(false);
+		// Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
+		// 	headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+		// }).then((response) => {
+		// 	console.log(response.data);
+		// 	if (response.data === 'success') {
+		// 		// navigate('/sign_up_success');
+		// 	} else if (response.data === 'not-found') {
+
+		// 	}
+		// });
+		// await delay(500);
+		
 	}
 
 	// let x;
