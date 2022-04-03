@@ -113,6 +113,8 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 			} else if (response.data === 'duplicate-entry') {
 				// setIsDup(true);
 			}
+		}).catch((response) => {
+			console.log(response);
 		});
 		await delay(500);
 		actions.setSubmitting(false);
