@@ -10,10 +10,18 @@ describe('/test endpoint', () => {
 	});
 });
 
-// describe('/sign_up endpoint', () => {
-// 	it('should return a response', async () => {
-// 		const response = await request.get('/test');
-// 		expect(response.status).toBe(200);
-// 		expect(response.text).toBe('Hello world');
-// 	});
-// });
+describe('/sign_up endpoint', () => {
+	it('should return a response', async () => {
+		const response = await request.post('/sign_up');
+		expect(response.status).toBe(200);
+		expect(response.text).toBe('success');
+	});
+});
+
+describe('/login endpoint', () => {
+	it('should return a response', async () => {
+		const response = await request.post('/login');
+		expect(response.status).toBe(200);
+		expect(response.text).toBe('success');
+	});
+});
