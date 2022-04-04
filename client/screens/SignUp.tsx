@@ -31,9 +31,9 @@ const Validate = (values: SignUpData) => {
 	if (!values.email) {
 		errors.email = 'Required';
 	}
-	if (!values.email.includes("@lums.edu.pk")){
-		errors.email = 'Please enter your LUMS email';
-	}
+	// if (!values.email.includes("@lums.edu.pk")){
+	// 	errors.email = 'Please enter your LUMS email';
+	// }
 	if (!values.password) {
 		errors.password = 'Required';
 	}
@@ -53,7 +53,7 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SubmitForm(data: SignUpData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/validate_sign_up`, data, {
+		Axios.post(`${LUMSAFAR_SERVER_URL}users/add`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		})
 			.then((response) => {

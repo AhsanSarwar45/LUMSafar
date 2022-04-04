@@ -28,7 +28,7 @@ export const Login = ({ navigation }: any) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	async function SubmitForm(data: LoginData, actions: any) {
-		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
+		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		});
 		// console.log(response.data);
