@@ -10,9 +10,9 @@ describe('/test endpoint', () => {
 	});
 });
 
-describe('/sign_up endpoint', () => {
+describe('/validate_sign_up endpoint', () => {
 	it('should return a response', async () => {
-		const response = await request.post('/sign_up');
+		const response = await request.post('/validate_sign_up');
 		expect(response.status).toBe(200);
 		expect(response.text).toBe('success');
 	});
