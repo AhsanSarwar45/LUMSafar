@@ -31,6 +31,9 @@ const Validate = (values: SignUpData) => {
 	if (!values.email) {
 		errors.email = 'Required';
 	}
+	if (!values.email.includes("@lums.edu.pk")){
+		errors.email = 'Please enter your LUMS email';
+	}
 	if (!values.password) {
 		errors.password = 'Required';
 	}
