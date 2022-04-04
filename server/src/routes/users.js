@@ -8,6 +8,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+    console.log("user add req received");
 	const email = req.body.email;
 	const password = req.body.password;
 	const isSociety = req.body.isSociety;
@@ -16,6 +17,23 @@ router.route('/add').post((req, res) => {
 
 	newUser.save().then(() => res.json('User added!')).catch((err) => res.status(400).json('Error: ' + err));
 });
+
+router.route('/login').post((req, res) => {
+    console.log(req)
+    User.where({ email: req.body.email, password: req.body.password }).findOne((err, user) => {
+        if (err) {
+            res.status(400).json('Error: ' + err);
+        } else {
+            if (user){
+                //check if a doc was found
+                res.json("authenticated");
+            }
+            // res.json(user);
+        }
+    })
+
+});
+
 
 router.route('/:id').get((req, res) => {
 	User.findById(req.params.id).then((user) => res.json(user)).catch((err) => res.status(400).json('Error: ' + err));
