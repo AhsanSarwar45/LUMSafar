@@ -25,7 +25,7 @@ type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 export const AccountType = ({ navigation }: any) => {
 	return (
-		<VStack pt="40px" space="15px" width="100%" height="full" alignItems="center">
+		<VStack pt="60px" space="25px" width="100%" height="full" alignItems="center">
 			<HStack alignItems="center" space={5} width="100%" px="10%">
 				<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" size={24} color="black" />
 				<Heading size="lg" color="black">
@@ -33,42 +33,44 @@ export const AccountType = ({ navigation }: any) => {
 				</Heading>
 			</HStack>
 
-			<HStack alignItems="center" space={5} height="20%" width="100%" px="10%">
-				<Button
-					onPress={() => {
-						navigation.navigate('SignUp', { isSociety: false });
-					}}
-					size="lg"
-					borderRadius={24}
-					height="full"
-					width="50%"
-					variant="solid"
-					colorScheme="primary"
-					shadow={5}
-					_text={{
-						fontWeight: 700
-					}}
-				>
-					Student
-				</Button>
-				<Button
-					onPress={() => {
-						navigation.navigate('SignUp', { isSociety: true });
-					}}
-					size="lg"
-					borderRadius={24}
-					height="full"
-					width="50%"
-					variant="solid"
-					colorScheme="primary"
-					shadow={5}
-					_text={{
-						fontWeight: 700
-					}}
-				>
-					Society
-				</Button>
-			</HStack>
+			{/* <VStack alignItems="center" space={5} height="20%" width="100%" px="10%"> */}
+			<Button
+				onPress={() => {
+					navigation.navigate('SignUp', { isSociety: false });
+				}}
+				size="lg"
+				borderRadius={24}
+				height="30%"
+				width="80%"
+				variant="solid"
+				colorScheme="primary"
+				shadow={5}
+				_text={{
+					fontWeight: 700,
+					fontSize: 36
+				}}
+			>
+				Student
+			</Button>
+			<Button
+				onPress={() => {
+					navigation.navigate('SignUp', { isSociety: true });
+				}}
+				size="lg"
+				borderRadius={24}
+				height="30%"
+				width="80%"
+				variant="solid"
+				colorScheme="primary"
+				shadow={5}
+				_text={{
+					fontWeight: 700,
+					fontSize: 36
+				}}
+			>
+				Society
+			</Button>
+			{/* </VStack> */}
 		</VStack>
 	);
 };
@@ -106,16 +108,18 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 	async function SubmitForm(data: SignUpData, actions: any) {
 		Axios.post(`${LUMSAFAR_SERVER_URL}/sign_up`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		}).then((response) => {
-			console.log(response.data);
-			if (response.data === 'success') {
-				// navigate('/sign_up_success');
-			} else if (response.data === 'duplicate-entry') {
-				// setIsDup(true);
-			}
-		}).catch((response) => {
-			console.log(response);
-		});
+		})
+			.then((response) => {
+				console.log(response.data);
+				if (response.data === 'success') {
+					// navigate('/sign_up_success');
+				} else if (response.data === 'duplicate-entry') {
+					// setIsDup(true);
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
 		await delay(500);
 		actions.setSubmitting(false);
 	}
@@ -231,15 +235,19 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 										<Pressable onPress={() => navigation.navigate('Login')}>
 											<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 												<Text fontSize="md" color="black" fontWeight={700}>
-													Already one of us? Login
+													Already one of us?
 												</Text>
-												<FontAwesome5
+
+												<Text fontSize="md" color="primary.500" fontWeight={700}>
+													Login
+												</Text>
+												{/* <FontAwesome5
 													onPress={() => navigation.goBack()}
 													name="arrow-right"
 													size={16}
 													color="black"
 													// marginTop={5}
-												/>
+												/> */}
 											</HStack>
 										</Pressable>
 									</VStack>

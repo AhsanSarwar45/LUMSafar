@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable } from 'native-base';
+import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -30,7 +30,7 @@ export const Login = ({ navigation }: any) => {
 	async function SubmitForm(data: LoginData, actions: any) {
 		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		})
+		});
 		// console.log(response.data);
 		if (response.data === 'success') {
 			// navigate('/sign_up_success');
@@ -54,7 +54,6 @@ export const Login = ({ navigation }: any) => {
 		// 	}
 		// });
 		// await delay(500);
-		
 	}
 
 	// let x;
@@ -122,16 +121,20 @@ export const Login = ({ navigation }: any) => {
 								<Pressable onPress={() => navigation.navigate('SignUpStart')}>
 									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md" color="black" fontWeight={700}>
-											New here? Sign Up
+											New here?
+										</Text>
+										<Text fontSize="md" color="primary.500" fontWeight={700}>
+											Sign Up
 										</Text>
 
-										<FontAwesome5
+										{/* <Icon
+											as={FontAwesome5}
 											onPress={() => navigation.goBack()}
 											name="arrow-right"
-											size={16}
-											color="black"
+											size={5}
+											color="primary.500"
 											// marginTop={5}
-										/>
+										/> */}
 									</HStack>
 								</Pressable>
 							</VStack>
