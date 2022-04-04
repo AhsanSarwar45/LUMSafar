@@ -9,37 +9,34 @@ import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
-import { RootStackParamList } from '../config/RouteParams';
 
 // const SubmitForm = (data: SignUpData, setSubmitting: Function) => {
 // 	console.log('submitting with ', data);
 // 	setSubmitting(false);
 // };
 
+type RootStackParamList = {
+	Login: undefined;
+	AccountType: undefined;
+	SignUp: { isSociety: boolean };
+};
+
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-export interface SignUpData {
-	email?: string;
-	password?: string;
-	confirmPassword?: string;
-	isSociety?: boolean;
+interface SignUpInfoData {
+	name?: string;
+	batch?: string;
 }
 
-const Validate = (values: SignUpData) => {
-	const errors: SignUpData = {};
+const Validate = (values: SignUpInfoData) => {
+	const errors: SignUpInfoData = {};
 
-	if (!values.email) {
-		errors.email = 'Required';
+	if (!values.name) {
+		errors.name = 'Required';
 	}
-	if (!values.password) {
-		errors.password = 'Required';
+	if (!values.batch) {
+		errors.batch = 'Required';
 	}
-	if (!values.confirmPassword) {
-		errors.confirmPassword = 'Required';
-	} else if (values.confirmPassword != values.password) {
-		errors.confirmPassword = 'Passwords do not match';
-	}
-
 	return errors;
 };
 
@@ -48,15 +45,14 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 
 	const { isSociety } = route.params;
 
-	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SubmitForm(data: SignUpData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/validate_sign_up`, data, {
+	async function SubmitForm(data: SignUpInfoData, actions: any) {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/sign_up`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		})
 			.then((response) => {
 				console.log(response.data);
 				if (response.data === 'success') {
-					navigation.navigate('Verification', { data: data });
+					// navigate('/sign_up_success');
 				} else if (response.data === 'duplicate-entry') {
 					// setIsDup(true);
 				}
@@ -68,6 +64,11 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 		actions.setSubmitting(false);
 	}
 
+	useEffect(() => {
+		console.log(isSociety);
+	}, []);
+	// let x;
+	// x.toString();
 	return (
 		<View>
 			<AppLoading />
@@ -79,12 +80,11 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 						}}
 					>
 						<Center width="full">
+							{/* <LUMSafarLogo width="70%" height={200} /> */}
 							<Formik
 								initialValues={{
-									email: '',
-									password: '',
-									confirmPassword: '',
-									isSociety: isSociety
+									name: '',
+									batch: ''
 								}}
 								onSubmit={SubmitForm}
 								validate={Validate}
@@ -99,7 +99,7 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 												color="black"
 											/>
 											<Heading size="xl" py="20px" color="black" mt={1}>
-												Sign Up
+												Tell us more about yourself
 											</Heading>
 										</HStack>
 										{/* <Switch
@@ -109,30 +109,22 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 											selectionColor="red"
 											onSelectSwitch={(value: number) => console.log(value)}
 										/> */}
-										<TextInput
-											label={isSociety ? 'Society Email' : 'University Email'}
-											name="email"
-											isRequired
-											placeholder="example@lums.edu.pk"
-											formikProps={formikProps}
-										/>
-										<TextInput
-											label="Password"
-											name="password"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
-
-										<TextInput
-											label="Confirm Password"
-											name="confirmPassword"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
-
+										<TextInput label="Name" name="name" isRequired formikProps={formikProps} />
+										<TextInput label="Batch" name="batch" isRequired formikProps={formikProps} />
 										<HStack marginTop="20px" justifyContent="center">
+											{/* <Button
+										onPress={() => navigation.navigate('Login')}
+										size="lg"
+										borderRadius={100}
+										width="50%"
+										variant="ghost"
+										colorScheme="primary"
+										_text={{
+											fontWeight: 700
+										}}
+									>
+										Login Instead
+									</Button> */}
 											<Button
 												disabled={formikProps.isSubmitting}
 												onPress={() => {
@@ -150,24 +142,9 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 													fontWeight: 700
 												}}
 											>
-												SignUp
+												Get Started
 											</Button>
 										</HStack>
-										<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
-											By signing up, you agree to our terms and conditions
-										</Text>
-
-										<Pressable onPress={() => navigation.navigate('Login')}>
-											<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-												<Text fontSize="md" color="black" fontWeight={700}>
-													Already one of us?
-												</Text>
-
-												<Text fontSize="md" color="primary.500" fontWeight={700}>
-													Login
-												</Text>
-											</HStack>
-										</Pressable>
 									</VStack>
 								)}
 							</Formik>

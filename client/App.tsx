@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import { SignUp, AccountType } from './screens/SignUp';
+import { AccountType } from './screens/AccountType';
+import { SignUp } from './screens/SignUp';
+import { Verification } from './screens/Verification';
 import { Login } from './screens/Login';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
@@ -25,7 +27,8 @@ export default function App() {
 				<Stack.Navigator initialRouteName="Login">
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-					<Stack.Screen options={{ headerShown: false }} name="SignUpStart" component={AccountType} />
+					<Stack.Screen options={{ headerShown: false }} name="AccountType" component={AccountType} />
+					<Stack.Screen options={{ headerShown: false }} name="Verification" component={Verification} />
 					{/* <Login /> */}
 				</Stack.Navigator>
 			</NavigationContainer>

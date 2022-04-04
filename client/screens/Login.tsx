@@ -118,7 +118,7 @@ export const Login = ({ navigation }: any) => {
 										Login
 									</Button>
 								</HStack>
-								<Pressable onPress={() => navigation.navigate('SignUpStart')}>
+								<Pressable onPress={() => navigation.navigate('AccountType')}>
 									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md" color="black" fontWeight={700}>
 											New here?
