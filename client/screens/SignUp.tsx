@@ -49,6 +49,7 @@ export interface SignUpData {
 	password?: string;
 	confirmPassword?: string;
 	isSociety?: boolean;
+	verificationCode?: string;
 }
 
 const Validate = (values: SignUpData) => {
@@ -81,7 +82,7 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SubmitForm(data: SignUpData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/validate`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		})
 			.then((response) => {
@@ -133,13 +134,7 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 												Sign Up
 											</Heading>
 										</HStack>
-										{/* <Switch
-											borderRadius={12}
-											option1="Student"
-											option2="Society"
-											selectionColor="red"
-											onSelectSwitch={(value: number) => console.log(value)}
-										/> */}
+
 										<TextInput
 											label={isSociety ? 'Society Email' : 'University Email'}
 											name="email"

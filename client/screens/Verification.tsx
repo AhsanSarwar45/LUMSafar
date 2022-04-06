@@ -32,9 +32,7 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 			.then((response) => {
 				console.log(response.data);
 				if (response.data === 'success') {
-					navigation.navigate('Verification', { data: data });
-				} else if (response.data === 'duplicate-entry') {
-					// setIsDup(true);
+					// login user
 				}
 			})
 			.catch((response) => {

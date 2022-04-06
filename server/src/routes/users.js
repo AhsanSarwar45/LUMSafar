@@ -18,6 +18,18 @@ router.route('/add').post((req, res) => {
 	newUser.save().then(() => res.json('success')).catch((err) => res.status(400).json('Error: ' + err));
 });
 
+router.route('/validate').post((req, res) => {
+	console.log('user validate req received');
+	const email = req.body.email;
+	const password = req.body.password;
+	const isSociety = req.body.isSociety;
+
+	// check for dup
+	// send email to user containing verification code
+
+	res.json('success');
+});
+
 router.route('/login').post((req, res) => {
 	console.log('login req received');
 	User.where({ email: req.body.email, password: req.body.password }).findOne((err, user) => {
