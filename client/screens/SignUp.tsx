@@ -82,7 +82,8 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SubmitForm(data: SignUpData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/validate`, data, {
+		data.verificationCode = '1111';
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/validate`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		})
 			.then((response) => {

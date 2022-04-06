@@ -23,6 +23,7 @@ router.route('/validate').post((req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
 	const isSociety = req.body.isSociety;
+	const verificationCode = req.body.verificationCode;
 
 	// check for dup
 	// send email to user containing verification code

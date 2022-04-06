@@ -24,7 +24,15 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 
 	const { data } = route.params;
 
-	async function SubmitForm(code: string) {
+	async function Verify() {
+		if (value == data.verificationCode) {
+			SubmitForm();
+		} else {
+			setIsWrong(true);
+		}
+	}
+
+	async function SubmitForm() {
 		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
@@ -99,7 +107,7 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 			{isWrong ? <Text>Wrong Code</Text> : null}
 
 			<Button
-				onPress={() => {}}
+				onPress={Verify}
 				marginTop="20px"
 				size="lg"
 				borderRadius={100}
