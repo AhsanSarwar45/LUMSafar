@@ -20,7 +20,7 @@ const TextInput = (props: TextInputProps) => {
 
 	var InputInner = (
 		<VStack
-			shadow={isFocused ? 1 : 0}
+			shadow={isFocused ? 5 : 0}
 			borderWidth={isFocused ? 0 : 1}
 			borderColor="rgba(0, 0, 0, 0.08)"
 			space={0}

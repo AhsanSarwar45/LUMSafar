@@ -102,29 +102,9 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 												Tell us more about yourself
 											</Heading>
 										</HStack>
-										{/* <Switch
-											borderRadius={12}
-											option1="Student"
-											option2="Society"
-											selectionColor="red"
-											onSelectSwitch={(value: number) => console.log(value)}
-										/> */}
 										<TextInput label="Name" name="name" isRequired formikProps={formikProps} />
 										<TextInput label="Batch" name="batch" isRequired formikProps={formikProps} />
 										<HStack marginTop="20px" justifyContent="center">
-											{/* <Button
-										onPress={() => navigation.navigate('Login')}
-										size="lg"
-										borderRadius={100}
-										width="50%"
-										variant="ghost"
-										colorScheme="primary"
-										_text={{
-											fontWeight: 700
-										}}
-									>
-										Login Instead
-									</Button> */}
 											<Button
 												disabled={formikProps.isSubmitting}
 												onPress={() => {

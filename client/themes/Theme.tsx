@@ -63,24 +63,59 @@ export const theme = extendTheme({
 		mono: 'Jost'
 	},
 
+	components: {
+		Button: {
+			// Can simply pass default props to change default behaviour of components.
+			baseStyle: {
+				rounded: '2xl'
+			},
+			defaultProps: {
+				size: 'lg',
+				shadow: 2,
+				variant: 'solid',
+				colorScheme: 'primary',
+				_text: {
+					fontWeight: 700
+				}
+			}
+		},
+		Heading: {
+			baseStyle: {},
+			defaultProps: {
+				size: 'xl',
+				color: 'black'
+			}
+		}
+	},
+
 	shadows: {
 		0: {
-			shadowColor: 'rgba(0, 0, 1, 0.01)',
+			shadowColor: 'rgba(0, 0, 1, 0.0)',
 			shadowOffset: {
 				width: 0,
-				height: 1
+				height: 0
 			},
-			shadowOpacity: 0.18,
-			shadowRadius: 1.0,
+			shadowOpacity: 0,
+			shadowRadius: 0,
 			elevation: 0
 		},
 		1: {
-			shadowColor: 'rgba(0, 0, 1, 0.01)',
+			shadowColor: 'rgba(0, 0, 1, 0.6)',
 			shadowOffset: {
 				width: 0,
-				height: 1
+				height: 0
 			},
-			shadowOpacity: 0.18,
+			shadowOpacity: 1,
+			shadowRadius: 1.0,
+			elevation: 1
+		},
+		5: {
+			shadowColor: 'rgba(0, 0, 1, 0.6)',
+			shadowOffset: {
+				width: 0,
+				height: 0
+			},
+			shadowOpacity: 1,
 			shadowRadius: 1.0,
 			elevation: 5
 		}

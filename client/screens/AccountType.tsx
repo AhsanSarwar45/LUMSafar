@@ -1,15 +1,19 @@
 import React from 'react';
-import { VStack, HStack, Button, Heading } from 'native-base';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { VStack, HStack, Button, Heading, Icon, Text } from 'native-base';
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 export const AccountType = ({ navigation }: any) => {
 	return (
-		<VStack pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
+		<VStack bg="white" pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
 			<HStack alignItems="center" space={5} width="100%">
-				<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" size={24} color="black" />
+				<Icon
+					as={<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" />}
+					size={6}
+					color="black"
+				/>
 			</HStack>
 
-			<Heading size="lg" color="black" width="100%">
+			<Heading size="lg" width="100%">
 				Are you signing up as a student or society?
 			</Heading>
 
@@ -18,37 +22,29 @@ export const AccountType = ({ navigation }: any) => {
 				onPress={() => {
 					navigation.navigate('SignUp', { isSociety: false });
 				}}
-				size="lg"
-				borderRadius={24}
 				height="30%"
 				width="100%"
-				variant="solid"
-				colorScheme="primary"
-				shadow={5}
-				_text={{
-					fontWeight: 700,
-					fontSize: 36
-				}}
 			>
-				Student
+				<VStack width="full" alignItems="center" justifyContent="center">
+					<Icon as={<MaterialIcons name="person" />} size={20} color="white" />
+					<Text fontSize={24} fontWeight={700} color="white">
+						Student
+					</Text>
+				</VStack>
 			</Button>
 			<Button
 				onPress={() => {
 					navigation.navigate('SignUp', { isSociety: true });
 				}}
-				size="lg"
-				borderRadius={24}
 				height="30%"
 				width="100%"
-				variant="solid"
-				colorScheme="primary"
-				shadow={5}
-				_text={{
-					fontWeight: 700,
-					fontSize: 36
-				}}
 			>
-				Society
+				<VStack width="full" alignItems="center" justifyContent="center">
+					<Icon as={<MaterialIcons name="groups" />} size={20} color="white" />
+					<Text fontSize={24} fontWeight={700} color="white">
+						Society
+					</Text>
+				</VStack>
 			</Button>
 			{/* </VStack> */}
 		</VStack>

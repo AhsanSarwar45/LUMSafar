@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View } from 'native-base';
+import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -11,38 +11,7 @@ import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 
-// const SubmitForm = (data: SignUpData, setSubmitting: Function) => {
-// 	console.log('submitting with ', data);
-// 	setSubmitting(false);
-// };
-
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
-
-// export interface SignUpData {
-// 	email: string;
-// 	password: string;
-// 	confirmPassword: string;
-// 	isSociety: boolean;
-// }
-
-// const Validate = (values: SignUpData) => {
-// 	const errors: any = { email: '', password: '', confirmPassword: '' };
-
-// 	if (!values.email) {
-// 		errors.email = 'Required';
-// 	}
-
-// 	if (!values.password) {
-// 		errors.password = 'Required';
-// 	}
-// 	if (!values.confirmPassword) {
-// 		errors.confirmPassword = 'Required';
-// 	} else if (values.confirmPassword != values.password) {
-// 		errors.confirmPassword = 'Passwords do not match';
-// 	}
-
-// 	return errors;
-// };
 
 export interface SignUpData {
 	email?: string;
@@ -125,13 +94,17 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 								{(formikProps) => (
 									<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 										<HStack alignItems="center" space={5}>
-											<FontAwesome5
-												onPress={() => navigation.goBack()}
-												name="arrow-left"
-												size={24}
+											<Icon
+												as={
+													<FontAwesome5
+														onPress={() => navigation.goBack()}
+														name="arrow-left"
+													/>
+												}
+												size={6}
 												color="black"
 											/>
-											<Heading size="xl" py="20px" color="black" mt={1}>
+											<Heading py="20px" mt={1}>
 												Sign Up
 											</Heading>
 										</HStack>
@@ -165,17 +138,9 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 												formikProps.handleSubmit();
 											}}
 											marginTop="20px"
-											size="lg"
-											borderRadius={100}
 											width="100%"
-											variant="solid"
-											colorScheme="primary"
-											shadow={2}
 											isLoading={formikProps.isSubmitting}
 											isLoadingText="Checking"
-											_text={{
-												fontWeight: 700
-											}}
 										>
 											SignUp
 										</Button>

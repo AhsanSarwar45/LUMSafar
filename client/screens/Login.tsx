@@ -70,7 +70,7 @@ export const Login = ({ navigation }: any) => {
 						{(formikProps) => (
 							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
 								<HStack alignItems="center" space={5}>
-									<Heading size="xl" py="20px" color="black" mt={1}>
+									<Heading py="20px" mt={1}>
 										Login
 									</Heading>
 								</HStack>
@@ -95,17 +95,9 @@ export const Login = ({ navigation }: any) => {
 										onPress={() => {
 											formikProps.handleSubmit();
 										}}
-										size="lg"
-										borderRadius={100}
 										width="100%"
-										variant="solid"
-										colorScheme="primary"
-										shadow={2}
 										isLoading={formikProps.isSubmitting}
 										isLoadingText="Checking"
-										_text={{
-											fontWeight: 700
-										}}
 									>
 										Login
 									</Button>
@@ -118,15 +110,6 @@ export const Login = ({ navigation }: any) => {
 										<Text fontSize="md" color="primary.500" fontWeight={700}>
 											Sign Up
 										</Text>
-
-										{/* <Icon
-											as={FontAwesome5}
-											onPress={() => navigation.goBack()}
-											name="arrow-right"
-											size={5}
-											color="primary.500"
-											// marginTop={5}
-										/> */}
 									</HStack>
 								</Pressable>
 							</VStack>

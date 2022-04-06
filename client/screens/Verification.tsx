@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text } from 'native-base';
+import { VStack, HStack, Button, Heading, Pressable, Text, Icon } from 'native-base';
 import { Text as NativeText } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { RootStackParamList } from '../config/RouteParams';
@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
+import { theme } from '../themes/Theme';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
@@ -53,10 +54,14 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 	return (
 		<VStack pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
 			<HStack alignItems="center" space={5} width="100%">
-				<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" size={24} color="black" />
+				<Icon
+					as={<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" />}
+					size={6}
+					color="black"
+				/>
 			</HStack>
 
-			<Heading size="lg" color="black" width="100%">
+			<Heading size="lg" width="100%">
 				Enter the 4-digit code sent to {data.email}
 			</Heading>
 
@@ -85,17 +90,7 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 								borderColor: 'rgba(0, 0, 0, 0.08)',
 								textAlign: 'center'
 							},
-							isFocused && {
-								shadowColor: 'rgba(0, 0, 1, 0.01)',
-								shadowOffset: {
-									width: 0,
-									height: 1
-								},
-								shadowOpacity: 0.18,
-								shadowRadius: 1.0,
-								elevation: 2,
-								borderWidth: 0
-							}
+							isFocused && Object.assign({}, theme['shadows'][1], { borderWidth: 0 })
 						]}
 						onLayout={getCellOnLayoutHandler(index)}
 					>
@@ -106,19 +101,7 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 
 			{isWrong ? <Text>Wrong Code</Text> : null}
 
-			<Button
-				onPress={Verify}
-				marginTop="20px"
-				size="lg"
-				borderRadius={100}
-				width="100%"
-				variant="solid"
-				colorScheme="primary"
-				shadow={2}
-				_text={{
-					fontWeight: 700
-				}}
-			>
+			<Button onPress={Verify} marginTop="20px" width="100%">
 				Verify
 			</Button>
 
