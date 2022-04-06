@@ -85,6 +85,13 @@ export const theme = extendTheme({
 				size: 'xl',
 				color: 'black'
 			}
+		},
+		Text: {
+			baseStyle: {},
+			defaultProps: {
+				fontWeight: 700,
+				color: 'black'
+			}
 		}
 	},
 

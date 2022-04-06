@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text, Icon } from 'native-base';
+import { VStack, HStack, Button, Heading, Pressable, Text, Icon, Box } from 'native-base';
 import { Text as NativeText } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { RootStackParamList } from '../config/RouteParams';
@@ -52,7 +52,7 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 	}
 
 	return (
-		<VStack pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
+		<VStack bg="white" pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
 			<HStack alignItems="center" space={5} width="100%">
 				<Icon
 					as={<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" />}
@@ -76,30 +76,42 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 				keyboardType="number-pad"
 				textContentType="oneTimeCode"
 				renderCell={({ index, symbol, isFocused }) => (
-					<NativeText
+					<VStack
 						key={index}
-						style={[
-							{
-								width: 60,
-								marginHorizontal: 5,
-								height: 60,
-								lineHeight: 58,
-								fontSize: 24,
-								borderWidth: 1,
-								borderRadius: 8,
-								borderColor: 'rgba(0, 0, 0, 0.08)',
-								textAlign: 'center'
-							},
-							isFocused && Object.assign({}, theme['shadows'][1], { borderWidth: 0 })
-						]}
+						mx={1}
+						shadow={isFocused ? 5 : 0}
+						borderWidth={isFocused ? 0 : 1}
+						borderColor="rgba(0, 0, 0, 0.08)"
+						space={0}
+						width={60}
+						height={60}
+						bg="rgba(255, 255, 255, 1)"
+						borderRadius={20}
+						alignItems="center"
+						justifyContent="center"
+						// style={[
+						// 	{
+						// 		width: 60,
+						// 		marginHorizontal: 5,
+						// 		height: 60,
+						// 		// lineHeight: 58,
+						// 		fontSize: 24,
+						// 		// borderWidth: 1,
+						// 		borderRadius: 8,
+						// 		elevation: 1
+						// 		// borderColor: 'rgba(0, 0, 0, 0.08)'
+						// 		// textAlign: 'center'
+						// 	},
+						// 	isFocused && Object.assign({}, theme['shadows'][1], { borderWidth: 0 })
+						// ]}
 						onLayout={getCellOnLayoutHandler(index)}
 					>
-						{symbol || (isFocused ? <Cursor /> : null)}
-					</NativeText>
+						<Text fontSize="lg">{symbol || (isFocused ? <Cursor /> : null)}</Text>
+					</VStack>
 				)}
 			/>
 
-			{isWrong ? <Text>Wrong Code</Text> : null}
+			{isWrong ? <Text color="red.500">Wrong Code</Text> : null}
 
 			<Button onPress={Verify} marginTop="20px" width="100%">
 				Verify
