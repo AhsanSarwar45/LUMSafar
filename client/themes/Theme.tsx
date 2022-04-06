@@ -33,7 +33,9 @@ export const theme = extendTheme({
 			700: '#006BA1',
 			800: '#005885',
 			900: '#003F5E'
-		}
+		},
+
+		lightBorder: {}
 	},
 
 	config: {

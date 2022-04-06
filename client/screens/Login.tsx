@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Form, Formik } from 'formik';
 import { LUMSAFAR_SERVER_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
 
 interface LoginData {
@@ -27,19 +28,21 @@ const Validate = (values: LoginData) => {
 export const Login = ({ navigation }: any) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+	useEffect(() => {
+		AsyncStorage.getItem('user-email').then((value) => {
+			// Go to Home page
+		});
+	}, []);
+
 	async function SubmitForm(data: LoginData, actions: any) {
 		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		});
-		// console.log(response.data);
 		if (response.data === 'success') {
-			// navigate('/sign_up_success');
-			//log user in
-			// sessionStorage.setItem('user', response.data.email);
-			// navgate('/user')
-			// console.log('success');
+			AsyncStorage.setItem('user-email', data.email as string);
+			// Go to Home page
 		} else if (response.data === 'not-found') {
-			console.log('not found');
+			console.log('not-found');
 		}
 		await delay(500);
 		actions.setSubmitting(false);
@@ -134,3 +137,6 @@ export const Login = ({ navigation }: any) => {
 		</Box>
 	);
 };
+function setGetValue(value: string | null): any {
+	throw new Error('Function not implemented.');
+}

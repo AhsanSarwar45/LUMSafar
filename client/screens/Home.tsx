@@ -2,7 +2,7 @@ import React from 'react';
 import { VStack, HStack, Button, Heading } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export const AccountType = ({ navigation }: any) => {
+export const Home = ({ navigation }: any) => {
 	return (
 		<VStack pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
 			<HStack alignItems="center" space={5} width="100%">

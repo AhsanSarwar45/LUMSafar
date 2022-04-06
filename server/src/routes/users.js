@@ -8,18 +8,24 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-	console.log('user add req received');
+	console.log('user/add: received');
 	const email = req.body.email;
 	const password = req.body.password;
 	const isSociety = req.body.isSociety;
 
 	const newUser = new User({ email, password, isSociety });
 
-	newUser.save().then(() => res.json('success')).catch((err) => res.status(400).json('Error: ' + err));
+	newUser
+		.save()
+		.then(() => {
+			res.json('success');
+			console.log('user/add: success');
+		})
+		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
 router.route('/validate').post((req, res) => {
-	console.log('user validate req received');
+	console.log('user/validate: received');
 	const email = req.body.email;
 	const password = req.body.password;
 	const isSociety = req.body.isSociety;
@@ -29,24 +35,27 @@ router.route('/validate').post((req, res) => {
 	// send email to user containing verification code
 
 	res.json('success');
+	console.log('user/validate: success');
 });
 
 router.route('/login').post((req, res) => {
-	console.log('login req received');
+	console.log('user/login: received');
 	User.where({ email: req.body.email, password: req.body.password }).findOne((err, user) => {
 		if (err) {
 			res.status(400).json('Error: ' + err);
 		} else {
 			if (user) {
 				//check if a doc was found
-				console.log('login req success');
 				res.json('success');
+				console.log('user/login: success');
 			} else {
-				console.log('no user found');
+				res.json('not-found');
+				console.log('user/login: not-found');
 			}
 			// res.json(user);
 		}
 	});
+	// console.log('-----------------------');
 });
 
 router.route('/:id').get((req, res) => {
