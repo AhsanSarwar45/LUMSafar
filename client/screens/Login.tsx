@@ -41,19 +41,8 @@ export const Login = ({ navigation }: any) => {
 		} else if (response.data === 'not-found') {
 			console.log('not found');
 		}
-
-		await actions.setSubmitting(false);
-		// Axios.post(`${LUMSAFAR_SERVER_URL}/login`, data, {
-		// 	headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		// }).then((response) => {
-		// 	console.log(response.data);
-		// 	if (response.data === 'success') {
-		// 		// navigate('/sign_up_success');
-		// 	} else if (response.data === 'not-found') {
-
-		// 	}
-		// });
-		// await delay(500);
+		await delay(500);
+		actions.setSubmitting(false);
 	}
 
 	// let x;

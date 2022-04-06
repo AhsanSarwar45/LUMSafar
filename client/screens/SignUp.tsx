@@ -18,6 +18,32 @@ import { RootStackParamList } from '../config/RouteParams';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
+// export interface SignUpData {
+// 	email: string;
+// 	password: string;
+// 	confirmPassword: string;
+// 	isSociety: boolean;
+// }
+
+// const Validate = (values: SignUpData) => {
+// 	const errors: any = { email: '', password: '', confirmPassword: '' };
+
+// 	if (!values.email) {
+// 		errors.email = 'Required';
+// 	}
+
+// 	if (!values.password) {
+// 		errors.password = 'Required';
+// 	}
+// 	if (!values.confirmPassword) {
+// 		errors.confirmPassword = 'Required';
+// 	} else if (values.confirmPassword != values.password) {
+// 		errors.confirmPassword = 'Passwords do not match';
+// 	}
+
+// 	return errors;
+// };
+
 export interface SignUpData {
 	email?: string;
 	password?: string;
@@ -28,12 +54,14 @@ export interface SignUpData {
 const Validate = (values: SignUpData) => {
 	const errors: SignUpData = {};
 
+	const email: string = values.email as string;
+
 	if (!values.email) {
 		errors.email = 'Required';
 	}
-	// if (!values.email.includes("@lums.edu.pk")){
-	// 	errors.email = 'Please enter your LUMS email';
-	// }
+	if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
+		errors.email = 'Please enter your LUMS email';
+	}
 	if (!values.password) {
 		errors.password = 'Required';
 	}
@@ -53,7 +81,7 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SubmitForm(data: SignUpData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}users/add`, data, {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		})
 			.then((response) => {
@@ -135,27 +163,26 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 											formikProps={formikProps}
 										/>
 
-										<HStack marginTop="20px" justifyContent="center">
-											<Button
-												disabled={formikProps.isSubmitting}
-												onPress={() => {
-													formikProps.handleSubmit();
-												}}
-												size="lg"
-												borderRadius={100}
-												width="100%"
-												variant="solid"
-												colorScheme="primary"
-												shadow={2}
-												isLoading={formikProps.isSubmitting}
-												isLoadingText="Checking"
-												_text={{
-													fontWeight: 700
-												}}
-											>
-												SignUp
-											</Button>
-										</HStack>
+										<Button
+											disabled={formikProps.isSubmitting}
+											onPress={() => {
+												formikProps.handleSubmit();
+											}}
+											marginTop="20px"
+											size="lg"
+											borderRadius={100}
+											width="100%"
+											variant="solid"
+											colorScheme="primary"
+											shadow={2}
+											isLoading={formikProps.isSubmitting}
+											isLoadingText="Checking"
+											_text={{
+												fontWeight: 700
+											}}
+										>
+											SignUp
+										</Button>
 										<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
 											By signing up, you agree to our terms and conditions
 										</Text>
