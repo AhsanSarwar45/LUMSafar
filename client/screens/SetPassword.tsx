@@ -46,7 +46,7 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 				console.log(response.data);
 				if (response.data === 'success') {
 					navigation.navigate('PasswordResetSuccess');
-				} else if (response.data === 'not-found') {
+				} else if (response.data === 'failure') {
 					// setIsDup(true);
 				}
 			})

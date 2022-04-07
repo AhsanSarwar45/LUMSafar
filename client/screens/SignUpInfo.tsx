@@ -25,7 +25,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function CheckIfUserExists(data: UserInfoData, actions: any) {
+	async function SetUsername(data: UserInfoData, actions: any) {
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/set-username`,
 			{ email: email, name: data.username },
@@ -36,7 +36,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 			.then((response) => {
 				if (response.data === 'success') {
 					console.log('Info entered');
-				} else if (response.data === 'not-found') {
+				} else if (response.data === 'failure') {
 				}
 			})
 			.catch((response) => {
@@ -64,7 +64,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 						initialValues={{
 							email: ''
 						}}
-						onSubmit={CheckIfUserExists}
+						onSubmit={SetUsername}
 						validate={Validate}
 					>
 						{(formikProps) => (

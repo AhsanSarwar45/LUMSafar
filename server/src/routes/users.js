@@ -56,6 +56,9 @@ router.route('/set-username').post((req, res) => {
 
 	// set the new username of the email
 
+	// if successful, return 'success'
+	// else return 'failure'
+
 	res.json('success');
 	console.log('user/set-username: success');
 });
@@ -66,6 +69,9 @@ router.route('/set-password').post((req, res) => {
 	const password = req.body.password;
 
 	// set the new password of the email
+
+	// if successful, return 'success'
+	// else return 'failure'
 
 	res.json('success');
 	console.log('user/set-password: success');
