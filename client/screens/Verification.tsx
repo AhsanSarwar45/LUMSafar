@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VStack, HStack, Button, Heading, Pressable, Text } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
+import Axios from 'axios';
 
+import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
+import { JsonHeader } from '../config/ControlHeader';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
 const CODE_LENGTH = 4;
 
 export const VerificationScreen = ({ route, navigation }: VerificationScreenProps) => {
-	const [ value, setValue ] = useState('');
+	const [ value, setValue ] = useState<string>('');
+	const [ verificationCode, setVerificationCode ] = useState<string>('');
 	const ref = useBlurOnFulfill({ value, cellCount: CODE_LENGTH });
 	const [ props, getCellOnLayoutHandler ] = useClearByFocusCell({
 		value,
@@ -20,10 +24,36 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 
 	const [ isWrong, setIsWrong ] = useState(false);
 
-	const { email, verificationCode, verifyCallback } = route.params;
+	const { email, verifyCallback } = route.params;
 
-	async function Verify() {
+	async function SendEmail() {
+		setVerificationCode('1111');
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/send-email`,
+			{ email: email, verificationCode: verificationCode },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				if (response.data === 'success') {
+					// success
+				} else if (response.data === 'failure') {
+					// failure
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
+	}
+
+	useEffect(() => {
+		SendEmail();
+	}, []);
+
+	function Verify() {
 		if (value == verificationCode) {
+			setIsWrong(false);
 			verifyCallback();
 		} else {
 			setIsWrong(true);
@@ -78,7 +108,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 				Verify
 			</Button>
 
-			<Pressable onPress={() => navigation.navigate('Login')}>
+			<Pressable onPress={SendEmail}>
 				<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 					<Text fontSize="md" color="black" fontWeight={700}>
 						Didn't receive?

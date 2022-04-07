@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -12,6 +11,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
+import { JsonHeader } from '../config/ControlHeader';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -71,19 +71,20 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function CheckDuplicate(data: SignUpData, actions: any) {
-		data.verificationCode = '1111';
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/validate`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		})
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/exists`,
+			{ email: data.email },
+			{
+				headers: JsonHeader
+			}
+		)
 			.then((response) => {
-				console.log(response.data);
-				if (response.data === 'success') {
+				if (response.data === 'not-found') {
 					navigation.navigate('Verification', {
 						email: data.email as string,
-						verificationCode: data.verificationCode as string,
 						verifyCallback: () => SignUp(data)
 					});
-				} else if (response.data === 'duplicate-entry') {
+				} else if (response.data === 'success') {
 					// setIsDup(true);
 				}
 			})

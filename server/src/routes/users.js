@@ -24,18 +24,29 @@ router.route('/add').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.route('/validate').post((req, res) => {
-	console.log('user/validate: received');
+router.route('/exists').post((req, res) => {
+	console.log('user/exists: received');
 	const email = req.body.email;
-	const password = req.body.password;
-	const isSociety = req.body.isSociety;
+
+	// if email exists send 'success'
+	// else send 'not-found'
+
+	res.json('not-found');
+	console.log('user/exists: success');
+});
+
+router.route('/send-email').post((req, res) => {
+	console.log('user/send-email: received');
+	const email = req.body.email;
 	const verificationCode = req.body.verificationCode;
 
-	// check for dup
 	// send email to user containing verification code
 
+	// if successful, return 'success'
+	// else return 'failure'
+
 	res.json('success');
-	console.log('user/validate: success');
+	console.log('user/send-email: success');
 });
 
 router.route('/forgot-password').post((req, res) => {

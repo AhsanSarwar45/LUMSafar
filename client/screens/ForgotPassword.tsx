@@ -47,7 +47,6 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 				if (response.data === 'success') {
 					navigation.navigate('Verification', {
 						email: data.email as string,
-						verificationCode: data.verificationCode as string,
 						verifyCallback: () => navigation.navigate('SetPassword', { email: data.email as string })
 					});
 				} else if (response.data === 'not-found') {
