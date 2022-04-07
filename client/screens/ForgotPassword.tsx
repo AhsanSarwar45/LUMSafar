@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Center, Heading, View, VStack } from 'native-base';
+import React, { useState } from 'react';
+import { Button, Center, Heading, View, VStack, Text } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { Formik } from 'formik';
@@ -16,7 +16,6 @@ type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'For
 
 export interface ForgotPasswordData {
 	email?: string;
-	verificationCode?: string;
 }
 
 const Validate = (values: ForgotPasswordData) => {
@@ -34,23 +33,28 @@ const Validate = (values: ForgotPasswordData) => {
 };
 
 export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreenProps) => {
+	const [ userNotFound, setUserNotFound ] = useState(false);
+
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SendEmail(data: ForgotPasswordData, actions: any) {
-		data.verificationCode = '1111';
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/forgot-password`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		})
+	async function CheckIfUserExists(data: ForgotPasswordData, actions: any) {
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/exists`,
+			{ email: data.email },
+			{
+				headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+			}
+		)
 			.then((response) => {
-				console.log(response.data);
 				if (response.data === 'success') {
+					setUserNotFound(false);
 					navigation.navigate('Verification', {
 						email: data.email as string,
 						verifyCallback: () => navigation.navigate('SetPassword', { email: data.email as string })
 					});
 				} else if (response.data === 'not-found') {
-					// setIsDup(true);
+					setUserNotFound(true);
 				}
 			})
 			.catch((response) => {
@@ -69,14 +73,21 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 						initialValues={{
 							email: ''
 						}}
-						onSubmit={SendEmail}
+						onSubmit={CheckIfUserExists}
 						validate={Validate}
 					>
 						{(formikProps) => (
 							<Screen backButton navigation={navigation}>
 								<Heading size="lg" width="100%">
-									Lets get you a new password
+									Lets get you a new password 🚀
 								</Heading>
+
+								{userNotFound ? (
+									<Text width="full" color="red.500">
+										We couldn't find you. Please make sure your email is correct!
+									</Text>
+								) : null}
+
 								<VStack space="15px" py="20px" width="full">
 									<TextInput
 										label={'Email'}

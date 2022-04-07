@@ -32,7 +32,7 @@ router.route('/exists').post((req, res) => {
 	// else send 'not-found'
 
 	res.json('not-found');
-	console.log('user/exists: success');
+	console.log('user/exists: not-found');
 });
 
 router.route('/send-email').post((req, res) => {
@@ -47,17 +47,6 @@ router.route('/send-email').post((req, res) => {
 
 	res.json('success');
 	console.log('user/send-email: success');
-});
-
-router.route('/forgot-password').post((req, res) => {
-	console.log('user/validate: received');
-	const email = req.body.email;
-	const verificationCode = req.body.verificationCode;
-
-	// send email to user containing verification code
-
-	res.json('success');
-	console.log('user/forgot-password: success');
 });
 
 router.route('/set-password').post((req, res) => {

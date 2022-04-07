@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text } from 'native-base';
+import { VStack, HStack, Button, Heading, Pressable, Text, Box } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import Axios from 'axios';
@@ -82,13 +82,12 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 				keyboardType="number-pad"
 				textContentType="oneTimeCode"
 				renderCell={({ index, symbol, isFocused }) => (
-					<VStack
+					<Box
 						key={index}
 						mx={1}
 						shadow={isFocused ? 5 : 0}
 						borderWidth={isFocused ? 0 : 1}
 						borderColor="rgba(0, 0, 0, 0.08)"
-						space={0}
 						width={60}
 						height={60}
 						bg="white"
@@ -98,7 +97,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 						onLayout={getCellOnLayoutHandler(index)}
 					>
 						<Text fontSize="lg">{symbol || (isFocused ? <Cursor /> : null)}</Text>
-					</VStack>
+					</Box>
 				)}
 			/>
 

@@ -72,7 +72,7 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 						{(formikProps) => (
 							<Screen backButton navigation={navigation}>
 								<Heading size="lg" width="100%">
-									Lets get you a new password
+									Enter your new password
 								</Heading>
 
 								<VStack space="15px" py="20px" width="full">

@@ -20,6 +20,9 @@ const Validate = (values: LoginData) => {
 	if (!values.email) {
 		errors.email = 'Required';
 	}
+	if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(values.email as string)) {
+		errors.email = 'Please enter your LUMS email';
+	}
 	if (!values.password) {
 		errors.password = 'Required';
 	}

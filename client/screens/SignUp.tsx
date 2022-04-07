@@ -54,7 +54,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	async function SignUp(data: SignUpData) {
 		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+			headers: JsonHeader
 		})
 			.then((response) => {
 				console.log(response.data);
