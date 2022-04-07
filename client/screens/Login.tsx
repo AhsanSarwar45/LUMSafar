@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, Icon } from 'native-base';
+import { Box, HStack, Button, Text, Center, Pressable, VStack } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import TextInput from '../components/TextInput';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import { Form, Formik } from 'formik';
-import { LUMSAFAR_SERVER_URL } from '@env';
+import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
+
+import { LUMSAFAR_SERVER_URL } from '@env';
+import Screen from '../components/Screen';
+import TextInput from '../components/TextInput';
 
 interface LoginData {
 	email?: string;
@@ -51,88 +52,71 @@ export const LoginScreen = ({ navigation }: any) => {
 		actions.setSubmitting(false);
 	}
 
-	// let x;
-	// x.toString();
 	return (
-		<Box bg="white" height="full" width="full">
-			<KeyboardAwareScrollView
-				style={{
-					width: '100%'
+		<KeyboardAwareScrollView>
+			<Formik
+				initialValues={{
+					email: '',
+					password: ''
 				}}
+				onSubmit={Login}
+				validate={Validate}
+				height="full"
 			>
-				<Center width="full">
-					{/* <LUMSafarLogo width="70%" height={200} /> */}
-					<Formik
-						initialValues={{
-							email: '',
-							password: ''
-						}}
-						onSubmit={Login}
-						validate={Validate}
-					>
-						{(formikProps) => (
-							<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
-								<HStack alignItems="center" space={5}>
-									<Heading py="20px" mt={1}>
-										Login
-									</Heading>
-								</HStack>
-								{userNotFound ? (
-									<Text width="full" color="red.500">
-										We couldn't find you. Please make sure your email and password are correct!
-									</Text>
-								) : null}
-								<TextInput
-									label="University Email"
-									name="email"
-									isRequired
-									placeholder="example@site.com"
-									formikProps={formikProps}
-								/>
-								<TextInput
-									label="Password"
-									name="password"
-									isRequired
-									isPassword={true}
-									formikProps={formikProps}
-								/>
-								<Pressable onPress={() => navigation.navigate('ForgotPassword')}>
-									<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
-										Forgot Password?
-									</Text>
-								</Pressable>
+				{(formikProps) => (
+					<Screen heading="Login" navigation={navigation}>
+						{userNotFound ? (
+							<Text width="full" color="red.500">
+								We couldn't find you. Please make sure your email and password are correct!
+							</Text>
+						) : null}
 
-								<HStack marginTop="20px" justifyContent="center">
-									<Button
-										disabled={formikProps.isSubmitting}
-										onPress={() => {
-											formikProps.handleSubmit();
-										}}
-										width="100%"
-										isLoading={formikProps.isSubmitting}
-										isLoadingText="Checking"
-									>
-										Login
-									</Button>
-								</HStack>
-								<Pressable onPress={() => navigation.navigate('AccountType')}>
-									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-										<Text fontSize="md" color="black" fontWeight={700}>
-											New here?
-										</Text>
-										<Text fontSize="md" color="primary.500" fontWeight={700}>
-											Sign Up
-										</Text>
-									</HStack>
-								</Pressable>
-							</VStack>
-						)}
-					</Formik>
-				</Center>
-			</KeyboardAwareScrollView>
-		</Box>
+						<VStack space="15px" py="20px" width="full">
+							<TextInput
+								label="University Email"
+								name="email"
+								isRequired
+								placeholder="example@site.com"
+								formikProps={formikProps}
+							/>
+							<TextInput
+								label="Password"
+								name="password"
+								isRequired
+								isPassword={true}
+								formikProps={formikProps}
+							/>
+							<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
+								<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
+									Forgot Password?
+								</Text>
+							</Pressable>
+						</VStack>
+
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							Login
+						</Button>
+						<Pressable onPress={() => navigation.navigate('AccountType')}>
+							<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
+								<Text fontSize="md" color="black" fontWeight={700}>
+									New here?
+								</Text>
+								<Text fontSize="md" color="primary.500" fontWeight={700}>
+									Sign Up
+								</Text>
+							</HStack>
+						</Pressable>
+					</Screen>
+				)}
+			</Formik>
+		</KeyboardAwareScrollView>
 	);
 };
-function setGetValue(value: string | null): any {
-	throw new Error('Function not implemented.');
-}

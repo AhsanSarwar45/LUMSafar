@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -11,6 +11,7 @@ import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
+import Screen from '../components/Screen';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -97,96 +98,71 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<Box bg="white" height="full" width="full">
-					<KeyboardAwareScrollView
-						style={{
-							width: '100%'
+				<KeyboardAwareScrollView>
+					<Formik
+						initialValues={{
+							email: '',
+							password: '',
+							confirmPassword: ''
 						}}
+						onSubmit={CheckDuplicate}
+						validate={Validate}
 					>
-						<Center width="full">
-							<Formik
-								initialValues={{
-									email: '',
-									password: '',
-									confirmPassword: ''
-								}}
-								onSubmit={CheckDuplicate}
-								validate={Validate}
-							>
-								{(formikProps) => (
-									<VStack pt="40px" space="15px" width="80%" height="full" justifyContent="center">
-										<HStack alignItems="center" space={5}>
-											<Icon
-												as={
-													<FontAwesome5
-														onPress={() => navigation.goBack()}
-														name="arrow-left"
-													/>
-												}
-												size={6}
-												color="black"
-											/>
-											<Heading py="20px" mt={1}>
-												Sign Up
-											</Heading>
-										</HStack>
+						{(formikProps) => (
+							<Screen heading="Sign Up" backButton navigation={navigation}>
+								<VStack space="15px" py="20px" width="full">
+									<TextInput
+										label={isSociety ? 'Society Email' : 'University Email'}
+										name="email"
+										isRequired
+										placeholder="example@lums.edu.pk"
+										formikProps={formikProps}
+									/>
+									<TextInput
+										label="Password"
+										name="password"
+										isRequired
+										isPassword={true}
+										formikProps={formikProps}
+									/>
 
-										<TextInput
-											label={isSociety ? 'Society Email' : 'University Email'}
-											name="email"
-											isRequired
-											placeholder="example@lums.edu.pk"
-											formikProps={formikProps}
-										/>
-										<TextInput
-											label="Password"
-											name="password"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
+									<TextInput
+										label="Confirm Password"
+										name="confirmPassword"
+										isRequired
+										isPassword={true}
+										formikProps={formikProps}
+									/>
+								</VStack>
 
-										<TextInput
-											label="Confirm Password"
-											name="confirmPassword"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
+								<Button
+									disabled={formikProps.isSubmitting}
+									onPress={() => {
+										formikProps.handleSubmit();
+									}}
+									width="100%"
+									isLoading={formikProps.isSubmitting}
+									isLoadingText="Checking"
+								>
+									SignUp
+								</Button>
+								<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
+									By signing up, you agree to our terms and conditions
+								</Text>
 
-										<Button
-											disabled={formikProps.isSubmitting}
-											onPress={() => {
-												formikProps.handleSubmit();
-											}}
-											marginTop="20px"
-											width="100%"
-											isLoading={formikProps.isSubmitting}
-											isLoadingText="Checking"
-										>
-											SignUp
-										</Button>
-										<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
-											By signing up, you agree to our terms and conditions
+								<Pressable onPress={() => navigation.navigate('Login')}>
+									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
+										<Text fontSize="md">Already one of us?</Text>
+
+										<Text fontSize="md" color="primary.500">
+											Login
 										</Text>
-
-										<Pressable onPress={() => navigation.navigate('Login')}>
-											<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-												<Text fontSize="md" color="black" fontWeight={700}>
-													Already one of us?
-												</Text>
-
-												<Text fontSize="md" color="primary.500" fontWeight={700}>
-													Login
-												</Text>
-											</HStack>
-										</Pressable>
-									</VStack>
-								)}
-							</Formik>
-						</Center>
-					</KeyboardAwareScrollView>
-				</Box>
+									</HStack>
+								</Pressable>
+							</Screen>
+						)}
+					</Formik>
+				</KeyboardAwareScrollView>
 			</OptimizedHeavyScreen>
 		</View>
 	);

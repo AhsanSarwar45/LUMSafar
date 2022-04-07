@@ -1,8 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { Box, Input, Text, VStack, Icon, FormControl, HStack } from 'native-base';
+import React from 'react';
+import { Input, Text, VStack, Icon, FormControl } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Shadow } from 'react-native-shadow-2';
-import { FormikProps } from 'formik';
 
 interface TextInputProps {
 	label: string;

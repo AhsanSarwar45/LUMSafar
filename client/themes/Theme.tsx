@@ -1,4 +1,5 @@
 import { extendTheme } from 'native-base';
+import { background } from 'native-base/lib/typescript/theme/styled-system';
 import { ShadowProps } from 'react-native-shadow-2';
 
 const LinearGradient = require('expo-linear-gradient').LinearGradient;
@@ -35,7 +36,9 @@ export const theme = extendTheme({
 			900: '#003F5E'
 		},
 
-		lightBorder: {}
+		lightBorder: {},
+
+		background: 'white'
 	},
 
 	config: {

@@ -3,21 +3,14 @@ import { VStack, HStack, Button, Heading, Icon, Text, View } from 'native-base';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
+import Screen from '../components/Screen';
 
 export const AccountTypeScreen = ({ navigation }: any) => {
 	return (
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<VStack bg="white" pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
-					<HStack alignItems="center" space={5} width="100%">
-						<Icon
-							as={<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" />}
-							size={6}
-							color="black"
-						/>
-					</HStack>
-
+				<Screen backButton navigation={navigation}>
 					<Heading size="lg" width="100%">
 						Are you signing up as a student or society?
 					</Heading>
@@ -52,7 +45,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 						</VStack>
 					</Button>
 					{/* </VStack> */}
-				</VStack>
+				</Screen>
 			</OptimizedHeavyScreen>
 		</View>
 	);

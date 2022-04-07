@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
+import React from 'react';
+import { VStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import TextInput from '../components/TextInput';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
+
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
+import TextInput from '../components/TextInput';
+import Screen from '../components/Screen';
 
 type SetPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'SetPassword'>;
 
@@ -60,70 +61,52 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<Box bg="white" height="full" width="full">
-					<KeyboardAwareScrollView
-						style={{
-							width: '100%'
+				<KeyboardAwareScrollView>
+					<Formik
+						initialValues={{
+							email: ''
 						}}
+						onSubmit={SetPassword}
+						validate={Validate}
 					>
-						<Center width="full">
-							<Formik
-								initialValues={{
-									email: ''
-								}}
-								onSubmit={SetPassword}
-								validate={Validate}
-							>
-								{(formikProps) => (
-									<VStack pt="60px" space="20px" width="80%" height="full" justifyContent="center">
-										<HStack alignItems="center" space={5} width="100%">
-											<Icon
-												as={
-													<FontAwesome5
-														onPress={() => navigation.goBack()}
-														name="arrow-left"
-													/>
-												}
-												size={6}
-												color="black"
-											/>
-										</HStack>
-										<Heading size="lg" width="100%">
-											Lets get you a new password
-										</Heading>
+						{(formikProps) => (
+							<Screen backButton navigation={navigation}>
+								<Heading size="lg" width="100%">
+									Lets get you a new password
+								</Heading>
 
-										<TextInput
-											label="New Password"
-											name="password"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
-										<TextInput
-											label="Confirm Password"
-											name="confirmPassword"
-											isRequired
-											isPassword={true}
-											formikProps={formikProps}
-										/>
-										<Button
-											disabled={formikProps.isSubmitting}
-											onPress={() => {
-												formikProps.handleSubmit();
-											}}
-											marginTop="20px"
-											width="100%"
-											isLoading={formikProps.isSubmitting}
-											isLoadingText="Checking"
-										>
-											Next
-										</Button>
-									</VStack>
-								)}
-							</Formik>
-						</Center>
-					</KeyboardAwareScrollView>
-				</Box>
+								<VStack space="15px" py="20px" width="full">
+									<TextInput
+										label="New Password"
+										name="password"
+										isRequired
+										isPassword={true}
+										formikProps={formikProps}
+									/>
+									<TextInput
+										label="Confirm Password"
+										name="confirmPassword"
+										isRequired
+										isPassword={true}
+										formikProps={formikProps}
+									/>
+								</VStack>
+								<Button
+									disabled={formikProps.isSubmitting}
+									onPress={() => {
+										formikProps.handleSubmit();
+									}}
+									marginTop="20px"
+									width="100%"
+									isLoading={formikProps.isSubmitting}
+									isLoadingText="Checking"
+								>
+									Next
+								</Button>
+							</Screen>
+						)}
+					</Formik>
+				</KeyboardAwareScrollView>
 			</OptimizedHeavyScreen>
 		</View>
 	);

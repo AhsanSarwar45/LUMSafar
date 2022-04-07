@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text, Icon } from 'native-base';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { RootStackParamList } from '../config/RouteParams';
+import { VStack, HStack, Button, Heading, Pressable, Text } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
+
+import { RootStackParamList } from '../config/RouteParams';
+import Screen from '../components/Screen';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
@@ -30,15 +31,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 	}
 
 	return (
-		<VStack bg="white" pt="60px" space="25px" width="100%" height="full" alignItems="center" px="10%">
-			<HStack alignItems="center" space={5} width="100%">
-				<Icon
-					as={<FontAwesome5 onPress={() => navigation.goBack()} name="arrow-left" />}
-					size={6}
-					color="black"
-				/>
-			</HStack>
-
+		<Screen backButton navigation={navigation}>
 			<VStack width="full">
 				<Heading size="lg" width="100%">
 					Enter the 4-digit code sent to
@@ -100,6 +93,6 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			{/* <VStack alignItems="center" space={5} height="20%" width="100%" px="10%"> */}
 
 			{/* </VStack> */}
-		</VStack>
+		</Screen>
 	);
 };
