@@ -38,6 +38,28 @@ router.route('/validate').post((req, res) => {
 	console.log('user/validate: success');
 });
 
+router.route('/forgot-password').post((req, res) => {
+	console.log('user/validate: received');
+	const email = req.body.email;
+	const verificationCode = req.body.verificationCode;
+
+	// send email to user containing verification code
+
+	res.json('success');
+	console.log('user/forgot-password: success');
+});
+
+router.route('/set-password').post((req, res) => {
+	console.log('user/validate: received');
+	const email = req.body.email;
+	const password = req.body.password;
+
+	// set the new password of the email
+
+	res.json('success');
+	console.log('user/set-password: success');
+});
+
 router.route('/login').post((req, res) => {
 	console.log('user/login: received');
 	User.where({ email: req.body.email, password: req.body.password }).findOne((err, user) => {

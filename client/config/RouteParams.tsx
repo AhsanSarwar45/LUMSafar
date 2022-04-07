@@ -1,10 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { SignUpData } from '../screens/SignUp';
-
 export type RootStackParamList = {
 	Login: undefined;
 	AccountType: undefined;
 	SignUp: { isSociety: boolean };
-	Verification: { data: SignUpData };
+	Verification: { email: string; verificationCode: string; verifyCallback: Function };
+	ForgotPassword: undefined;
+	SetPassword: { email: string };
+	PasswordResetSuccess: undefined;
 };

@@ -13,44 +13,62 @@ import { RootStackParamList } from '../config/RouteParams';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-export interface SignUpData {
-	email?: string;
-	password?: string;
-	confirmPassword?: string;
-	isSociety?: boolean;
-	verificationCode?: string;
-}
-
-const Validate = (values: SignUpData) => {
-	const errors: SignUpData = {};
-
-	const email: string = values.email as string;
-
-	if (!values.email) {
-		errors.email = 'Required';
-	}
-	if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
-		errors.email = 'Please enter your LUMS email';
-	}
-	if (!values.password) {
-		errors.password = 'Required';
-	}
-	if (!values.confirmPassword) {
-		errors.confirmPassword = 'Required';
-	} else if (values.confirmPassword != values.password) {
-		errors.confirmPassword = 'Passwords do not match';
-	}
-
-	return errors;
-};
-
-export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
+export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	const { isSociety } = route.params;
 
+	interface SignUpData {
+		email?: string;
+		password?: string;
+		confirmPassword?: string;
+		isSociety?: boolean;
+		verificationCode?: string;
+	}
+
+	const Validate = (values: SignUpData) => {
+		const errors: SignUpData = {};
+
+		const email: string = values.email as string;
+
+		if (!values.email) {
+			errors.email = 'Required';
+		}
+		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
+			errors.email = 'Please enter your LUMS email';
+		}
+		if (!values.password) {
+			errors.password = 'Required';
+		}
+		if (!values.confirmPassword) {
+			errors.confirmPassword = 'Required';
+		} else if (values.confirmPassword != values.password) {
+			errors.confirmPassword = 'Passwords do not match';
+		}
+
+		return errors;
+	};
+
+	async function SignUp(data: SignUpData) {
+		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
+			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				console.log(response.data);
+				if (response.data === 'success') {
+					// login user
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
+		await delay(500);
+		// actions.setSubmitting(false);
+	}
+
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SubmitForm(data: SignUpData, actions: any) {
+	async function CheckDuplicate(data: SignUpData, actions: any) {
 		data.verificationCode = '1111';
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/validate`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
@@ -58,7 +76,11 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 			.then((response) => {
 				console.log(response.data);
 				if (response.data === 'success') {
-					navigation.navigate('Verification', { data: data });
+					navigation.navigate('Verification', {
+						email: data.email as string,
+						verificationCode: data.verificationCode as string,
+						verifyCallback: () => SignUp(data)
+					});
 				} else if (response.data === 'duplicate-entry') {
 					// setIsDup(true);
 				}
@@ -85,10 +107,9 @@ export const SignUp = ({ route, navigation }: SignUpScreenProps) => {
 								initialValues={{
 									email: '',
 									password: '',
-									confirmPassword: '',
-									isSociety: isSociety
+									confirmPassword: ''
 								}}
-								onSubmit={SubmitForm}
+								onSubmit={CheckDuplicate}
 								validate={Validate}
 							>
 								{(formikProps) => (

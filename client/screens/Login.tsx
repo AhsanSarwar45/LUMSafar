@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
@@ -25,7 +25,9 @@ const Validate = (values: LoginData) => {
 	return errors;
 };
 
-export const Login = ({ navigation }: any) => {
+export const LoginScreen = ({ navigation }: any) => {
+	const [ userNotFound, setUserNotFound ] = useState(false);
+
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	useEffect(() => {
@@ -34,15 +36,16 @@ export const Login = ({ navigation }: any) => {
 		});
 	}, []);
 
-	async function SubmitForm(data: LoginData, actions: any) {
+	async function Login(data: LoginData, actions: any) {
 		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		});
 		if (response.data === 'success') {
+			setUserNotFound(false);
 			AsyncStorage.setItem('user-email', data.email as string);
 			// Go to Home page
 		} else if (response.data === 'not-found') {
-			console.log('not-found');
+			setUserNotFound(true);
 		}
 		await delay(500);
 		actions.setSubmitting(false);
@@ -64,7 +67,7 @@ export const Login = ({ navigation }: any) => {
 							email: '',
 							password: ''
 						}}
-						onSubmit={SubmitForm}
+						onSubmit={Login}
 						validate={Validate}
 					>
 						{(formikProps) => (
@@ -74,6 +77,11 @@ export const Login = ({ navigation }: any) => {
 										Login
 									</Heading>
 								</HStack>
+								{userNotFound ? (
+									<Text width="full" color="red.500">
+										We couldn't find you. Please make sure your email and password are correct!
+									</Text>
+								) : null}
 								<TextInput
 									label="University Email"
 									name="email"
@@ -88,6 +96,11 @@ export const Login = ({ navigation }: any) => {
 									isPassword={true}
 									formikProps={formikProps}
 								/>
+								<Pressable onPress={() => navigation.navigate('ForgotPassword')}>
+									<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
+										Forgot Password?
+									</Text>
+								</Pressable>
 
 								<HStack marginTop="20px" justifyContent="center">
 									<Button

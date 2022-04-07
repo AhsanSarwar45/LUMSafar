@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import { AccountType } from './screens/AccountType';
-import { SignUp } from './screens/SignUp';
-import { Verification } from './screens/Verification';
-import { Login } from './screens/Login';
+import { AccountTypeScreen } from './screens/AccountType';
+import { SignUpScreen } from './screens/SignUp';
+import { ForgotPasswordScreen } from './screens/ForgotPassword';
+import { SetPasswordScreen } from './screens/SetPassword';
+import { PasswordResetSuccessScreen } from './screens/PasswordResetSuccess';
+import { VerificationScreen } from './screens/Verification';
+import { LoginScreen } from './screens/Login';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
 import AppLoading from 'expo-app-loading';
@@ -25,10 +28,21 @@ export default function App() {
 		<NativeBaseProvider config={config} theme={theme}>
 			<NavigationContainer>
 				<Stack.Navigator initialRouteName="Login">
-					<Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
-					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-					<Stack.Screen options={{ headerShown: false }} name="AccountType" component={AccountType} />
-					<Stack.Screen options={{ headerShown: false }} name="Verification" component={Verification} />
+					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
+					<Stack.Screen options={{ headerShown: false }} name="AccountType" component={AccountTypeScreen} />
+					<Stack.Screen options={{ headerShown: false }} name="Verification" component={VerificationScreen} />
+					<Stack.Screen
+						options={{ headerShown: false }}
+						name="ForgotPassword"
+						component={ForgotPasswordScreen}
+					/>
+					<Stack.Screen options={{ headerShown: false }} name="SetPassword" component={SetPasswordScreen} />
+					<Stack.Screen
+						options={{ headerShown: false }}
+						name="PasswordResetSuccess"
+						component={PasswordResetSuccessScreen}
+					/>
 					{/* <Login /> */}
 				</Stack.Navigator>
 			</NavigationContainer>

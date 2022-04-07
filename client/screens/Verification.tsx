@@ -13,7 +13,7 @@ type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verif
 
 const CODE_LENGTH = 4;
 
-export const Verification = ({ route, navigation }: VerificationScreenProps) => {
+export const VerificationScreen = ({ route, navigation }: VerificationScreenProps) => {
 	const [ value, setValue ] = useState('');
 	const ref = useBlurOnFulfill({ value, cellCount: CODE_LENGTH });
 	const [ props, getCellOnLayoutHandler ] = useClearByFocusCell({
@@ -23,32 +23,14 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 
 	const [ isWrong, setIsWrong ] = useState(false);
 
-	const { data } = route.params;
+	const { email, verificationCode, verifyCallback } = route.params;
 
 	async function Verify() {
-		if (value == data.verificationCode) {
-			SubmitForm();
+		if (value == verificationCode) {
+			verifyCallback();
 		} else {
 			setIsWrong(true);
 		}
-	}
-
-	async function SubmitForm() {
-		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		})
-			.then((response) => {
-				console.log(response.data);
-				if (response.data === 'success') {
-					// login user
-				}
-			})
-			.catch((response) => {
-				console.log(response);
-			});
-		await delay(500);
-		// actions.setSubmitting(false);
 	}
 
 	return (
@@ -61,9 +43,14 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 				/>
 			</HStack>
 
-			<Heading size="lg" width="100%">
-				Enter the 4-digit code sent to {data.email}
-			</Heading>
+			<VStack width="full">
+				<Heading size="lg" width="100%">
+					Enter the 4-digit code sent to
+				</Heading>
+				<Heading size="lg" width="100%" color="primary.500">
+					{email}
+				</Heading>
+			</VStack>
 
 			<CodeField
 				ref={ref}
@@ -85,25 +72,10 @@ export const Verification = ({ route, navigation }: VerificationScreenProps) => 
 						space={0}
 						width={60}
 						height={60}
-						bg="rgba(255, 255, 255, 1)"
+						bg="white"
 						borderRadius={20}
 						alignItems="center"
 						justifyContent="center"
-						// style={[
-						// 	{
-						// 		width: 60,
-						// 		marginHorizontal: 5,
-						// 		height: 60,
-						// 		// lineHeight: 58,
-						// 		fontSize: 24,
-						// 		// borderWidth: 1,
-						// 		borderRadius: 8,
-						// 		elevation: 1
-						// 		// borderColor: 'rgba(0, 0, 0, 0.08)'
-						// 		// textAlign: 'center'
-						// 	},
-						// 	isFocused && Object.assign({}, theme['shadows'][1], { borderWidth: 0 })
-						// ]}
 						onLayout={getCellOnLayoutHandler(index)}
 					>
 						<Text fontSize="lg">{symbol || (isFocused ? <Cursor /> : null)}</Text>
