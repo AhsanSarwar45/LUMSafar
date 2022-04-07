@@ -49,8 +49,19 @@ router.route('/send-email').post((req, res) => {
 	console.log('user/send-email: success');
 });
 
+router.route('/set-username').post((req, res) => {
+	console.log('user/set-username: received');
+	const email = req.body.email;
+	const name = req.body.name;
+
+	// set the new username of the email
+
+	res.json('success');
+	console.log('user/set-username: success');
+});
+
 router.route('/set-password').post((req, res) => {
-	console.log('user/validate: received');
+	console.log('user/set-password: received');
 	const email = req.body.email;
 	const password = req.body.password;
 

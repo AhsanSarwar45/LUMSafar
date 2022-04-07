@@ -14,28 +14,28 @@ import Screen from '../components/Screen';
 
 type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
-export interface ForgotPasswordData {
-	email?: string;
-}
-
-const Validate = (values: ForgotPasswordData) => {
-	const errors: ForgotPasswordData = {};
-
-	const email: string = values.email as string;
-
-	if (!values.email) {
-		errors.email = 'Required';
-	}
-	if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
-		errors.email = 'Please enter your LUMS email';
-	}
-	return errors;
-};
-
 export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreenProps) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
 
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+	interface ForgotPasswordData {
+		email?: string;
+	}
+
+	const Validate = (values: ForgotPasswordData) => {
+		const errors: ForgotPasswordData = {};
+
+		const email: string = values.email as string;
+
+		if (!values.email) {
+			errors.email = 'Required';
+		}
+		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
+			errors.email = 'Please enter your LUMS email';
+		}
+		return errors;
+	};
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function CheckIfUserExists(data: ForgotPasswordData, actions: any) {

@@ -25,7 +25,6 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		password?: string;
 		confirmPassword?: string;
 		isSociety?: boolean;
-		verificationCode?: string;
 	}
 
 	const Validate = (values: SignUpData) => {
@@ -59,7 +58,11 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			.then((response) => {
 				console.log(response.data);
 				if (response.data === 'success') {
-					// login user
+					//login user
+					navigation.navigate('SignUpInfo', {
+						email: data.email as string,
+						isSociety: data.isSociety as boolean
+					});
 				}
 			})
 			.catch((response) => {

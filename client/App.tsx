@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { NativeBaseProvider } from 'native-base';
 import { AccountTypeScreen } from './screens/AccountType';
 import { SignUpScreen } from './screens/SignUp';
+import { SignUpInfoScreen } from './screens/SignUpInfo';
 import { ForgotPasswordScreen } from './screens/ForgotPassword';
 import { SetPasswordScreen } from './screens/SetPassword';
 import { PasswordResetSuccessScreen } from './screens/PasswordResetSuccess';
@@ -30,6 +31,7 @@ export default function App() {
 				<Stack.Navigator initialRouteName="Login">
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
+					<Stack.Screen options={{ headerShown: false }} name="SignUpInfo" component={SignUpInfoScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="AccountType" component={AccountTypeScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="Verification" component={VerificationScreen} />
 					<Stack.Screen
