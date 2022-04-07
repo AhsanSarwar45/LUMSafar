@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text, Icon, Box } from 'native-base';
-import { Text as NativeText } from 'react-native';
+import { VStack, HStack, Button, Heading, Pressable, Text, Icon } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { RootStackParamList } from '../config/RouteParams';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
-import Axios from 'axios';
-import { LUMSAFAR_SERVER_URL } from '@env';
-import { theme } from '../themes/Theme';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 

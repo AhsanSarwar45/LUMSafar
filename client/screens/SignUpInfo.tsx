@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import AppLoading from 'expo-app-loading';

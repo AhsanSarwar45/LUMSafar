@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import TextInput from '../components/TextInput';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import AppLoading from 'expo-app-loading';
 import Axios from 'axios';
+
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
+import TextInput from '../components/TextInput';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
