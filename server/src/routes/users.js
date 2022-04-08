@@ -1,10 +1,13 @@
 const router = require('express').Router();
+const nodemailer = require('nodemailer');
 let User = require('../models/user_model.js');
 
 // * HEAVY BRO
 
 router.route('/').get((req, res) => {
-	User.find().then((users) => res.json(users)).catch((err) => res.status(400).json('Error: ' + err));
+	User.find()
+		.then((users) => res.json(users))
+		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
 router.route('/add').post((req, res) => {
@@ -39,6 +42,29 @@ router.route('/send-email').post((req, res) => {
 	console.log('user/send-email: received');
 	const email = req.body.email;
 	const verificationCode = req.body.verificationCode;
+
+	let transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: 'lumsafar@gmail.com',
+			pass: 'Boy06304'
+		}
+	});
+
+	let mailOptions = {
+		from: 'lumsafar@gmail.com',
+		to: email,
+		subject: 'Lumsafar Verification Code',
+		text: `Your verification code is ${verificationCode}`
+	};
+
+	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+		  console.log(error);
+		} else {
+		  console.log('Email sent: ' + info.response);
+		}
+	});
 
 	// send email to user containing verification code
 
