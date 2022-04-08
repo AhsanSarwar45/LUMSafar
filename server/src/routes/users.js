@@ -42,7 +42,7 @@ router.route('/exists').post((req, res) => {
 			res.json('failure');
 			console.log(`[user/exists] ${email}: failure: ${err}`);
 		} else if (user) {
-			res.json('success');
+			res.json('not-found');
 			console.log(`[user/exists] ${email}: success`);
 		} else {
 			res.json('not-found');
@@ -72,7 +72,14 @@ router.route('/send-email').post((req, res) => {
 		from: 'lumsafar@gmail.com',
 		to: email,
 		subject: 'Lumsafar Verification Code',
-		text: `Your verification code is ${verCode}`
+		html: `
+		<meta charset="UTF-8">
+		<p>Hello!</p>
+		<p>Your 4-digit verification code is:</p>
+		<h1 style="text-align:center">${verCode}</h1>
+		<p>If you haven't signed up for LUMSafar, please ignore this email. It just means that somebody is trying to impersonate you 💀.</p><br/>
+		<p>Regards,<br/>LUMSafar Team (Za Tehc Boiz)</p>
+		`
 	};
 
 	transporter.sendMail(mailOptions, function(error, info) {

@@ -20,7 +20,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 						onPress={() => {
 							navigation.navigate('SignUp', { isSociety: false });
 						}}
-						height="30%"
+						height="35%"
 						width="100%"
 					>
 						<VStack width="full" alignItems="center" justifyContent="center">
@@ -34,7 +34,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 						onPress={() => {
 							navigation.navigate('SignUp', { isSociety: true });
 						}}
-						height="30%"
+						height="35%"
 						width="100%"
 					>
 						<VStack width="full" alignItems="center" justifyContent="center">
