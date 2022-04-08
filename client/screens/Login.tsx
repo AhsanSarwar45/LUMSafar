@@ -35,9 +35,9 @@ export const LoginScreen = ({ navigation }: any) => {
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	useEffect(() => {
-		AsyncStorage.getItem('user-email').then((value) => {
-			// Go to Home page
-		});
+		// AsyncStorage.getItem('user-email').then((value) => {
+		// 	// Go to Home page
+		// });
 	}, []);
 
 	async function Login(data: LoginData, actions: any) {

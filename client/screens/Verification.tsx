@@ -12,7 +12,6 @@ import { DeviceEventEmitter } from 'react-native';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
-const crypto = require("crypto");
 const CODE_LENGTH = 4;
 
 export const VerificationScreen = ({ route, navigation }: VerificationScreenProps) => {
@@ -30,22 +29,8 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 
 	const { email } = route.params;
 
-	// const computerVerificationCode = () => {
-	// 	let thousand = ((Math.random() * 9) + 1) * 1000;
-	// 	let hundred = ((Math.random() * 9) + 1) * 100;
-	// 	let ten = ((Math.random() * 9) + 1) * 10;
-	// 	let one = ((Math.random() * 9) + 1);
-
-	// 	return Math.floor(thousand + hundred + ten + one);
-	// }
-
-	setVerificationCode(crypto.randomBytes(4).toString('hex'));
-	
-
 	async function SendEmail() {
-		// Math.floor(Math.random() * 10);
-		//  = Math.floor(Math.random() * 10) + 1;
-		// setVerificationCode('1111');
+		setVerificationCode('1111');
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/send-email`,
 			{ email: email, verificationCode: verificationCode },
