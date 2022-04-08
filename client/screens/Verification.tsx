@@ -8,6 +8,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
+import { DeviceEventEmitter } from 'react-native';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
@@ -24,7 +25,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 
 	const [ isWrong, setIsWrong ] = useState(false);
 
-	const { email, verifyCallback } = route.params;
+	const { email } = route.params;
 
 	async function SendEmail() {
 		setVerificationCode('1111');
@@ -51,10 +52,16 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 		SendEmail();
 	}, []);
 
+	useEffect(() => {
+		return () => {
+			DeviceEventEmitter.removeAllListeners('event.verify-email');
+		};
+	}, []);
+
 	function Verify() {
 		if (value == verificationCode) {
 			setIsWrong(false);
-			verifyCallback();
+			DeviceEventEmitter.emit('event.verify-email');
 		} else {
 			setIsWrong(true);
 		}

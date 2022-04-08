@@ -11,6 +11,7 @@ import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
+import { DeviceEventEmitter } from 'react-native';
 
 type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -47,11 +48,14 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
+				if (response.data === 'not-found') {
 					setUserNotFound(false);
+					DeviceEventEmitter.addListener('event.verify-email', (eventData) =>
+						navigation.navigate('SetPassword', { email: data.email as string })
+					);
+
 					navigation.navigate('Verification', {
-						email: data.email as string,
-						verifyCallback: () => navigation.navigate('SetPassword', { email: data.email as string })
+						email: data.email as string
 					});
 				} else if (response.data === 'not-found') {
 					setUserNotFound(true);
