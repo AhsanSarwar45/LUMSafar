@@ -33,9 +33,19 @@ router.route('/exists').post((req, res) => {
 
 	// if email exists send 'success'
 	// else send 'not-found'
-
-	res.json('not-found');
-	console.log('user/exists: not-found');
+	User.where({ email: req.body.email}).findOne((err, user) => {
+		if (err) {
+			res.status(400).json('Error: ' + err);
+		} else if (user) {
+			res.json('success');
+			console.log('user/exists/success');
+		} else {
+			res.json('not-found');
+			console.log('user/exists/not-found');
+		}
+	});
+	// res.json('not-found');
+	// console.log('user/exists: not-found');
 });
 
 router.route('/send-email').post((req, res) => {
@@ -51,6 +61,7 @@ router.route('/send-email').post((req, res) => {
 		}
 	});
 
+	console.log(email)
 	let mailOptions = {
 		from: 'lumsafar@gmail.com',
 		to: email,
