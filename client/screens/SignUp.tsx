@@ -6,6 +6,7 @@ import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AppLoading from 'expo-app-loading';
 import Axios from 'axios';
+import { DeviceEventEmitter } from 'react-native';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
@@ -83,9 +84,9 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		)
 			.then((response) => {
 				if (response.data === 'not-found') {
+					DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
 					navigation.navigate('Verification', {
-						email: data.email as string,
-						verifyCallback: () => SignUp(data)
+						email: data.email as string
 					});
 				} else if (response.data === 'success') {
 					// setIsDup(true);
