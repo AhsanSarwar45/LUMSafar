@@ -30,19 +30,26 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 	const { email } = route.params;
 
 	async function SendEmail() {
-		setVerificationCode('1111');
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/send-email`,
-			{ email: email, verificationCode: verificationCode },
+			{ email: email },
 			{
 				headers: JsonHeader
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
-					// success
-				} else if (response.data === 'failure') {
-					// failure
+				// if (response.data === 'success') {
+				// 	// success
+				// } else if (response.data === 'failure') {
+				// 	// failure
+				// }
+
+				if (response.data === 'failure') {
+					console.log('Error occured please try again later');
+				} else {
+					//verCode received
+					console.log(response.data);
+					setVerificationCode(response.data);
 				}
 			})
 			.catch((response) => {
@@ -85,7 +92,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 				value={value}
 				onChangeText={setValue}
 				cellCount={CODE_LENGTH}
-				keyboardType="number-pad"
+				// keyboardType="number-pad"
 				textContentType="oneTimeCode"
 				renderCell={({ index, symbol, isFocused }) => (
 					<Box
