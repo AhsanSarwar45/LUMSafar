@@ -1,4 +1,4 @@
-import { VStack } from 'native-base';
+import { ScrollView, VStack } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, useWindowDimensions } from 'react-native';
 
@@ -18,20 +18,21 @@ const Screen = ({ heading, navigation, backButton, children, ...otherProps }: Sc
 	const window = useWindowDimensions();
 
 	return (
-		<VStack
-			py="15%"
-			px="10%"
-			bgColor="white"
-			space="15px"
-			width="full"
-			height={window.height}
-			justifyContent="flex-start"
-			alignItems="center"
-			{...otherProps}
-		>
-			<ScreenHeader text={heading} navigation={navigation} backButton={backButton} />
-			{children}
-		</VStack>
+		<ScrollView height={window.height} bg="background">
+			<VStack
+				py="15%"
+				px="10%"
+				space="15px"
+				width="full"
+				justifyContent="flex-start"
+				alignItems="center"
+				// overflowY="scroll"
+				{...otherProps}
+			>
+				<ScreenHeader text={heading} navigation={navigation} backButton={backButton} />
+				{children}
+			</VStack>
+		</ScrollView>
 	);
 };
 

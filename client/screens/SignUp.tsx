@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
@@ -13,10 +13,13 @@ import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
+import ErrorMessage from '../components/ErrorMessage';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
+	const [ isDuplicate, setIsDuplicate ] = useState(false);
+
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	const { isSociety } = route.params;
@@ -89,7 +92,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 						email: data.email as string
 					});
 				} else if (response.data === 'success') {
-					// setIsDup(true);
+					setIsDuplicate(true);
 				}
 			})
 			.catch((response) => {
@@ -115,18 +118,20 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 					>
 						{(formikProps) => (
 							<Screen heading="Sign Up" backButton navigation={navigation}>
-								<VStack space="15px" py="20px" width="full">
+								<ErrorMessage show={isDuplicate}>
+									The email you entered is already registered. Maybe you meant to login?
+								</ErrorMessage>
+
+								<VStack space="15px" width="full">
 									<TextInput
 										label={isSociety ? 'Society Email' : 'University Email'}
 										name="email"
-										isRequired
 										placeholder="example@lums.edu.pk"
 										formikProps={formikProps}
 									/>
 									<TextInput
 										label="Password"
 										name="password"
-										isRequired
 										isPassword={true}
 										formikProps={formikProps}
 									/>
@@ -134,7 +139,6 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 									<TextInput
 										label="Confirm Password"
 										name="confirmPassword"
-										isRequired
 										isPassword={true}
 										formikProps={formikProps}
 									/>

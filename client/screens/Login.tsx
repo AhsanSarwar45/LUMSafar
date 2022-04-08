@@ -8,6 +8,7 @@ import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
+import ErrorMessage from '../components/ErrorMessage';
 
 interface LoginData {
 	email?: string;
@@ -68,27 +69,18 @@ export const LoginScreen = ({ navigation }: any) => {
 			>
 				{(formikProps) => (
 					<Screen heading="Login" navigation={navigation}>
-						{userNotFound ? (
-							<Text width="full" color="red.500">
-								We couldn't find you. Please make sure your email and password are correct!
-							</Text>
-						) : null}
+						<ErrorMessage show={userNotFound}>
+							We couldn't find you. Please make sure your email and password are correct!
+						</ErrorMessage>
 
-						<VStack space="15px" py="20px" width="full">
+						<VStack space="15px" width="full">
 							<TextInput
 								label="University Email"
 								name="email"
-								isRequired
 								placeholder="example@site.com"
 								formikProps={formikProps}
 							/>
-							<TextInput
-								label="Password"
-								name="password"
-								isRequired
-								isPassword={true}
-								formikProps={formikProps}
-							/>
+							<TextInput label="Password" name="password" isPassword={true} formikProps={formikProps} />
 							<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
 								<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
 									Forgot Password?

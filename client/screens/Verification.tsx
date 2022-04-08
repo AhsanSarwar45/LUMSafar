@@ -48,7 +48,6 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 					console.log('Error occured please try again later');
 				} else {
 					//verCode received
-					console.log(response.data);
 					setVerificationCode(response.data);
 				}
 			})

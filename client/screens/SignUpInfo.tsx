@@ -77,7 +77,6 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 									<TextInput
 										label={isSociety ? 'Society Name' : 'Name'}
 										name="username"
-										isRequired
 										formikProps={formikProps}
 									/>
 								</VStack>

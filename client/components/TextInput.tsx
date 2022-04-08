@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, Text, VStack, Icon, FormControl } from 'native-base';
+import { Input, Text, VStack, Icon } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+import ErrorMessage from './ErrorMessage';
 
 interface TextInputProps {
 	label: string;
@@ -16,7 +17,7 @@ const TextInput = (props: TextInputProps) => {
 	const [ isFocused, setFocused ] = React.useState(false);
 	const handleClick = () => setShow(!show);
 
-	var InputInner = (
+	return (
 		<VStack
 			shadow={isFocused ? 2 : 0}
 			borderWidth={isFocused ? 0 : 1}
@@ -59,37 +60,13 @@ const TextInput = (props: TextInputProps) => {
 					)
 				}
 			/>
-			<FormControl.ErrorMessage
-				my={0}
-				_text={{
-					fontWeight: 'bold',
-					fontSize: 10
-				}}
+			<ErrorMessage
+				fontSize={10}
+				show={props.name in props.formikProps.errors && props.formikProps.touched[props.name]}
 			>
 				{props.formikProps.errors[props.name]}
-			</FormControl.ErrorMessage>
+			</ErrorMessage>
 		</VStack>
-	);
-
-	return (
-		<FormControl
-			isRequired
-			isInvalid={props.name in props.formikProps.errors && props.formikProps.touched[props.name]}
-		>
-			{/* {isFocused ? (
-				<Shadow
-					startColor={'rgba(0, 0, 1, 0.1)'}
-					offset={[ 0, 3 ]}
-					distance={6}
-					radius={20}
-					viewStyle={{ alignSelf: 'stretch' }}
-				>
-					{InputInner}
-				</Shadow>
-			) : ( */}
-			{InputInner}
-			{/* )} */}
-		</FormControl>
 	);
 };
 

@@ -96,7 +96,6 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 									<TextInput
 										label={'Email'}
 										name="email"
-										isRequired
 										placeholder="example@lums.edu.pk"
 										formikProps={formikProps}
 									/>

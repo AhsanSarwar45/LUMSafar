@@ -79,14 +79,12 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 									<TextInput
 										label="New Password"
 										name="password"
-										isRequired
 										isPassword={true}
 										formikProps={formikProps}
 									/>
 									<TextInput
 										label="Confirm Password"
 										name="confirmPassword"
-										isRequired
 										isPassword={true}
 										formikProps={formikProps}
 									/>

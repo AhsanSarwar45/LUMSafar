@@ -40,6 +40,8 @@ export const theme = extendTheme({
 			light: 'rgba(0, 0, 0, 0.08)'
 		},
 
+		error: 'red.500',
+
 		background: 'white'
 	},
 
