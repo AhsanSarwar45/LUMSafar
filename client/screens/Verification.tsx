@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, HStack, Button, Heading, Pressable, Text, Box } from 'native-base';
+import { VStack, HStack, Button, Heading, Pressable, Text, Box, useTheme } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import Axios from 'axios';
@@ -22,6 +22,8 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 		value,
 		setValue
 	});
+
+	const { borderRadius } = useTheme();
 
 	const [ isWrong, setIsWrong ] = useState(false);
 
@@ -50,9 +52,6 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 
 	useEffect(() => {
 		SendEmail();
-	}, []);
-
-	useEffect(() => {
 		return () => {
 			DeviceEventEmitter.removeAllListeners('event.verify-email');
 		};
@@ -82,10 +81,10 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 				ref={ref}
 				{...props}
 				// Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+				// caretHidden={false}
 				value={value}
 				onChangeText={setValue}
 				cellCount={CODE_LENGTH}
-				// rootStyle={styles.codeFieldRoot}
 				keyboardType="number-pad"
 				textContentType="oneTimeCode"
 				renderCell={({ index, symbol, isFocused }) => (
@@ -94,11 +93,11 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 						mx={1}
 						shadow={isFocused ? 5 : 0}
 						borderWidth={isFocused ? 0 : 1}
-						borderColor="rgba(0, 0, 0, 0.08)"
+						borderColor="border.light"
 						width={60}
 						height={60}
-						bg="white"
-						borderRadius={20}
+						bgColor="background"
+						rounded={borderRadius}
 						alignItems="center"
 						justifyContent="center"
 						onLayout={getCellOnLayoutHandler(index)}

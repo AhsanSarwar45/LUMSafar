@@ -18,16 +18,16 @@ const TextInput = (props: TextInputProps) => {
 
 	var InputInner = (
 		<VStack
-			shadow={isFocused ? 5 : 0}
+			shadow={isFocused ? 2 : 0}
 			borderWidth={isFocused ? 0 : 1}
-			borderColor="rgba(0, 0, 0, 0.08)"
+			borderColor="border.light"
+			bgColor="background"
 			space={0}
-			bg="rgba(255, 255, 255, 1)"
-			borderRadius={20}
+			rounded="2xl"
 			px={5}
 			py={3}
 		>
-			<Text margin={0} color="rgba(0, 0, 0, 0.4)" fontSize={12} fontWeight="bold">
+			<Text margin={0} color="text.secondary" fontSize={12} fontWeight="bold">
 				{props.label}
 			</Text>
 			<Input
@@ -36,7 +36,6 @@ const TextInput = (props: TextInputProps) => {
 				type={props.isPassword ? show ? 'text' : 'password' : 'text'}
 				size="xs"
 				variant="Unstyled"
-				fontWeight={700}
 				fontSize="md"
 				onBlur={() => {
 					props.formikProps.handleBlur(props.name);
@@ -45,14 +44,13 @@ const TextInput = (props: TextInputProps) => {
 				onChangeText={props.formikProps.handleChange(props.name)}
 				value={props.formikProps.values[props.name]}
 				onFocus={() => setFocused(true)}
-				color="rgba(0, 0, 0, 1)"
 				placeholder={props.placeholder}
-				placeholderTextColor="rgba(0, 0, 0, 0.2)"
+				placeholderTextColor="text.inactive"
 				InputRightElement={
 					props.isPassword ? (
 						<Icon
 							as={show ? <MaterialIcons name="visibility" /> : <MaterialIcons name="visibility-off" />}
-							color="rgba(0, 0, 0, 0.4)"
+							color="text.secondary"
 							size={5}
 							onPress={handleClick}
 						/>

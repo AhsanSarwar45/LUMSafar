@@ -12,13 +12,7 @@ export const config = {
 	initialColorMode: 'light'
 };
 
-export const ShadowPresets = {
-	button: {
-		offset: [ 0, 1 ],
-		distance: 1,
-		startColor: '#0003'
-	} as ShadowProps
-};
+const borderRadius = '2xl';
 
 export const theme = extendTheme({
 	colors: {
@@ -36,10 +30,20 @@ export const theme = extendTheme({
 			900: '#003F5E'
 		},
 
-		lightBorder: {},
+		text: {
+			primary: 'black',
+			secondary: 'rgba(0, 0, 0, 0.4)',
+			inactive: 'rgba(0, 0, 0, 0.2)'
+		},
+
+		border: {
+			light: 'rgba(0, 0, 0, 0.08)'
+		},
 
 		background: 'white'
 	},
+
+	borderRadius: borderRadius,
 
 	config: {
 		// Changing initialColorMode to 'dark'
@@ -70,7 +74,7 @@ export const theme = extendTheme({
 		Button: {
 			// Can simply pass default props to change default behaviour of components.
 			baseStyle: {
-				rounded: '2xl'
+				rounded: borderRadius
 			},
 			defaultProps: {
 				size: 'lg',
@@ -86,14 +90,22 @@ export const theme = extendTheme({
 			baseStyle: {},
 			defaultProps: {
 				size: 'xl',
-				color: 'black'
+				color: 'text.primary'
 			}
 		},
 		Text: {
 			baseStyle: {},
 			defaultProps: {
 				fontWeight: 700,
-				color: 'black'
+				color: 'text.primary'
+			}
+		},
+
+		Input: {
+			baseStyle: {},
+			defaultProps: {
+				fontWeight: 700,
+				color: 'text.primary'
 			}
 		}
 	},
