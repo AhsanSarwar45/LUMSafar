@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 let User = require('../models/user_model.js');
 
 // * HEAVY BRO
@@ -38,7 +39,7 @@ router.route('/exists').post((req, res) => {
 			res.status(400).json('Error: ' + err);
 		} else if (user) {
 			res.json('success');
-			console.log('user/exists/success');
+			// console.log('user/exists/success');
 		} else {
 			res.json('not-found');
 			console.log('user/exists/not-found');
@@ -51,7 +52,9 @@ router.route('/exists').post((req, res) => {
 router.route('/send-email').post((req, res) => {
 	console.log('user/send-email: received');
 	const email = req.body.email;
-	const verificationCode = req.body.verificationCode;
+	// const verificationCode = req.body.verificationCode;
+
+	let verCode = crypto.randomBytes(4).toString('hex');
 
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
@@ -66,14 +69,16 @@ router.route('/send-email').post((req, res) => {
 		from: 'lumsafar@gmail.com',
 		to: email,
 		subject: 'Lumsafar Verification Code',
-		text: `Your verification code is ${verificationCode}`
+		text: `Your verification code is ${verCode}`
 	};
 
 	transporter.sendMail(mailOptions, function(error, info){
 		if (error) {
 		  console.log(error);
+		  res.json('failure');
 		} else {
 		  console.log('Email sent: ' + info.response);
+		  res.json(verCode)
 		}
 	});
 
