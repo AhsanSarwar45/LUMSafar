@@ -47,6 +47,7 @@ export default function App() {
 						name="PasswordResetSuccess"
 						component={PasswordResetSuccessScreen}
 					/>
+					{/* {test} */}
 					{/* <Login /> */}
 				</Stack.Navigator>
 			</NavigationContainer>
