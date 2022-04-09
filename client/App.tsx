@@ -8,6 +8,7 @@ import { SetPasswordScreen } from './screens/SetPassword';
 import { PasswordResetSuccessScreen } from './screens/PasswordResetSuccess';
 import { VerificationScreen } from './screens/Verification';
 import { LoginScreen } from './screens/Login';
+import { Home } from './screens/Home';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
 import AppLoading from 'expo-app-loading';
@@ -29,6 +30,7 @@ export default function App() {
 		<NativeBaseProvider config={config} theme={theme}>
 			<NavigationContainer>
 				<Stack.Navigator initialRouteName="Login">
+					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUpInfo" component={SignUpInfoScreen} />

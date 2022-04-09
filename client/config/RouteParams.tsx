@@ -9,4 +9,5 @@ export type RootStackParamList = {
 	ForgotPassword: undefined;
 	SetPassword: { email: string };
 	PasswordResetSuccess: undefined;
+	Home: undefined;
 };
