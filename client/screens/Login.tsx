@@ -47,6 +47,7 @@ export const LoginScreen = ({ navigation }: any) => {
 		});
 		if (response.data === 'success') {
 			setUserNotFound(false);
+			navigation.navigate('Home');
 			// AsyncStorage.setItem('user-email', data.email as string);
 			// Go to Home page
 		} else if (response.data === 'not-found') {

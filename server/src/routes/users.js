@@ -71,7 +71,7 @@ router.route('/send-email').post((req, res) => {
 	let mailOptions = {
 		from: 'lumsafar@gmail.com',
 		to: email,
-		subject: 'Lumsafar Verification Code',
+		subject: 'LUMSafar Verification Code',
 		html: `
 		<meta charset="UTF-8">
 		<p>Hello!</p>
