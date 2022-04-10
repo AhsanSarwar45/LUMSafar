@@ -107,14 +107,14 @@ router.route('/set-username').post((req, res) => {
 	// check ahsan side client, what ahsan sending. fetch that doc which u need to change,then update it
 	User.where({email: email}).findOne((err, user) => { // find one returns doc entry, which u update and return to database
 		user.email = email;
-		user.save().then(() => res.json('User updated!')).catch((err) => res.status(400).json('Error: ' + err));
+		user.save().then(() => { res.json('success'); console.log('user/set-username: success')}).catch((err) => res.json('failure'));
 	})
 
 	// if successful, return 'success'
 	// else return 'failure'
 
-	res.json('success');
-	console.log('user/set-username: success');
+	// res.json('success');
+	// console.log('user/set-username: success');
 });
 
 router.route('/set-password').post((req, res) => {
