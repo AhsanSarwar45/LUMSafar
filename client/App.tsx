@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
 import { AccountTypeScreen } from './screens/AccountType';
 import { SignUpScreen } from './screens/SignUp';
@@ -15,22 +15,44 @@ import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Menu from './screens/Menu';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+	const [ initialRouteName, setInitialRouteName ] = useState('');
+
 	let [ fontsLoaded ] = useFonts({
 		Jost_300Light,
 		Jost_500Medium,
 		Jost_700Bold
 	});
 
+	async function CheckLogin() {
+		try {
+			const userData = await AsyncStorage.getItem('userData');
+			const data = JSON.parse(userData as string);
+
+			setInitialRouteName(data == null ? 'Login' : 'Home');
+
+			console.log(data);
+		} catch (error) {
+			console.log('Something went wrong', error);
+		}
+	}
+
+	useEffect(() => {
+		CheckLogin();
+	}, []);
+
 	return fontsLoaded ? (
 		<NativeBaseProvider config={config} theme={theme}>
 			<NavigationContainer>
-				<Stack.Navigator initialRouteName="Login">
+				<Stack.Navigator initialRouteName={initialRouteName}>
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUpInfo" component={SignUpInfoScreen} />

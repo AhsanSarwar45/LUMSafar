@@ -4,6 +4,7 @@ import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import Screen from '../components/Screen';
+import OptionCard from '../components/Option';
 
 export const AccountTypeScreen = ({ navigation }: any) => {
 	return (
@@ -15,36 +16,24 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 						Are you signing up as a student or society?
 					</Heading>
 
-					{/* <VStack alignItems="center" space={5} height="20%" width="100%" px="10%"> */}
-					<Button
+					<OptionCard
+						label="Student"
+						height="150px"
+						width="full"
+						icon={<MaterialIcons name="person" />}
 						onPress={() => {
 							navigation.navigate('SignUp', { isSociety: false });
 						}}
-						height="35%"
-						width="100%"
-					>
-						<VStack width="full" alignItems="center" justifyContent="center">
-							<Icon as={<MaterialIcons name="person" />} size={20} color="white" />
-							<Text fontSize={24} fontWeight={700} color="white">
-								Student
-							</Text>
-						</VStack>
-					</Button>
-					<Button
+					/>
+					<OptionCard
+						label="Society"
+						height="150px"
+						width="full"
+						icon={<MaterialIcons name="groups" />}
 						onPress={() => {
-							navigation.navigate('SignUp', { isSociety: true });
+							navigation.navigate('SignUp', { isSociety: false });
 						}}
-						height="35%"
-						width="100%"
-					>
-						<VStack width="full" alignItems="center" justifyContent="center">
-							<Icon as={<MaterialIcons name="groups" />} size={20} color="white" />
-							<Text fontSize={24} fontWeight={700} color="white">
-								Society
-							</Text>
-						</VStack>
-					</Button>
-					{/* </VStack> */}
+					/>
 				</Screen>
 			</OptimizedHeavyScreen>
 		</View>

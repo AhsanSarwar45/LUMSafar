@@ -13,20 +13,23 @@ import { Events } from './tabs/Events';
 import { useState } from 'react';
 import PlusIcon from '../assets/icons/PlusIcon.svg';
 import MicIcon from '../assets/icons/MicIcon.svg';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../config/RouteParams';
+import TabsProps from '../interfaces/TabsProps';
 
-const SecondRoute = () => (
+const SecondRoute = (props: TabsProps) => (
 	<Center flex={1} my="4">
 		This is Tab 2
 	</Center>
 );
 
-const ThirdRoute = () => (
+const ThirdRoute = (props: TabsProps) => (
 	<Center flex={1} my="4">
 		This is Tab 3
 	</Center>
 );
 
-const FourthRoute = () => (
+const FourthRoute = (props: TabsProps) => (
 	<Center flex={1} my="4">
 		This is Tab 4{' '}
 	</Center>
@@ -35,16 +38,12 @@ const FourthRoute = () => (
 const initialLayout = {
 	width: Dimensions.get('window').width
 };
-const renderScene = SceneMap({
-	events: Events,
-	map: SecondRoute,
-	spaces: ThirdRoute,
-	connect: FourthRoute
-});
 
-export const Home = () => {
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const [ index, setIndex ] = useState(0);
-	const [ routes ] = useState([
+	const [ tabRoutes ] = useState([
 		{
 			key: 'events',
 			icon: 'Events'
@@ -63,8 +62,23 @@ export const Home = () => {
 		}
 	]);
 
-	const [ firstHalf ] = useState(routes.slice(0, 2));
-	const [ secondHalf ] = useState(routes.slice(2));
+	const [ firstHalf ] = useState(tabRoutes.slice(0, 2));
+	const [ secondHalf ] = useState(tabRoutes.slice(2));
+
+	const renderScene = ({ route }: any) => {
+		switch (route.key) {
+			case 'events':
+				return <Events navigation={navigation} />;
+			case 'map':
+				return <SecondRoute navigation={navigation} />;
+			case 'spaces':
+				return <ThirdRoute navigation={navigation} />;
+			case 'connect':
+				return <FourthRoute navigation={navigation} />;
+			default:
+				return null;
+		}
+	};
 
 	interface NaveIconSetProps {
 		routeSet: any;
@@ -129,16 +143,16 @@ export const Home = () => {
 		<TabView
 			navigationState={{
 				index,
-				routes
+				routes: tabRoutes
 			}}
 			renderScene={renderScene}
 			renderTabBar={NavBar}
 			onIndexChange={setIndex}
 			initialLayout={initialLayout}
 			tabBarPosition="bottom"
-			style={{
-				marginTop: StatusBar.currentHeight
-			}}
+			// style={{
+			// 	marginTop: StatusBar.currentHeight
+			// }}
 		/>
 	);
 };

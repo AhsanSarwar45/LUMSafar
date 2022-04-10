@@ -10,7 +10,7 @@ interface ScreenHeaderProps {
 
 const ScreenHeader = (props: ScreenHeaderProps) => {
 	return (
-		<HStack alignItems="center" width="full" space={5}>
+		<HStack alignItems="center" width="full" space={5} pt="8%">
 			{props.backButton ? (
 				<Icon
 					as={<FontAwesome5 onPress={() => props.navigation.goBack()} name="arrow-left" />}
