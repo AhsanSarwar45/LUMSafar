@@ -10,36 +10,55 @@ import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
 
-interface LoginData {
-	email?: string;
-	password?: string;
-}
-
-const Validate = (values: LoginData) => {
-	const errors: LoginData = {};
-
-	if (!values.email) {
-		errors.email = 'Required';
-	}
-	if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(values.email as string)) {
-		errors.email = 'Please enter your LUMS email';
-	}
-	if (!values.password) {
-		errors.password = 'Required';
-	}
-	return errors;
-};
-
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
 
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	useEffect(() => {
-		// AsyncStorage.getItem('user-email').then((value) => {
-		// 	// Go to Home page
-		// });
+		GetUserToken();
 	}, []);
+
+	interface LoginData {
+		email?: string;
+		password?: string;
+	}
+
+	async function StoreUserToken(data: LoginData) {
+		try {
+			await AsyncStorage.setItem('userData', JSON.stringify(data));
+			navigation.navigate('Home');
+		} catch (error) {
+			console.log('Something went wrong', error);
+		}
+	}
+	async function GetUserToken() {
+		try {
+			const userData = await AsyncStorage.getItem('userData');
+			const data = JSON.parse(userData as string);
+			if (data != null) {
+				navigation.navigate('Home');
+			}
+			console.log(data);
+		} catch (error) {
+			console.log('Something went wrong', error);
+		}
+	}
+
+	const Validate = (values: LoginData) => {
+		const errors: LoginData = {};
+
+		if (!values.email) {
+			errors.email = 'Required';
+		}
+		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(values.email as string)) {
+			errors.email = 'Please enter your LUMS email';
+		}
+		if (!values.password) {
+			errors.password = 'Required';
+		}
+		return errors;
+	};
 
 	async function Login(data: LoginData, actions: any) {
 		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
@@ -47,7 +66,8 @@ export const LoginScreen = ({ navigation }: any) => {
 		});
 		if (response.data === 'success') {
 			setUserNotFound(false);
-			navigation.navigate('Home');
+			StoreUserToken(data);
+
 			// AsyncStorage.setItem('user-email', data.email as string);
 			// Go to Home page
 		} else if (response.data === 'not-found') {
