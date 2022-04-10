@@ -10,13 +10,14 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
 	const isSociety = req.body.isSociety;
 
 	console.log(`[user/add] ${email}: received`);
 
-	const newUser = new User({ email, password, isSociety });
+	const newUser = new User({ username, email, password, isSociety });
 
 	newUser
 		.save()
