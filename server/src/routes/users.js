@@ -104,6 +104,11 @@ router.route('/set-username').post((req, res) => {
 	const name = req.body.name;
 
 	// set the new username of the email
+	// check ahsan side client, what ahsan sending. fetch that doc which u need to change,then update it
+	User.where({email: email}).findOne((err, user) => { // find one returns doc entry, which u update and return to database
+		user.email = email;
+		user.save().then(() => res.json('User updated!')).catch((err) => res.status(400).json('Error: ' + err));
+	})
 
 	// if successful, return 'success'
 	// else return 'failure'
@@ -161,7 +166,7 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
-	User.findById(req.params.id)
+	User.findById(req.params.id) // returns doc
 		.then((user) => {
 			user.email = req.body.email;
 			user.password = req.body.password;
