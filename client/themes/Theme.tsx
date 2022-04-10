@@ -41,7 +41,7 @@ export const theme = extendTheme({
 		},
 
 		error: 'red.500',
-
+		accent: '#0088CC',
 		background: 'white'
 	},
 

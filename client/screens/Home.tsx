@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { Dimensions, StatusBar } from 'react-native';
 import { TabView, SceneMap, SceneRendererProps } from 'react-native-tab-view';
-import { Center } from 'native-base';
+import { Center, HStack } from 'native-base';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Box, Pressable, Icon, useTheme } from 'native-base';
 import { NavigationState, Route } from 'react-native-tab-view';
-import { Events } from './tabs/Events';
+import { Shadow } from 'react-native-shadow-2';
 
-import MapIcon from '../assets/icons/MapIcon.svg';
+import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
+import { Events } from './tabs/Events';
+import { useState } from 'react';
+import PlusIcon from '../assets/icons/PlusIcon.svg';
+import MicIcon from '../assets/icons/MicIcon.svg';
 
 const SecondRoute = () => (
 	<Center flex={1} my="4">
@@ -39,8 +43,8 @@ const renderScene = SceneMap({
 });
 
 export const Home = () => {
-	const [ index, setIndex ] = React.useState(0);
-	const [ routes ] = React.useState([
+	const [ index, setIndex ] = useState(0);
+	const [ routes ] = useState([
 		{
 			key: 'events',
 			icon: 'Events'
@@ -59,26 +63,64 @@ export const Home = () => {
 		}
 	]);
 
-	const NavBar = (props: SceneRendererProps & { navigationState: NavigationState<Route> }) => {
-		const { borderRadius } = useTheme();
+	const [ firstHalf ] = useState(routes.slice(0, 2));
+	const [ secondHalf ] = useState(routes.slice(2));
+
+	interface NaveIconSetProps {
+		routeSet: any;
+		offset: number;
+	}
+
+	const NavIconSet = (props: NaveIconSetProps) => {
 		return (
-			<Box flexDirection="row" roundedTop={borderRadius} bgColor="primary.500">
-				{props.navigationState.routes.map((route: any, i: number) => {
-					const color = index === i ? 'white' : 'rgba(255, 255, 255,0.5)';
+			<HStack>
+				{props.routeSet.map((route: any, i: number) => {
+					const color = index === i + props.offset ? 'white' : 'rgba(255, 255, 255,0.5)';
 					return (
-						<Box key={route.key} flex={1} alignItems="center" p="4">
-							<Pressable
-								onPress={() => {
-									console.log(i);
-									setIndex(i);
-								}}
-							>
-								<TabIcon iconName={route.icon} color={color} size={36} />
-								{/* {route.title} */}
-							</Pressable>
-						</Box>
+						<Pressable
+							alignItems="center"
+							py="2"
+							px="3"
+							// flex={1}
+							key={route.key}
+							onPress={() => {
+								setIndex(i + props.offset);
+							}}
+						>
+							<TabIcon iconName={route.icon} color={color} size={36} />
+							{/* {route.title} */}
+						</Pressable>
 					);
 				})}
+			</HStack>
+		);
+	};
+
+	const NavBar = (props: SceneRendererProps & { navigationState: NavigationState<Route> }) => {
+		const { borderRadius, colors } = useTheme();
+		return (
+			<Box>
+				<Box
+					position="absolute"
+					width={`${initialLayout.width * 0.16}px`}
+					height={`${initialLayout.width * 0.16}px`}
+					bottom={'32px'}
+					shadow={2}
+					left="42%"
+					rounded="full"
+					bgColor="background"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<PlusIcon fill={colors.accent} height={40} width={40} />
+				</Box>
+				<Box position="absolute" bottom="0px" left={1}>
+					<DrawerVector width={initialLayout.width - 8} fill={colors.accent} />
+				</Box>
+				<HStack justifyContent="space-between" px="5%" py="10px">
+					<NavIconSet routeSet={firstHalf} offset={0} />
+					<NavIconSet routeSet={secondHalf} offset={2} />
+				</HStack>
 			</Box>
 		);
 	};

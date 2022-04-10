@@ -19,6 +19,8 @@ router.route('/add').post((req, res) => {
 
 	const newUser = new User({ username, email, password, isSociety });
 
+	// TODO: Encrypt password
+
 	newUser
 		.save()
 		.then(() => {
@@ -161,6 +163,7 @@ router.route('/login').post((req, res) => {
 			if (user) {
 				//check if a doc was found
 				res.json('success');
+				// TODO: return the entire user document
 				console.log(`[user/login] ${email} : success`);
 			} else {
 				res.json('not-found');

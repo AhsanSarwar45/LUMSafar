@@ -1,4 +1,5 @@
 import { HStack, Pressable } from 'native-base';
+import React from 'react';
 import HamburgerIcon from '../assets/icons/HamburgerIcon.svg';
 import SearchIcon from '../assets/icons/SearchIcon.svg';
 
