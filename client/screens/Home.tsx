@@ -9,13 +9,14 @@ import { Shadow } from 'react-native-shadow-2';
 
 import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
-import { Events } from './tabs/Events';
+import { EventsTab } from './tabs/Events';
 import { useEffect, useState } from 'react';
 import PlusIcon from '../assets/icons/PlusIcon.svg';
 import MicIcon from '../assets/icons/MicIcon.svg';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
 import TabsProps from '../interfaces/TabsProps';
+import { Layout } from '../interfaces/Layout';
 
 const SecondRoute = () => (
 	<Center flex={1} my="4">
@@ -43,6 +44,7 @@ type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const [ index, setIndex ] = useState(0);
+	const [ navBarLayout, setNavBarLayout ] = useState<Layout>({ x: 0, y: 0, width: 0, height: 0 });
 	const [ tabRoutes ] = useState([
 		{
 			key: 'events',
@@ -68,7 +70,7 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const renderScene = ({ route }: any) => {
 		switch (route.key) {
 			case 'events':
-				return <Events />;
+				return <EventsTab paddingBottom={navBarLayout.height} />;
 			case 'map':
 				return <SecondRoute />;
 			case 'spaces':
@@ -113,7 +115,13 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const NavBar = (props: SceneRendererProps & { navigationState: NavigationState<Route> }) => {
 		const { borderRadius, colors } = useTheme();
 		return (
-			<Box bgColor="white" p={0}>
+			<Box
+				bgColor="white"
+				p={0}
+				onLayout={(event) => {
+					setNavBarLayout(event.nativeEvent.layout);
+				}}
+			>
 				<Box
 					position="absolute"
 					width={`${initialLayout.width * 0.16}px`}
@@ -151,6 +159,8 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 			onIndexChange={setIndex}
 			initialLayout={initialLayout}
 			tabBarPosition="bottom"
+			swipeEnabled={false}
+
 			// style={{
 			// 	marginTop: StatusBar.currentHeight
 			// }}

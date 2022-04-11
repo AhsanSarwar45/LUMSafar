@@ -11,7 +11,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<Screen backButton navigation={navigation}>
+				<Screen backButton>
 					<Heading size="lg" width="100%">
 						Are you signing up as a student or society?
 					</Heading>

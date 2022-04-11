@@ -1,5 +1,5 @@
 import { ScrollView, VStack } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactNode } from 'react';
 import { Dimensions, useWindowDimensions, StatusBar } from 'react-native';
 
 import ScreenHeader from './ScreenHeader';
@@ -7,39 +7,46 @@ import ScreenHeader from './ScreenHeader';
 interface ScreenProps {
 	heading: string;
 	backButton: boolean;
-	children: React.ReactNode;
+	topBar: ReactNode;
+	paddingBottom: number | string;
+	children: ReactNode;
 }
 
 // const window = Dimensions.get('window');
 // const screen = Dimensions.get('screen');
 
-const Screen = ({ heading, backButton, children }: ScreenProps) => {
+const Screen = (props: ScreenProps) => {
 	const window = useWindowDimensions();
 
 	return (
-		<ScrollView height={window.height} bgColor="background">
-			<VStack
-				mt={`${StatusBar.currentHeight}px`}
-				px="10%"
-				space="15px"
-				width="full"
-				justifyContent="flex-start"
-				alignItems="center"
-				// bgColor="blue.500"
-				// overflowY="scroll"
-				// {...otherProps}
-			>
-				{heading || backButton ? <ScreenHeader text={heading} backButton={backButton} /> : null}
-				{children}
-			</VStack>
-		</ScrollView>
+		<VStack height="full" px="10%" pt="5%" mt={`${StatusBar.currentHeight}px`} bgColor="background">
+			{props.topBar}
+			<ScrollView height="full" showsVerticalScrollIndicator={false}>
+				<VStack
+					space="15px"
+					width="full"
+					justifyContent="flex-start"
+					alignItems="center"
+					// bgColor="blue.500"
+					// overflowY="scroll"
+					// {...otherProps}
+				>
+					{}
+					{props.heading || props.backButton ? (
+						<ScreenHeader text={props.heading} backButton={props.backButton} />
+					) : null}
+					{props.children}
+				</VStack>
+			</ScrollView>
+		</VStack>
 	);
 };
 
 Screen.defaultProps = {
 	heading: '',
 	backButton: false,
-	navigation: null
+	topBar: null,
+	paddingBottom: '5%'
 };
 
 export default Screen;

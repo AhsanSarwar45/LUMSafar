@@ -81,7 +81,7 @@ export const LoginScreen = ({ navigation }: any) => {
 						height="full"
 					>
 						{(formikProps) => (
-							<Screen heading="Login" navigation={navigation}>
+							<Screen heading="Login">
 								<ErrorMessage show={userNotFound}>
 									We couldn't find you. Please make sure your email and password are correct!
 								</ErrorMessage>
