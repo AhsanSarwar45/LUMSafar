@@ -197,9 +197,15 @@ router.route('/update/:id').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.route('/follower-menu').post((req,res) => {
-	
+router.route('/following-menu').post((req,res) => {
+	User.find({email:email}).then((err, data) => {
+		res.send({
+			data.following// the correct notation
+		})
+	})
 })
+
+
 
 
 module.exports = router;
