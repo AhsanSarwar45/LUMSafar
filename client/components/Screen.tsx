@@ -8,7 +8,6 @@ interface ScreenProps {
 	heading: string;
 	backButton: boolean;
 	topBar: ReactNode;
-	paddingBottom: number | string;
 	children: ReactNode;
 }
 
@@ -19,10 +18,11 @@ const Screen = (props: ScreenProps) => {
 	const window = useWindowDimensions();
 
 	return (
-		<VStack height="full" px="10%" pt="5%" mt={`${StatusBar.currentHeight}px`} bgColor="background">
+		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`} bgColor="background">
 			{props.topBar}
-			<ScrollView height="full" showsVerticalScrollIndicator={false}>
+			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
 				<VStack
+					px="10%"
 					space="15px"
 					width="full"
 					justifyContent="flex-start"
@@ -45,8 +45,7 @@ const Screen = (props: ScreenProps) => {
 Screen.defaultProps = {
 	heading: '',
 	backButton: false,
-	topBar: null,
-	paddingBottom: '5%'
+	topBar: null
 };
 
 export default Screen;

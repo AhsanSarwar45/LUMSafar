@@ -14,7 +14,7 @@ interface TopBarProps {
 const TopBar = (props: TopBarProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	return (
-		<HStack width="full" justifyContent="space-between" py="2%">
+		<HStack width="full" justifyContent="space-between" py="2%" px="10%">
 			<HamburgerIcon
 				fill="black"
 				width={'10%'}

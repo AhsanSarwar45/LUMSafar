@@ -22,7 +22,7 @@ export const EventsTab = (props: TabsProps) => {
 	};
 
 	return (
-		<Screen heading="Events" topBar={<TopBar search />} paddingBottom={props.paddingBottom}>
+		<Screen heading="Events" topBar={<TopBar search />}>
 			<EventCard />
 			<EventCard />
 			<EventCard />
