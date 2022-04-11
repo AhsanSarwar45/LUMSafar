@@ -197,4 +197,9 @@ router.route('/update/:id').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
+router.route('/follower-menu').post((req,res) => {
+	
+})
+
+
 module.exports = router;

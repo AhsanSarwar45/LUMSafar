@@ -61,13 +61,13 @@ router.route('/add_interest').post((req,res) => {
 			console.log(`[user-interest/addition] ${email}: failure: ${err}`);
 
 		} else if (data) {
-            Event.find({event_title: event_title, created_by: creator, going_users: email}).then((err,data2)=>{
-                if (err) {
+            Event.find({event_title: event_title, created_by: creator, going_users: email}).then((err2,data2)=>{
+                if (err2) {
                     res.json('failure-2');
 			        console.log(`[user-interest/addition] ${email}: failure: ${err}`);
                 }
                 else if (data2) {
-                    res.join('already-marked-as-interested')
+                    res.json('already-marked-as-interested')
                 }
                 else{
                     Event.updateOne(
@@ -80,7 +80,6 @@ router.route('/add_interest').post((req,res) => {
             
         } else {
             res.json('event-does-not-exist');
-
 		}
     })
 
