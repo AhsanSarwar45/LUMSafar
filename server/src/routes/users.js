@@ -198,14 +198,36 @@ router.route('/update/:id').post((req, res) => {
 });
 
 router.route('/following-menu').post((req,res) => {
+	let email = req.body.email
+
 	User.find({email:email}).then((err, data) => {
-		res.send({
-			data.following// the correct notation
-		})
+		if (err)
+		{
+			res.json("failed to fetch following")
+		}
+		else{
+			res.send({
+				following: data.following// orthe correct notation
+			})
+		}
 	})
 })
 
+router.route('/friends-menu').post((req,res) => {
+	let email = req.body.email
 
+	User.find({email:email}).then((err, data) => {
+		if (err)
+		{
+			res.json("failed to fetch friends")
+		}
+		else{
+			res.send({
+				friends: data.friends// orthe correct notation
+			})
+		}
+	})
+})
 
 
 module.exports = router;
