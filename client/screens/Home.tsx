@@ -96,14 +96,14 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 						<Pressable
 							alignItems="center"
 							py="2"
-							px="3"
+							px="4"
 							// flex={1}
 							key={route.key}
 							onPress={() => {
 								setIndex(i + props.offset);
 							}}
 						>
-							<TabIcon iconName={route.icon} color={color} size={36} />
+							<TabIcon iconName={route.icon} color={color} size={32} />
 							{/* {route.title} */}
 						</Pressable>
 					);
@@ -112,23 +112,27 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 		);
 	};
 
-	const NavBar = (props: SceneRendererProps & { navigationState: NavigationState<Route> }) => {
+	const NavBar = () => {
 		const { borderRadius, colors } = useTheme();
+		const cabSize = 15;
 		return (
 			<Box
-				bgColor="white"
-				p={0}
+				// bgColor="red.500"
+				position="absolute"
+				bottom={0}
+				// left={0}
+				width="100%"
 				onLayout={(event) => {
 					setNavBarLayout(event.nativeEvent.layout);
 				}}
 			>
 				<Box
 					position="absolute"
-					width={`${initialLayout.width * 0.16}px`}
-					height={`${initialLayout.width * 0.16}px`}
+					width={`${initialLayout.width * (cabSize / 100)}px`}
+					height={`${initialLayout.width * (cabSize / 100)}px`}
 					bottom={'32px'}
 					shadow={2}
-					left="42%"
+					left={`${50 - cabSize / 2}%`}
 					rounded="full"
 					bgColor="background"
 					justifyContent="center"
@@ -136,8 +140,8 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 				>
 					<PlusIcon fill={colors.accent} height={40} width={40} />
 				</Box>
-				<Box position="absolute" bottom="0px" left={1}>
-					<DrawerVector width={initialLayout.width - 8} fill={colors.accent} />
+				<Box position="absolute" bottom={0} left={2}>
+					<DrawerVector width={initialLayout.width - 16} fill={colors.accent} />
 				</Box>
 				<HStack justifyContent="space-between" px="5%" py="10px">
 					<NavIconSet routeSet={firstHalf} offset={0} />
@@ -160,10 +164,11 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 			initialLayout={initialLayout}
 			tabBarPosition="bottom"
 			swipeEnabled={false}
-
-			// style={{
-			// 	marginTop: StatusBar.currentHeight
-			// }}
+			style={{
+				// marginTop: StatusBar.currentHeight
+				// backgroundColor: 'rgba(255,255,255,0)'
+				// opacity: 0.5
+			}}
 		/>
 	);
 	// </View>
