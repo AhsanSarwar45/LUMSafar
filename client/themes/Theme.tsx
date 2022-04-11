@@ -40,6 +40,8 @@ export const theme = extendTheme({
 			light: 'rgba(0, 0, 0, 0.08)'
 		},
 
+		cards: [ `#73C983`, `#D85D9C`, `#70D2E8`, `#F17D7D`, `#9990D1` ],
+
 		body: 'white',
 
 		error: 'red.500',

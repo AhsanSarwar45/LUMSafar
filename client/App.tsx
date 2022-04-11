@@ -12,7 +12,7 @@ import { Home } from './screens/Home';
 import { theme, config } from './themes/Theme';
 import { useFonts, Jost_300Light, Jost_500Medium, Jost_700Bold } from '@expo-google-fonts/jost';
 import AppLoading from 'expo-app-loading';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -47,9 +47,17 @@ export default function App() {
 		CheckLogin();
 	}, []);
 
+	const navigationTheme = {
+		...DefaultTheme,
+		colors: {
+			...DefaultTheme.colors,
+			background: 'rgba(255,255,255,0)'
+		}
+	};
+
 	return fontsLoaded ? (
 		<NativeBaseProvider config={config} theme={theme}>
-			<NavigationContainer>
+			<NavigationContainer theme={navigationTheme}>
 				<Stack.Navigator initialRouteName={initialRouteName}>
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />

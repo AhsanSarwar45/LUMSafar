@@ -18,7 +18,7 @@ const Screen = (props: ScreenProps) => {
 	const window = useWindowDimensions();
 
 	return (
-		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`} bgColor="background">
+		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`}>
 			{props.topBar}
 			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
 				<VStack
