@@ -1,4 +1,4 @@
-import { Pressable, useTheme, Text, VStack, Icon } from 'native-base';
+import { Pressable, useTheme, Button, Text, VStack, Icon } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 
@@ -18,24 +18,22 @@ const OptionCard = (props: OptionCardProps) => {
 	const { borderRadius } = useTheme();
 
 	return (
-		<VStack
+		<Button
 			rounded={borderRadius}
 			width={props.width}
 			height={props.height}
 			py={props.py}
 			px={props.px}
-			space="10px"
 			bgColor="primary.500"
 			justifyContent="center"
 			alignItems="center"
+			onPress={() => props.onPress()}
 		>
-			<Pressable onPress={() => props.onPress()} justifyContent="center" alignItems="center">
-				<Icon as={props.icon} size={props.iconSize} color="white" />
-				<Text fontSize={props.labelSize} fontWeight={700} color="white">
-					{props.label}
-				</Text>
-			</Pressable>
-		</VStack>
+			<Icon as={props.icon} size={props.iconSize} color="white" />
+			<Text fontSize={props.labelSize} fontWeight={700} color="white">
+				{props.label}
+			</Text>
+		</Button>
 	);
 };
 

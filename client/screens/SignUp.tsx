@@ -54,28 +54,6 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		return errors;
 	};
 
-	async function SignUp(data: SignUpData) {
-		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
-			headers: JsonHeader
-		})
-			.then((response) => {
-				console.log(response.data);
-				if (response.data === 'success') {
-					//login user
-					navigation.navigate('SignUpInfo', {
-						email: data.email as string,
-						isSociety: data.isSociety as boolean
-					});
-				}
-			})
-			.catch((response) => {
-				console.log(response);
-			});
-		await delay(500);
-		// actions.setSubmitting(false);
-	}
-
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function CheckDuplicate(data: SignUpData, actions: any) {
 		Axios.post(
@@ -87,9 +65,10 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		)
 			.then((response) => {
 				if (response.data === 'not-found') {
-					DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
+					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
 					navigation.navigate('Verification', {
-						email: data.email as string
+						data: data,
+						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {
 					setIsDuplicate(true);
@@ -117,7 +96,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 						validate={Validate}
 					>
 						{(formikProps) => (
-							<Screen heading="Sign Up" backButton navigation={navigation}>
+							<Screen heading="Sign Up" backButton>
 								<ErrorMessage show={isDuplicate}>
 									The email you entered is already registered. Maybe you meant to login?
 								</ErrorMessage>

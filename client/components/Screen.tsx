@@ -6,7 +6,6 @@ import ScreenHeader from './ScreenHeader';
 
 interface ScreenProps {
 	heading: string;
-	navigation: any;
 	backButton: boolean;
 	children: React.ReactNode;
 }
@@ -14,7 +13,7 @@ interface ScreenProps {
 // const window = Dimensions.get('window');
 // const screen = Dimensions.get('screen');
 
-const Screen = ({ heading, navigation, backButton, children }: ScreenProps) => {
+const Screen = ({ heading, backButton, children }: ScreenProps) => {
 	const window = useWindowDimensions();
 
 	return (
@@ -30,9 +29,7 @@ const Screen = ({ heading, navigation, backButton, children }: ScreenProps) => {
 				// overflowY="scroll"
 				// {...otherProps}
 			>
-				{heading || backButton ? (
-					<ScreenHeader text={heading} navigation={navigation} backButton={backButton} />
-				) : null}
+				{heading || backButton ? <ScreenHeader text={heading} backButton={backButton} /> : null}
 				{children}
 			</VStack>
 		</ScrollView>

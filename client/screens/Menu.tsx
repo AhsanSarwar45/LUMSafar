@@ -17,7 +17,7 @@ const MenuScreen = ({ route, navigation }: MenuScreenProps) => {
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<Screen navigation={navigation} backButton>
+				<Screen backButton>
 					<HStack space="5%">
 						<OptionCard
 							label="Logout"

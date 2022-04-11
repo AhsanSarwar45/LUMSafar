@@ -5,7 +5,7 @@ export type RootStackParamList = {
 	AccountType: undefined;
 	SignUp: { isSociety: boolean };
 	SignUpInfo: { email: string; isSociety: boolean };
-	Verification: { email: string };
+	Verification: { data: any; type: 'SignUp' | 'ForgotPassword' };
 	ForgotPassword: undefined;
 	SetPassword: { email: string };
 	PasswordResetSuccess: undefined;

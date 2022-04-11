@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dimensions, StatusBar } from 'react-native';
 import { TabView, SceneMap, SceneRendererProps } from 'react-native-tab-view';
-import { Center, HStack } from 'native-base';
+import { Center, HStack, View } from 'native-base';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Box, Pressable, Icon, useTheme } from 'native-base';
 import { NavigationState, Route } from 'react-native-tab-view';
@@ -10,26 +10,26 @@ import { Shadow } from 'react-native-shadow-2';
 import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
 import { Events } from './tabs/Events';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PlusIcon from '../assets/icons/PlusIcon.svg';
 import MicIcon from '../assets/icons/MicIcon.svg';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
 import TabsProps from '../interfaces/TabsProps';
 
-const SecondRoute = (props: TabsProps) => (
+const SecondRoute = () => (
 	<Center flex={1} my="4">
 		This is Tab 2
 	</Center>
 );
 
-const ThirdRoute = (props: TabsProps) => (
+const ThirdRoute = () => (
 	<Center flex={1} my="4">
 		This is Tab 3
 	</Center>
 );
 
-const FourthRoute = (props: TabsProps) => (
+const FourthRoute = () => (
 	<Center flex={1} my="4">
 		This is Tab 4{' '}
 	</Center>
@@ -42,6 +42,11 @@ const initialLayout = {
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const Home = ({ route, navigation }: HomeScreenProps) => {
+	// navigation.reset({
+	// 	index: 0,
+	// 	routes: [ { name: 'Home' } ]
+	// });
+
 	const [ index, setIndex ] = useState(0);
 	const [ tabRoutes ] = useState([
 		{
@@ -68,13 +73,13 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const renderScene = ({ route }: any) => {
 		switch (route.key) {
 			case 'events':
-				return <Events navigation={navigation} />;
+				return <Events />;
 			case 'map':
-				return <SecondRoute navigation={navigation} />;
+				return <SecondRoute />;
 			case 'spaces':
-				return <ThirdRoute navigation={navigation} />;
+				return <ThirdRoute />;
 			case 'connect':
-				return <FourthRoute navigation={navigation} />;
+				return <FourthRoute />;
 			default:
 				return null;
 		}
@@ -140,6 +145,7 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	};
 
 	return (
+		// <View bgColor="background">
 		<TabView
 			navigationState={{
 				index,
@@ -154,5 +160,6 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 			// 	marginTop: StatusBar.currentHeight
 			// }}
 		/>
+		// </View>
 	);
 };

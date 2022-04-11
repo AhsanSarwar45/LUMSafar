@@ -27,12 +27,12 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 
 	const [ isWrong, setIsWrong ] = useState(false);
 
-	const { email } = route.params;
+	const { data, type } = route.params;
 
 	async function SendEmail() {
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/send-email`,
-			{ email: email },
+			{ email: data.email },
 			{
 				headers: JsonHeader
 			}
@@ -56,30 +56,57 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			});
 	}
 
-	useEffect(() => {
-		SendEmail();
-		return () => {
-			DeviceEventEmitter.removeAllListeners('event.verify-email');
-		};
-	}, []);
+	const ForgotPassword = () => {
+		navigation.navigate('SetPassword', { email: data.email as string });
+	};
+
+	async function SignUp() {
+		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
+			headers: JsonHeader
+		})
+			.then((response) => {
+				console.log(response.data);
+				if (response.data === 'success') {
+					//login user
+					navigation.navigate('SignUpInfo', {
+						email: data.email as string,
+						isSociety: data.isSociety as boolean
+					});
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
+		await delay(500);
+		// actions.setSubmitting(false);
+	}
 
 	function Verify() {
-		if (value == verificationCode) {
+		if (value === verificationCode) {
 			setIsWrong(false);
-			DeviceEventEmitter.emit('event.verify-email');
+			if (type === 'SignUp') {
+				SignUp();
+			} else if (type === 'ForgotPassword') {
+				ForgotPassword();
+			}
 		} else {
 			setIsWrong(true);
 		}
 	}
 
+	useEffect(() => {
+		SendEmail();
+	}, []);
+
 	return (
-		<Screen backButton navigation={navigation}>
+		<Screen backButton>
 			<VStack width="full">
 				<Heading size="lg" width="100%">
 					Enter the 4-digit code sent to
 				</Heading>
 				<Heading size="lg" width="100%" color="primary.500">
-					{email}
+					{data.email}
 				</Heading>
 			</VStack>
 

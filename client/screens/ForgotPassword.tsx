@@ -50,12 +50,10 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 			.then((response) => {
 				if (response.data === 'not-found') {
 					setUserNotFound(false);
-					DeviceEventEmitter.addListener('event.verify-email', (eventData) =>
-						navigation.navigate('SetPassword', { email: data.email as string })
-					);
 
 					navigation.navigate('Verification', {
-						email: data.email as string
+						data: data,
+						type: 'ForgotPassword'
 					});
 				} else if (response.data === 'not-found') {
 					setUserNotFound(true);
@@ -81,7 +79,7 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 						validate={Validate}
 					>
 						{(formikProps) => (
-							<Screen backButton navigation={navigation}>
+							<Screen backButton>
 								<Heading size="lg" width="100%">
 									Lets get you a new password 🚀
 								</Heading>
