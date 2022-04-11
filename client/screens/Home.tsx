@@ -42,11 +42,6 @@ const initialLayout = {
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const Home = ({ route, navigation }: HomeScreenProps) => {
-	// navigation.reset({
-	// 	index: 0,
-	// 	routes: [ { name: 'Home' } ]
-	// });
-
 	const [ index, setIndex ] = useState(0);
 	const [ tabRoutes ] = useState([
 		{
@@ -118,7 +113,7 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	const NavBar = (props: SceneRendererProps & { navigationState: NavigationState<Route> }) => {
 		const { borderRadius, colors } = useTheme();
 		return (
-			<Box>
+			<Box bgColor="white" p={0}>
 				<Box
 					position="absolute"
 					width={`${initialLayout.width * 0.16}px`}
@@ -160,6 +155,6 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 			// 	marginTop: StatusBar.currentHeight
 			// }}
 		/>
-		// </View>
 	);
+	// </View>
 };

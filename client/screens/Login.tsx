@@ -25,7 +25,10 @@ export const LoginScreen = ({ navigation }: any) => {
 	async function StoreUserToken(data: LoginData) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
-			navigation.navigate('Home');
+			navigation.reset({
+				index: 0,
+				routes: [ { name: 'Home' } ]
+			});
 		} catch (error) {
 			console.log('Something went wrong', error);
 		}

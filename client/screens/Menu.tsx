@@ -27,7 +27,10 @@ const MenuScreen = ({ route, navigation }: MenuScreenProps) => {
 							icon={<Ionicons name="arrow-undo-outline" />}
 							onPress={() => {
 								AsyncStorage.clear();
-								navigation.navigate('Login');
+								navigation.reset({
+									index: 0,
+									routes: [ { name: 'Login' } ]
+								});
 							}}
 						/>
 						<OptionCard
