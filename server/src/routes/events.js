@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Event = require('../models/event_model.js');
+const { find } = require('../models/user_model.js');
 let User = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
@@ -41,63 +42,66 @@ router.route('/update/:id').post((req, res) => {
 })
 
 router.route('/add_interest').post((req,res) => {
+    //fetch the event info
     // check if the user exists in the events 'going_users' array
-    // if not, then fetch the user data (maybe in a user object) and add it to the array
+    // if not, then fetch the user data (maybe in a user object or the user _id) and add it to the array
     //else do nothing...........or remove the user-data from the array
 
     let event_title = req.body.event_title
     let creator = req.body.created_by
     let email = req.body.email
     
+    const user = User.find({email:email})
+
+
+
     Event.find({event_title: event_title, created_by: creator}).then((err, data) =>{
         if (err) {
 			res.json('failure');
-			console.log(`[user/exists] ${email}: failure: ${err}`);
+			console.log(`[user-interest/addition] ${email}: failure: ${err}`);
 
 		} else if (data) {
-            // res.json('already-marked-as-interested');
-			// console.log(`[user/exists] ${email}: not-found`);
+            Event.find({event_title: event_title, created_by: creator, going_users: email}).then((err,data2)=>{
+                if (err) {
+                    res.json('failure-2');
+			        console.log(`[user-interest/addition] ${email}: failure: ${err}`);
+                }
+                else if (data2) {
+                    res.join('already-marked-as-interested')
+                }
+                else{
+                    Event.updateOne(
+                            { event_title: event_title, creator: creator},
+                            { $push: { going_users: user._id} }
+                         )
+                }
+            })
             
             
         } else {
             res.json('event-does-not-exist');
 
-
-
-
-            // res.json('marked-as-interested');
-            // console.log(`[user/exists] ${email}: success`);
-            // Event.updateOne(
-            //     { event_title: event_title, creator: creator},
-            //     { $push: { going_users: user} }
-            //  )
 		}
     })
 
+    //  User.where({ email: req.body.email }).findOne((err, user) => {
+	// 	if (err) {
+	// 		res.json('failure');
+	// 		console.log(`[user/exists] ${email}: failure: ${err}`);
 
-     User.where({ email: req.body.email }).findOne((err, user) => {
-		if (err) {
-			res.json('failure');
-			console.log(`[user/exists] ${email}: failure: ${err}`);
-
-		} else if (user) {
-            res.json('already-marked-as-interested');
-			console.log(`[user/exists] ${email}: not-found`);
+	// 	} else if (user) {
+    //         res.json('already-marked-as-interested');
+	// 		console.log(`[user/exists] ${email}: not-found`);
             
-        } else {
-            res.json('marked-as-interested');
-            console.log(`[user/exists] ${email}: success`);
-            Event.updateOne(
-                { event_title: event_title, creator: creator},
-                { $push: { going_users: user} }
-             )
-		}
-	});
-
-
-
-
-
+    //     } else {
+    //         res.json('marked-as-interested');
+    //         console.log(`[user/exists] ${email}: success`);
+    //         Event.updateOne(
+    //             { event_title: event_title, creator: creator},
+    //             { $push: { going_users: user} }
+    //          )
+	// 	}
+	// });
 })
 
 module.exports = router;
