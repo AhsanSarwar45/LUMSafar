@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Event = require('../models/event_model.js');
+let User = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
     Event.find()
@@ -36,6 +37,66 @@ router.route('/update/:id').post((req, res) => {
                 .catch(err => res.status(400).json("Error: " + err));
         })
         .catch(err => res.status(400).json("Error: " + err));
+
+})
+
+router.route('/add_interest').post((req,res) => {
+    // check if the user exists in the events 'going_users' array
+    // if not, then fetch the user data (maybe in a user object) and add it to the array
+    //else do nothing...........or remove the user-data from the array
+
+    let event_title = req.body.event_title
+    let creator = req.body.created_by
+    let email = req.body.email
+    
+    Event.find({event_title: event_title, created_by: creator}).then((err, data) =>{
+        if (err) {
+			res.json('failure');
+			console.log(`[user/exists] ${email}: failure: ${err}`);
+
+		} else if (data) {
+            // res.json('already-marked-as-interested');
+			// console.log(`[user/exists] ${email}: not-found`);
+            
+            
+        } else {
+            res.json('event-does-not-exist');
+
+
+
+
+            // res.json('marked-as-interested');
+            // console.log(`[user/exists] ${email}: success`);
+            // Event.updateOne(
+            //     { event_title: event_title, creator: creator},
+            //     { $push: { going_users: user} }
+            //  )
+		}
+    })
+
+
+     User.where({ email: req.body.email }).findOne((err, user) => {
+		if (err) {
+			res.json('failure');
+			console.log(`[user/exists] ${email}: failure: ${err}`);
+
+		} else if (user) {
+            res.json('already-marked-as-interested');
+			console.log(`[user/exists] ${email}: not-found`);
+            
+        } else {
+            res.json('marked-as-interested');
+            console.log(`[user/exists] ${email}: success`);
+            Event.updateOne(
+                { event_title: event_title, creator: creator},
+                { $push: { going_users: user} }
+             )
+		}
+	});
+
+
+
+
 
 })
 
