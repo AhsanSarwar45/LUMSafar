@@ -74,7 +74,6 @@ export const LoginScreen = ({ navigation }: any) => {
 	};
 
 	async function Login(data: LoginData, actions: any) {
-<<<<<<< HEAD
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: JsonHeader
 		})
@@ -94,21 +93,6 @@ export const LoginScreen = ({ navigation }: any) => {
 				console.log(response);
 			});
 
-=======
-		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		});
-		console.log("SAOOd gae")
-		if (response.data === 'success') {
-			setUserNotFound(false);
-			// StoreUserToken(data);
-
-			// AsyncStorage.setItem('user-email', data.email as string);
-			// Go to Home pageexpo -- v\
-		} else if (response.data === 'not-found') {
-			setUserNotFound(true);
-		}
->>>>>>> a4e2a9ddad3894febce410545379abde3bebacfc
 		await delay(500);
 		actions.setSubmitting(false);
 	}
