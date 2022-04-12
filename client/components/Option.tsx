@@ -29,10 +29,12 @@ const OptionCard = (props: OptionCardProps) => {
 			alignItems="center"
 			onPress={() => props.onPress()}
 		>
-			<Icon as={props.icon} size={props.iconSize} color="white" />
-			<Text fontSize={props.labelSize} fontWeight={700} color="white">
-				{props.label}
-			</Text>
+			<VStack alignItems="center">
+				<Icon as={props.icon} size={props.iconSize} color="white" />
+				<Text fontSize={props.labelSize} fontWeight={700} color="white">
+					{props.label}
+				</Text>
+			</VStack>
 		</Button>
 	);
 };
