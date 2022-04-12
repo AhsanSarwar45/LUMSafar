@@ -23,7 +23,7 @@ const CAB = (props: CABProps) => {
 			position="absolute"
 			width={`${window.width * (cabSize / 100)}px`}
 			height={`${window.width * (cabSize / 100)}px`}
-			bottom={'32px'}
+			bottom={'28px'}
 			shadow={2}
 			left={`${50 - cabSize / 2}%`}
 			rounded="full"
