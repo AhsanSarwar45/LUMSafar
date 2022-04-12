@@ -19,7 +19,7 @@ router.route('/add').post((req, res) => {
 
 	const newUser = new User({ username, email, password, isSociety });
 
-	// TODO: Encrypt password
+	// TODO: Encrypt password. beshak
 
 	newUser
 		.save()
@@ -139,15 +139,33 @@ router.route('/set-username').post((req, res) => {
 router.route('/set-password').post((req, res) => {
 	console.log('user/set-password: received');
 	const email = req.body.email;
-	const password = req.body.password;
+	const password_old = req.body.password_old;
+	const password_new = req.body.password_new;
 
 	// set the new password of the email
 
-	// if successful, return 'success'
-	// else return 'failure'
+	console.log(`[user/set-password] ${email}: received`);
 
-	res.json('success');
-	console.log('user/set-password: success');
+	// set the new username of the email
+	User.where({ email: email, password: password }).findOne((err, user) => {
+		if (err) {
+			res.json('failure');
+			console.log(`[user/set-username] ${email}: failure: ${err}`);
+		} else {
+			// find one returns doc entry, which u update and return to database
+			user.password = password_new;
+			user
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[user/set-password] ${email}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/set-password] ${email}: failure: ${err}`);
+				});
+		}
+	});
 });
 
 router.route('/login').post((req, res) => {
