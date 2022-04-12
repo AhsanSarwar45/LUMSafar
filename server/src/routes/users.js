@@ -105,7 +105,7 @@ router.route('/set-username').post((req, res) => {
 	const email = req.body.email;
 	const name = req.body.name;
 
-	console.log(`[user/set-username] ${email}: success`);
+	console.log(`[user/set-username] ${email}: received`);
 
 	// set the new username of the email
 	// check ahsan side client, what ahsan sending. fetch that doc which u need to change,then update it
