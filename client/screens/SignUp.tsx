@@ -67,7 +67,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				if (response.data === 'not-found') {
 					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
 					navigation.navigate('Verification', {
-						data: data,
+						data: { email: data.email, isSociety: data.isSociety },
 						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {
