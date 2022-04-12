@@ -83,12 +83,13 @@ export const LoginScreen = ({ navigation }: any) => {
 		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 		});
+		console.log("SAOOd gae")
 		if (response.data === 'success') {
 			setUserNotFound(false);
-			StoreUserToken(data);
+			// StoreUserToken(data);
 
 			// AsyncStorage.setItem('user-email', data.email as string);
-			// Go to Home page
+			// Go to Home pageexpo -- v\
 		} else if (response.data === 'not-found') {
 			setUserNotFound(true);
 		}
