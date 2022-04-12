@@ -9,9 +9,10 @@ Developed using:
 - [MongoDB](https://www.mongodb.com/)
 - [NativeBase](https://github.com/GeekyAnts/NativeBase)
 
-# Build Status 
+# Build and Deployment Status 
 ![Client EAS Build](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/client-eas-build.yml/badge.svg)
 ![Server Build and Test](https://github.com/AhsanSarwar45/LUMSafar/actions/workflows/server-build-and-test.yml/badge.svg)
+![Heroku Deployment](https://pyheroku-badge.herokuapp.com/?app=lumsafar&path=/test&style=flat)
 
 # Setting up dev environment
 
