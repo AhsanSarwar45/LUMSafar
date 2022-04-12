@@ -9,6 +9,30 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 })
 
+
+router.route('/view').post((req,res) => {
+    event_title = req.body.event_title
+    created_by = req.body.created_by
+
+    Event.find({event_title: event_title, created_by: created_by}).then((err,data) => {
+        if(err)
+        {
+            res.json('failure');
+			console.log(`[event-view] ${email}: failure: ${err}`);
+        }
+        else if(data) {
+            res.json(data)
+        }
+        else{
+            res.json('event-not-found');
+			console.log(`[event-view] ${email}`);
+        }
+    })
+})
+
+
+
+
 router.route('/add').post((req, res) => {
     const event_title = req.body.event_title;
     const created_by = req.body.created_by;
@@ -41,12 +65,8 @@ router.route('/update/:id').post((req, res) => {
 
 })
 
-router.route('/add_interest').post((req,res) => {
-    //fetch the event info
-    // check if the user exists in the events 'going_users' array
-    // if not, then fetch the user data (maybe in a user object or the user _id) and add it to the array
-    //else do nothing...........or remove the user-data from the array
-
+router.route('/add-remove-interest').post((req,res) => {
+  
     let event_title = req.body.event_title
     let creator = req.body.created_by
     let email = req.body.email
@@ -58,17 +78,22 @@ router.route('/add_interest').post((req,res) => {
     Event.find({event_title: event_title, created_by: creator}).then((err, data) =>{
         if (err) {
 			res.json('failure');
-			console.log(`[user-interest/addition] ${email}: failure: ${err}`);
+			console.log(`[event-interest/addition] ${email}: failure: ${err}`);
 
 		} else if (data) {
             Event.find({event_title: event_title, created_by: creator, going_users: email}).then((err2,data2)=>{
                 if (err2) {
                     res.json('failure-2');
-			        console.log(`[user-interest/addition] ${email}: failure: ${err}`);
+			        console.log(`[event-interest/addition] ${email}: failure: ${err}`);
                 }
                 else if (data2) {
                     res.json('already-marked-as-interested')
+                    Event.updateOne(
+                        { event_title: event_title, creator: creator},
+                        { $pull: { going_users: user._id} }
+                     )
                 }
+
                 else{
                     Event.updateOne(
                             { event_title: event_title, creator: creator},
