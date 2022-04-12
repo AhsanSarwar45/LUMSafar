@@ -12,6 +12,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SignUpInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpInfo'>;
 
@@ -24,6 +25,24 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+	interface LoginData {
+		email?: string;
+		password?: string;
+	}
+
+	async function StoreUserToken(data: LoginData) {
+		try {
+			await AsyncStorage.setItem('userData', JSON.stringify(data));
+
+			navigation.reset({
+				index: 0,
+				routes: [ { name: 'Home' } ]
+			});
+		} catch (error) {
+			console.log('Something went wrong', error);
+		}
+	}
+
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SetUsername(data: UserInfoData, actions: any) {
 		Axios.post(
@@ -35,7 +54,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 		)
 			.then((response) => {
 				if (response.data === 'success') {
-					console.log('Info entered');
+					StoreUserToken({ email: email, password: '' });
 				} else if (response.data === 'failure') {
 				}
 			})
