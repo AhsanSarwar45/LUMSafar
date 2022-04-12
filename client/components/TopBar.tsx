@@ -9,12 +9,19 @@ import { RootStackParamList } from '../config/RouteParams';
 interface TopBarProps {
 	search: boolean;
 	onSearchPress: Function;
+	transparent: boolean;
 }
 
 const TopBar = (props: TopBarProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	return (
-		<HStack width="full" justifyContent="space-between" px="10%" alignItems="center">
+		<HStack
+			width="full"
+			// opacity={props.transparent?0:1}
+			justifyContent="space-between"
+			px="10%"
+			alignItems="center"
+		>
 			<HamburgerIcon
 				fill="black"
 				width={'10%'}
@@ -29,6 +36,7 @@ const TopBar = (props: TopBarProps) => {
 
 TopBar.defaultProps = {
 	search: false,
+	transparent: false,
 	onSearchPress: () => {}
 };
 

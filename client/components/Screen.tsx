@@ -1,6 +1,7 @@
 import { ScrollView, VStack } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
 import { Dimensions, useWindowDimensions, StatusBar } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ScreenHeader from './ScreenHeader';
 
@@ -9,6 +10,7 @@ interface ScreenProps {
 	backButton: boolean;
 	topBar: ReactNode;
 	children: ReactNode;
+	keyboardAware: boolean;
 }
 
 // const window = Dimensions.get('window');
@@ -17,10 +19,10 @@ interface ScreenProps {
 const Screen = (props: ScreenProps) => {
 	const window = useWindowDimensions();
 
-	return (
-		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`}>
-			{props.topBar}
-			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
+	const Inner = () => {
+		return (
+			<VStack pt="5%" mt={`${StatusBar.currentHeight}px`}>
+				{props.topBar}
 				<VStack
 					px="10%"
 					space="15px"
@@ -32,21 +34,31 @@ const Screen = (props: ScreenProps) => {
 					// overflowY="scroll"
 					// {...otherProps}
 				>
-					{}
 					{props.heading || props.backButton ? (
 						<ScreenHeader text={props.heading} backButton={props.backButton} />
 					) : null}
 					{props.children}
 				</VStack>
-			</ScrollView>
-		</VStack>
+			</VStack>
+		);
+	};
+
+	return props.keyboardAware ? (
+		<KeyboardAwareScrollView>
+			<Inner />
+		</KeyboardAwareScrollView>
+	) : (
+		<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
+			<Inner />
+		</ScrollView>
 	);
 };
 
 Screen.defaultProps = {
 	heading: '',
 	backButton: false,
-	topBar: null
+	topBar: null,
+	keyboardAware: false
 };
 
 export default Screen;

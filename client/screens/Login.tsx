@@ -101,7 +101,11 @@ export const LoginScreen = ({ navigation }: any) => {
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<KeyboardAwareScrollView>
+				<Screen keyboardAware heading="Login">
+					<ErrorMessage show={userNotFound}>
+						We couldn't find you. Please make sure your email and password are correct!
+					</ErrorMessage>
+
 					<Formik
 						initialValues={{
 							email: '',
@@ -112,31 +116,24 @@ export const LoginScreen = ({ navigation }: any) => {
 						height="full"
 					>
 						{(formikProps) => (
-							<Screen heading="Login">
-								<ErrorMessage show={userNotFound}>
-									We couldn't find you. Please make sure your email and password are correct!
-								</ErrorMessage>
-
-								<VStack space="15px" width="full">
-									<TextInput
-										label="University Email"
-										name="email"
-										placeholder="example@site.com"
-										formikProps={formikProps}
-									/>
-									<TextInput
-										label="Password"
-										name="password"
-										isPassword={true}
-										formikProps={formikProps}
-									/>
-									<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
-										<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
-											Forgot Password?
-										</Text>
-									</Pressable>
-								</VStack>
-
+							<VStack space="15px" width="full">
+								<TextInput
+									label="University Email"
+									name="email"
+									placeholder="example@site.com"
+									formikProps={formikProps}
+								/>
+								<TextInput
+									label="Password"
+									name="password"
+									isPassword={true}
+									formikProps={formikProps}
+								/>
+								<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
+									<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
+										Forgot Password?
+									</Text>
+								</Pressable>
 								<Button
 									disabled={formikProps.isSubmitting}
 									onPress={() => {
@@ -148,20 +145,21 @@ export const LoginScreen = ({ navigation }: any) => {
 								>
 									Login
 								</Button>
-								<Pressable onPress={() => navigation.navigate('AccountType')}>
-									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-										<Text fontSize="md" color="black" fontWeight={700}>
-											New here?
-										</Text>
-										<Text fontSize="md" color="primary.500" fontWeight={700}>
-											Sign Up
-										</Text>
-									</HStack>
-								</Pressable>
-							</Screen>
+							</VStack>
 						)}
 					</Formik>
-				</KeyboardAwareScrollView>
+
+					<Pressable onPress={() => navigation.navigate('AccountType')}>
+						<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
+							<Text fontSize="md" color="black" fontWeight={700}>
+								New here?
+							</Text>
+							<Text fontSize="md" color="primary.500" fontWeight={700}>
+								Sign Up
+							</Text>
+						</HStack>
+					</Pressable>
+				</Screen>
 			</OptimizedHeavyScreen>
 		</View>
 	);
