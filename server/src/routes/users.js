@@ -28,7 +28,7 @@ router.route('/add').post((req, res) => {
 			console.log(`[user/add] ${email}: success`);
 		})
 		.catch((err) => {
-			res.json('failure: ', err);
+			res.json('failure');
 			console.log(`[user/add] ${email}: failure: ${err}`);
 		});
 });
@@ -197,37 +197,32 @@ router.route('/update/:id').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.route('/following-menu').post((req,res) => {
-	let email = req.body.email
+router.route('/following-menu').post((req, res) => {
+	let email = req.body.email;
 
-	User.find({email:email}).then((err, data) => {
-		if (err)
-		{
-			res.json("failed to fetch following")
-		}
-		else{
+	User.find({ email: email }).then((err, data) => {
+		if (err) {
+			res.json('failed to fetch following');
+		} else {
 			res.send({
-				following: data.following// orthe correct notation
-			})
+				following: data.following // orthe correct notation
+			});
 		}
-	})
-})
+	});
+});
 
-router.route('/friends-menu').post((req,res) => {
-	let email = req.body.email
+router.route('/friends-menu').post((req, res) => {
+	let email = req.body.email;
 
-	User.find({email:email}).then((err, data) => {
-		if (err)
-		{
-			res.json("failed to fetch friends")
-		}
-		else{
+	User.find({ email: email }).then((err, data) => {
+		if (err) {
+			res.json('failed to fetch friends');
+		} else {
 			res.send({
-				friends: data.friends// orthe correct notation
-			})
+				friends: data.friends // orthe correct notation
+			});
 		}
-	})
-})
-
+	});
+});
 
 module.exports = router;
