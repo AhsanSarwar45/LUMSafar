@@ -37,7 +37,7 @@ export const theme = extendTheme({
 		},
 
 		border: {
-			light: 'rgba(0, 0, 0, 0.08)'
+			light: 'rgba(0, 0, 0, 0.1)'
 		},
 
 		cards: [ `#73C983`, `#D85D9C`, `#70D2E8`, `#F17D7D`, `#9990D1` ],
@@ -91,6 +91,13 @@ export const theme = extendTheme({
 					fontWeight: 700
 				}
 			}
+		},
+		Image: {
+			// Can simply pass default props to change default behaviour of components.
+			baseStyle: {
+				rounded: borderRadius
+			},
+			defaultProps: {}
 		},
 		Heading: {
 			baseStyle: {},

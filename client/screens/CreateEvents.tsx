@@ -13,6 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Chip from '../components/Chip';
 import TimeCard from '../components/TimeCard';
 import moment from 'moment';
+import ImagePicker from '../components/ImagePicker';
 
 // import SelectableChips from 'react-native-chip/SelectableChips'
 
@@ -94,6 +95,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 										))}
 									</HStack>
 								</VStack>
+								<ImagePicker />
 								<Button width="100%">Create</Button>
 
 								{/* <SelectableChips initialChips={["Person", "Chair","Coma","Dog"]} onChangeChips={(chips : any) => console.log(chips)} alertRequired={false}/> */}
