@@ -84,7 +84,10 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		<View>
 			<AppLoading />
 			<OptimizedHeavyScreen>
-				<KeyboardAwareScrollView>
+			    <Screen heading="Sign Up" backButton>
+								<ErrorMessage show={isDuplicate}>
+									The email you entered is already registered. Maybe you meant to login?
+								</ErrorMessage>
 					<Formik
 						initialValues={{
 							email: '',
@@ -95,12 +98,9 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 						validate={Validate}
 					>
 						{(formikProps) => (
-							<Screen heading="Sign Up" backButton>
-								<ErrorMessage show={isDuplicate}>
-									The email you entered is already registered. Maybe you meant to login?
-								</ErrorMessage>
+							
 
-								<VStack space="15px" width="full">
+								<VStack space ="15px" width="full">
 									<TextInput
 										label={isSociety ? 'Society Email' : 'University Email'}
 										name="email"
@@ -120,23 +120,17 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 										isPassword={true}
 										formikProps={formikProps}
 									/>
-								</VStack>
-
-								<Button
-									disabled={formikProps.isSubmitting}
-									onPress={() => {
-										formikProps.handleSubmit();
-									}}
-									width="100%"
-									isLoading={formikProps.isSubmitting}
-									isLoadingText="Checking"
-								>
-									SignUp
-								</Button>
-								<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
+																	<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
 									By signing up, you agree to our terms and conditions
 								</Text>
 
+								</VStack>
+
+
+
+						)}
+					</Formik>
+					
 								<Pressable onPress={() => navigation.navigate('Login')}>
 									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
 										<Text fontSize="md">Already one of us?</Text>
@@ -147,9 +141,6 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 									</HStack>
 								</Pressable>
 							</Screen>
-						)}
-					</Formik>
-				</KeyboardAwareScrollView>
 			</OptimizedHeavyScreen>
 		</View>
 	);
