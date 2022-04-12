@@ -1,23 +1,17 @@
 import * as React from 'react';
-import { Dimensions, StatusBar, TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 import { TabView, SceneMap, SceneRendererProps } from 'react-native-tab-view';
-import { Button, Center, HStack, View, Text } from 'native-base';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Center, HStack } from 'native-base';
 import { Box, Pressable, Icon, useTheme } from 'native-base';
 import { NavigationState, Route } from 'react-native-tab-view';
-import { Shadow } from 'react-native-shadow-2';
 
 import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
 import { EventsTab } from './tabs/Events';
 import { useEffect, useState } from 'react';
 import PlusIcon from '../assets/icons/PlusIcon.svg';
-import MicIcon from '../assets/icons/MicIcon.svg';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
-import TabsProps from '../interfaces/TabsProps';
-import { Layout } from '../interfaces/Layout';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 // import {BottomTabBarP}
 
@@ -35,7 +29,7 @@ const ThirdRoute = () => (
 
 const FourthRoute = () => (
 	<Center flex={1} my="4">
-		This is Tab 4{' '}
+		This is Tab 4
 	</Center>
 );
 
@@ -48,8 +42,6 @@ type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const Tab = createBottomTabNavigator();
 
 export const Home = (props: HomeScreenProps) => {
-	const [ navBarLayout, setNavBarLayout ] = useState<Layout>({ x: 0, y: 0, width: 0, height: 0 });
-
 	interface NaveIconSetProps {
 		routeSet: any;
 		offset: number;
@@ -111,15 +103,13 @@ export const Home = (props: HomeScreenProps) => {
 
 		return (
 			<Box
-				// onPress={()=>console.log("hello")}
 				// bgColor="red.500"
 				position="absolute"
 				bottom={0}
-				// left={0}
 				width="100%"
-				// onLayout={(event) => {
-				// 	setNavBarLayout(event.nativeEvent.layout);
-				// }}
+
+				// p={0}
+				// m={0}
 			>
 				<Box
 					position="absolute"
@@ -138,7 +128,7 @@ export const Home = (props: HomeScreenProps) => {
 				<Box position="absolute" bottom={0} left={2}>
 					<DrawerVector width={initialLayout.width - 16} fill={colors.accent} />
 				</Box>
-				<HStack justifyContent="space-between" px="5%" py="10px">
+				<HStack justifyContent="space-between" px="5%" py="5px">
 					<NavIconSet routeSet={firstHalf} offset={0} />
 					<NavIconSet routeSet={secondHalf} offset={2} />
 				</HStack>
@@ -153,7 +143,5 @@ export const Home = (props: HomeScreenProps) => {
 			<Tab.Screen options={{ headerShown: false }} name="Spaces" component={ThirdRoute} />
 			<Tab.Screen options={{ headerShown: false }} name="Connect" component={FourthRoute} />
 		</Tab.Navigator>
-		// <Box width="full" height="50%" bgColor="red.100" />
 	);
-	// </View>
 };

@@ -34,6 +34,16 @@ export const EventsTab = (props: TabsProps) => {
 			name: 'Arson',
 			creator: 'Me and the boiz',
 			interested: false
+		},
+		{
+			name: 'UX Pakistan',
+			creator: 'INDEXS',
+			interested: false
+		},
+		{
+			name: 'Geek Study Session',
+			creator: 'Omer Kamran',
+			interested: false
 		}
 	];
 
@@ -72,7 +82,7 @@ export const EventsTab = (props: TabsProps) => {
 	return (
 		<Screen heading="Events" topBar={<TopBar search />}>
 			{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
-			<Box height="20px" />
+			<Box height="120px" />
 		</Screen>
 	);
 };

@@ -14,7 +14,7 @@ interface TopBarProps {
 const TopBar = (props: TopBarProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	return (
-		<HStack width="full" justifyContent="space-between" py="2%" px="10%">
+		<HStack width="full" justifyContent="space-between" px="10%">
 			<HamburgerIcon
 				fill="black"
 				width={'10%'}
@@ -22,7 +22,7 @@ const TopBar = (props: TopBarProps) => {
 					navigation.navigate('Menu');
 				}}
 			/>
-			{props.search ? <SearchIcon fill="black" width={'10%'} onPress={() => props.onSearchPress} /> : null}
+			{props.search ? <SearchIcon fill="black" width={'12%'} onPress={() => props.onSearchPress} /> : null}
 		</HStack>
 	);
 };
