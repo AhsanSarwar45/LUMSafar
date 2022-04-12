@@ -9,10 +9,11 @@ import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
 import { EventsTab } from './tabs/Events';
 import { useEffect, useState } from 'react';
-import PlusIcon from '../assets/icons/PlusIcon.svg';
+
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import CAB from '../components/CAB';
 // import {BottomTabBarP}
 
 const SecondRoute = () => (
@@ -39,13 +40,61 @@ const initialLayout = {
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const Tab = createBottomTabNavigator();
+const TabNavigator = createBottomTabNavigator();
 
 export const Home = (props: HomeScreenProps) => {
 	interface NaveIconSetProps {
 		routeSet: any;
 		offset: number;
 	}
+
+	interface CABInterface {
+		icon: 'Add' | 'Search';
+		onPress: Function;
+	}
+
+	interface Tab {
+		name: string;
+		component: any;
+		cab: CABInterface;
+	}
+
+	const tabs: Array<Tab> = [
+		{
+			name: 'Events',
+			component: <EventsTab />,
+			cab: {
+				icon: 'Add',
+				onPress: () => {
+					props.navigation.navigate('CreateEvent');
+				}
+			}
+		},
+		{
+			name: 'Map',
+			component: <SecondRoute />,
+			cab: {
+				icon: 'Search',
+				onPress: () => {}
+			}
+		},
+		{
+			name: 'Spaces',
+			component: <ThirdRoute />,
+			cab: {
+				icon: 'Add',
+				onPress: () => {}
+			}
+		},
+		{
+			name: 'Connect',
+			component: <FourthRoute />,
+			cab: {
+				icon: 'Search',
+				onPress: () => {}
+			}
+		}
+	];
 
 	const NavBar2 = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 		const [ firstHalf ] = useState(state.routes.slice(0, 2));
@@ -88,7 +137,6 @@ export const Home = (props: HomeScreenProps) => {
 								py="2"
 								px="4"
 								testID={options.tabBarTestID}
-								// flex={1}
 								key={route.key}
 								onPress={onPress}
 							>
@@ -111,20 +159,7 @@ export const Home = (props: HomeScreenProps) => {
 				// p={0}
 				// m={0}
 			>
-				<Box
-					position="absolute"
-					width={`${initialLayout.width * (cabSize / 100)}px`}
-					height={`${initialLayout.width * (cabSize / 100)}px`}
-					bottom={'32px'}
-					shadow={2}
-					left={`${50 - cabSize / 2}%`}
-					rounded="full"
-					bgColor="background"
-					justifyContent="center"
-					alignItems="center"
-				>
-					<PlusIcon fill={colors.accent} height={40} width={40} />
-				</Box>
+				<CAB icon={tabs[state.index].cab.icon} onPress={tabs[state.index].cab.onPress} />
 				<Box position="absolute" bottom={0} left={2}>
 					<DrawerVector width={initialLayout.width - 16} fill={colors.accent} />
 				</Box>
@@ -137,11 +172,15 @@ export const Home = (props: HomeScreenProps) => {
 	};
 
 	return (
-		<Tab.Navigator tabBar={(props) => <NavBar2 {...props} />}>
-			<Tab.Screen options={{ headerShown: false }} name="Events" component={EventsTab} />
-			<Tab.Screen options={{ headerShown: false }} name="Map" component={SecondRoute} />
-			<Tab.Screen options={{ headerShown: false }} name="Spaces" component={ThirdRoute} />
-			<Tab.Screen options={{ headerShown: false }} name="Connect" component={FourthRoute} />
-		</Tab.Navigator>
+		<TabNavigator.Navigator tabBar={(props) => <NavBar2 {...props} />}>
+			{tabs.map((tab: Tab, index: number) => (
+				<TabNavigator.Screen
+					key={index}
+					options={{ headerShown: false }}
+					name={tab.name}
+					component={EventsTab}
+				/>
+			))}
+		</TabNavigator.Navigator>
 	);
 };

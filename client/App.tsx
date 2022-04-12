@@ -17,6 +17,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Menu from './screens/Menu';
+import CreateEventScreen from './screens/CreateEvents';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -61,6 +62,7 @@ export default function App() {
 			<NavigationContainer theme={navigationTheme}>
 				<Stack.Navigator initialRouteName={initialRouteName}>
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+					<Stack.Screen options={{ headerShown: false }} name="CreateEvent" component={CreateEventScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />

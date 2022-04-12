@@ -10,5 +10,6 @@ export type RootStackParamList = {
 	SetPassword: { email: string };
 	PasswordResetSuccess: undefined;
 	Home: undefined;
+	CreateEvent: undefined;
 	Menu: undefined;
 };

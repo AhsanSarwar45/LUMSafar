@@ -1,11 +1,17 @@
+import React from 'react';
+import { AspectRatio, Box, Container, Heading, useTheme, Text, VStack, View } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import TopBar from '../../components/TopBar';
 import Screen from '../../components/Screen';
-import React from 'react';
-import { AspectRatio, Box, Container, Heading, useTheme, Text, VStack } from 'native-base';
 import TabsProps from '../../interfaces/TabsProps';
 import HeartIcon from '../../assets/icons/HeartIcon.svg';
+import CAB from '../../components/CAB';
+import { RootStackParamList } from '../../config/RouteParams';
 
 export const EventsTab = (props: TabsProps) => {
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const { borderRadius, colors } = useTheme();
 
 	interface EventCardProps {
@@ -80,9 +86,11 @@ export const EventsTab = (props: TabsProps) => {
 	};
 
 	return (
-		<Screen heading="Events" topBar={<TopBar search />}>
-			{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
-			<Box height="120px" />
-		</Screen>
+		<View width="100%">
+			<Screen heading="Events" topBar={<TopBar search />}>
+				{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
+				<Box height="120px" />
+			</Screen>
+		</View>
 	);
 };
