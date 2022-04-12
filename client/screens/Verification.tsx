@@ -38,12 +38,6 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			}
 		)
 			.then((response) => {
-				// if (response.data === 'success') {
-				// 	// success
-				// } else if (response.data === 'failure') {
-				// 	// failure
-				// }
-
 				if (response.data === 'failure') {
 					console.log('Error occured please try again later');
 				} else {

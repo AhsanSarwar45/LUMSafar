@@ -68,7 +68,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 						validate={Validate}
 					>
 						{(formikProps) => (
-							<Screen backButton navigation={navigation}>
+							<Screen backButton>
 								<Heading size="lg" width="100%">
 									Just one more thing...
 								</Heading>

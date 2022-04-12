@@ -13,29 +13,20 @@ import ErrorMessage from '../components/ErrorMessage';
 import AppLoading from 'expo-app-loading';
 import Storage from 'react-native-storage';
 
+// const storage = new Storage({
+// 	size: 1000,
 
+// 	storageBackend: AsyncStorage, // for web: window.localStorage
 
-const storage = new Storage({
-	size: 1000,
-  
-	storageBackend: AsyncStorage, // for web: window.localStorage
-  
-	defaultExpires: 1000 * 3600 * 24,
-  
-	enableCache: true,
-  
-	sync: {
-	}
-  });
-  
+// 	defaultExpires: 1000 * 3600 * 24,
+
+// 	enableCache: true,
+
+// 	sync: {
+// 	}
+//   });
+
 //   export default storage;
-
-
-
-
-
-
-
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
@@ -47,21 +38,16 @@ export const LoginScreen = ({ navigation }: any) => {
 		password?: string;
 	}
 
-	function StoreUserToken(data: LoginData) {
-		storage.save({
-			key: 'userData', // Note: Do not use underscore("_") in key!
-			data: JSON.stringify(data),
-			
-			// if expires not specified, the defaultExpires will be applied instead.
-			// if set to null, then it will never expire.
-			expires: null
+	async function StoreUserToken(data: LoginData) {
+		try {
+			await AsyncStorage.setItem('userData', JSON.stringify(data));
+			navigation.reset({
+				index: 0,
+				routes: [ { name: 'Home' } ]
 			});
-
-			// await AsyncStorage.setItem('userData', JSON.stringify(data));
-		navigation.reset({
-			index: 0,
-			routes: [ { name: 'Home' } ]
-		})
+		} catch (error) {
+			console.log('Something went wrong', error);
+		}
 	}
 
 	const Validate = (values: LoginData) => {
