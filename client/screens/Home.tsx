@@ -8,6 +8,8 @@ import { NavigationState, Route } from 'react-native-tab-view';
 import DrawerVector from '../assets/vector/Drawer.svg';
 import TabIcon from '../components/TabIcon';
 import { EventsTab } from './tabs/Events';
+import MapTab from './tabs/Map';
+
 import { useEffect, useState } from 'react';
 
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -62,7 +64,7 @@ export const Home = (props: HomeScreenProps) => {
 	const tabs: Array<Tab> = [
 		{
 			name: 'Events',
-			component: <EventsTab />,
+			component: EventsTab,
 			cab: {
 				icon: 'Add',
 				onPress: () => {
@@ -72,7 +74,7 @@ export const Home = (props: HomeScreenProps) => {
 		},
 		{
 			name: 'Map',
-			component: <SecondRoute />,
+			component: MapTab,
 			cab: {
 				icon: 'Search',
 				onPress: () => {}
@@ -80,7 +82,7 @@ export const Home = (props: HomeScreenProps) => {
 		},
 		{
 			name: 'Spaces',
-			component: <ThirdRoute />,
+			component: ThirdRoute,
 			cab: {
 				icon: 'Add',
 				onPress: () => {}
@@ -88,7 +90,7 @@ export const Home = (props: HomeScreenProps) => {
 		},
 		{
 			name: 'Connect',
-			component: <FourthRoute />,
+			component: FourthRoute,
 			cab: {
 				icon: 'Search',
 				onPress: () => {}
@@ -178,7 +180,7 @@ export const Home = (props: HomeScreenProps) => {
 					key={index}
 					options={{ headerShown: false }}
 					name={tab.name}
-					component={EventsTab}
+					component={tab.component}
 				/>
 			))}
 		</TabNavigator.Navigator>

@@ -12,7 +12,11 @@ import ErrorMessage from '../components/ErrorMessage';
 
 type CreateEventScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEvent'>;
 
-interface CreateEventData {}
+interface CreateEventData {
+	title?: string;
+	description?: string;
+	location?: string;
+}
 
 const CreateEventScreen = (props: CreateEventScreenProps) => {
 	const Validate = (values: CreateEventData) => {
@@ -28,8 +32,9 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 				<KeyboardAwareScrollView>
 					<Formik
 						initialValues={{
-							email: '',
-							password: ''
+							title: '',
+							description: '',
+							location: ''
 						}}
 						onSubmit={() => {}}
 						validate={Validate}
@@ -38,7 +43,14 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 						{(formikProps) => (
 							<Screen backButton heading="Create Event">
 								<VStack space="15px" width="full">
-									<TextInput label="Title" name="title" formikProps={formikProps} />
+									<TextInput label="Title" name="title" formikProps={formikProps} fontSize="2xl" />
+									<TextInput
+										label="Description"
+										name="description"
+										formikProps={formikProps}
+										multiline
+									/>
+									<TextInput label="Location" name="location" formikProps={formikProps} />
 								</VStack>
 							</Screen>
 						)}

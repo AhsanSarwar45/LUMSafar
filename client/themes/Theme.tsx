@@ -113,6 +113,13 @@ export const theme = extendTheme({
 				fontWeight: 700,
 				color: 'text.primary'
 			}
+		},
+		TextArea: {
+			baseStyle: {},
+			defaultProps: {
+				fontWeight: 700,
+				color: 'text.primary'
+			}
 		}
 	},
 
