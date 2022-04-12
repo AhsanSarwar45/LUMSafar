@@ -4,8 +4,19 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node src"
+		"start": "node src",
+		"start-n": "nodemon src",
+		"test": "jest --detectOpenHandles"
 	},
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.17.3",
+		"mongoose": "^6.2.9",
+		"nodemailer": "^6.7.3"
+	},
+	"devDependencies": {
+		"jest": "^27.5.1",
+		"supertest": "^6.2.2"
+	}
 }
