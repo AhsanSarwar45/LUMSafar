@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, HStack, Button, Text, Center, Pressable, VStack, View } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
@@ -12,6 +12,7 @@ import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
 import AppLoading from 'expo-app-loading';
 import Storage from 'react-native-storage';
+import { JsonHeader } from '../config/ControlHeader';
 
 // const storage = new Storage({
 // 	size: 1000,
@@ -29,6 +30,12 @@ import Storage from 'react-native-storage';
 //   export default storage;
 
 export const LoginScreen = ({ navigation }: any) => {
+	// const isScreenMounted = useRef(true);
+
+	// useEffect(() => {
+	// 	return () => (isScreenMounted.current = false);
+	// }, []);
+
 	const [ userNotFound, setUserNotFound ] = useState(false);
 
 	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -41,6 +48,7 @@ export const LoginScreen = ({ navigation }: any) => {
 	async function StoreUserToken(data: LoginData) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
+
 			navigation.reset({
 				index: 0,
 				routes: [ { name: 'Home' } ]
@@ -66,18 +74,25 @@ export const LoginScreen = ({ navigation }: any) => {
 	};
 
 	async function Login(data: LoginData, actions: any) {
-		let response = await Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		});
-		if (response.data === 'success') {
-			setUserNotFound(false);
-			StoreUserToken(data);
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
+			headers: JsonHeader
+		})
+			.then((response) => {
+				console.log(response.data);
+				if (response.data === 'success') {
+					setUserNotFound(false);
+					StoreUserToken(data);
 
-			// AsyncStorage.setItem('user-email', data.email as string);
-			// Go to Home page
-		} else if (response.data === 'not-found') {
-			setUserNotFound(true);
-		}
+					// AsyncStorage.setItem('user-email', data.email as string);
+					// Go to Home page
+				} else if (response.data === 'not-found') {
+					setUserNotFound(true);
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
+
 		await delay(500);
 		actions.setSubmitting(false);
 	}

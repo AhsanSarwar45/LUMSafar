@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Dimensions, StatusBar } from 'react-native';
+import { Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import { TabView, SceneMap, SceneRendererProps } from 'react-native-tab-view';
-import { Center, HStack, View } from 'native-base';
+import { Button, Center, HStack, View, Text } from 'native-base';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Box, Pressable, Icon, useTheme } from 'native-base';
 import { NavigationState, Route } from 'react-native-tab-view';
@@ -17,6 +17,9 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-naviga
 import { RootStackParamList } from '../config/RouteParams';
 import TabsProps from '../interfaces/TabsProps';
 import { Layout } from '../interfaces/Layout';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
+// import {BottomTabBarP}
 
 const SecondRoute = () => (
 	<Center flex={1} my="4">
@@ -42,89 +45,81 @@ const initialLayout = {
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-export const Home = ({ route, navigation }: HomeScreenProps) => {
-	const [ index, setIndex ] = useState(0);
+const Tab = createBottomTabNavigator();
+
+export const Home = (props: HomeScreenProps) => {
 	const [ navBarLayout, setNavBarLayout ] = useState<Layout>({ x: 0, y: 0, width: 0, height: 0 });
-	const [ tabRoutes ] = useState([
-		{
-			key: 'events',
-			icon: 'Events'
-		},
-		{
-			key: 'map',
-			icon: 'Map'
-		},
-		{
-			key: 'spaces',
-			icon: 'Spaces'
-		},
-		{
-			key: 'connect',
-			icon: 'Connect'
-		}
-	]);
-
-	const [ firstHalf ] = useState(tabRoutes.slice(0, 2));
-	const [ secondHalf ] = useState(tabRoutes.slice(2));
-
-	const renderScene = ({ route }: any) => {
-		switch (route.key) {
-			case 'events':
-				return <EventsTab paddingBottom={navBarLayout.height} />;
-			case 'map':
-				return <SecondRoute />;
-			case 'spaces':
-				return <ThirdRoute />;
-			case 'connect':
-				return <FourthRoute />;
-			default:
-				return null;
-		}
-	};
 
 	interface NaveIconSetProps {
 		routeSet: any;
 		offset: number;
 	}
 
-	const NavIconSet = (props: NaveIconSetProps) => {
-		return (
-			<HStack>
-				{props.routeSet.map((route: any, i: number) => {
-					const color = index === i + props.offset ? 'white' : 'rgba(255, 255, 255,0.5)';
-					return (
-						<Pressable
-							alignItems="center"
-							py="2"
-							px="4"
-							// flex={1}
-							key={route.key}
-							onPress={() => {
-								setIndex(i + props.offset);
-							}}
-						>
-							<TabIcon iconName={route.icon} color={color} size={32} />
-							{/* {route.title} */}
-						</Pressable>
-					);
-				})}
-			</HStack>
-		);
-	};
+	const NavBar2 = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+		const [ firstHalf ] = useState(state.routes.slice(0, 2));
+		const [ secondHalf ] = useState(state.routes.slice(2));
 
-	const NavBar = () => {
 		const { borderRadius, colors } = useTheme();
 		const cabSize = 15;
+
+		const NavIconSet = (props: NaveIconSetProps) => {
+			return (
+				<HStack>
+					{props.routeSet.map((route: any, index: number) => {
+						const { options } = descriptors[route.key];
+
+						const isFocused = state.index === index + props.offset;
+
+						const onPress = () => {
+							const event = navigation.emit({
+								type: 'tabPress',
+								target: route.key,
+								canPreventDefault: true
+							});
+
+							if (!isFocused && !event.defaultPrevented) {
+								navigation.navigate(route.name);
+							}
+						};
+
+						const onLongPress = () => {
+							navigation.emit({
+								type: 'tabLongPress',
+								target: route.key
+							});
+						};
+
+						const color = isFocused ? 'white' : 'rgba(255, 255, 255,0.5)';
+						return (
+							<Pressable
+								alignItems="center"
+								py="2"
+								px="4"
+								testID={options.tabBarTestID}
+								// flex={1}
+								key={route.key}
+								onPress={onPress}
+							>
+								<TabIcon iconName={route.name} color={color} size={32} />
+								{/* {route.title} */}
+							</Pressable>
+						);
+					})}
+				</HStack>
+			);
+		};
+
 		return (
 			<Box
+				// onPress={()=>console.log("hello")}
 				// bgColor="red.500"
 				position="absolute"
 				bottom={0}
 				// left={0}
 				width="100%"
-				onLayout={(event) => {
-					setNavBarLayout(event.nativeEvent.layout);
-				}}
+				// onLayout={(event) => {
+				// 	setNavBarLayout(event.nativeEvent.layout);
+				// }}
 			>
 				<Box
 					position="absolute"
@@ -152,24 +147,13 @@ export const Home = ({ route, navigation }: HomeScreenProps) => {
 	};
 
 	return (
-		// <View bgColor="background">
-		<TabView
-			navigationState={{
-				index,
-				routes: tabRoutes
-			}}
-			renderScene={renderScene}
-			renderTabBar={NavBar}
-			onIndexChange={setIndex}
-			initialLayout={initialLayout}
-			tabBarPosition="bottom"
-			swipeEnabled={false}
-			style={{
-				// marginTop: StatusBar.currentHeight
-				// backgroundColor: 'rgba(255,255,255,0)'
-				// opacity: 0.5
-			}}
-		/>
+		<Tab.Navigator tabBar={(props) => <NavBar2 {...props} />}>
+			<Tab.Screen options={{ headerShown: false }} name="Events" component={EventsTab} />
+			<Tab.Screen options={{ headerShown: false }} name="Map" component={SecondRoute} />
+			<Tab.Screen options={{ headerShown: false }} name="Spaces" component={ThirdRoute} />
+			<Tab.Screen options={{ headerShown: false }} name="Connect" component={FourthRoute} />
+		</Tab.Navigator>
+		// <Box width="full" height="50%" bgColor="red.100" />
 	);
 	// </View>
 };

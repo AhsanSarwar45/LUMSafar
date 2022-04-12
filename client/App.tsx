@@ -26,7 +26,7 @@ export default function App() {
 
 	let [ fontsLoaded ] = useFonts({
 		Jost_300Light,
-		
+
 		Jost_500Medium,
 		Jost_700Bold
 	});
