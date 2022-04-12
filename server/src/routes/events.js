@@ -10,7 +10,7 @@ router.route('/').get((req, res) => {
 })
 
 
-router.route('/view').post((req,res) => {
+router.route('/view').get((req,res) => {
     event_title = req.body.event_title
     created_by = req.body.created_by
 
@@ -74,7 +74,6 @@ router.route('/add-remove-interest').post((req,res) => {
     const user = User.find({email:email})
 
 
-
     Event.find({event_title: event_title, created_by: creator}).then((err, data) =>{
         if (err) {
 			res.json('failure');
@@ -126,6 +125,26 @@ router.route('/add-remove-interest').post((req,res) => {
     //          )
 	// 	}
 	// });
+})
+
+router.route('/search-event').get((req, res) => {
+
+
+    const event_title_query = req.body.event_title;
+    const created_by_query = req.body.created_by;
+
+    Event.where( { event_title: event_title_query , created_by: created_by_query } ).findOne((err, event) => {
+
+        if (err) console.log(err);
+		if (event) {
+            // query result is not null
+            console.log('query successful', result);
+            res.json(result);
+		} else {
+            res.json('no_match');
+        }
+
+    })
 })
 
 module.exports = router;
