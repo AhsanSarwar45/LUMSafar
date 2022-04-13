@@ -136,10 +136,11 @@ router.route('/set-username').post((req, res) => {
 	// console.log('user/set-username: success');
 });
 
+//TODO make another endpoint 'verify-password' which check if email-password combination exists
+
 router.route('/set-password').post((req, res) => {
 	console.log('user/set-password: received');
 	const email = req.body.email;
-	const password_old = req.body.password_old;
 	const password_new = req.body.password_new;
 
 	// set the new password of the email
@@ -147,7 +148,7 @@ router.route('/set-password').post((req, res) => {
 	console.log(`[user/set-password] ${email}: received`);
 
 	// set the new username of the email
-	User.where({ email: email, password: password }).findOne((err, user) => {
+	User.where({ email: email }).findOne((err, user) => {
 		if (err) {
 			res.json('failure');
 			console.log(`[user/set-username] ${email}: failure: ${err}`);
