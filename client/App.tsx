@@ -32,9 +32,9 @@ export default function App() {
 		Jost_700Bold
 	});
 
-	async function CheckLogin() {
+	function CheckLogin() {
 		try {
-			const userData = await AsyncStorage.getItem('userData');
+			const userData = AsyncStorage.getItem('userData');
 			const data = JSON.parse(userData as string);
 
 			setInitialRouteName(data == null ? 'Login' : 'Home');
