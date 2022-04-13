@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
+import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
 import Screen from '../components/Screen';
@@ -35,20 +36,12 @@ export const LoginScreen = ({ navigation }: any) => {
 		}
 	}
 
-	const Validate = (values: LoginData) => {
-		const errors: LoginData = {};
-
-		if (!values.email) {
-			errors.email = 'Required';
-		}
-		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(values.email as string)) {
-			errors.email = 'Please enter your LUMS email';
-		}
-		if (!values.password) {
-			errors.password = 'Required';
-		}
-		return errors;
-	};
+	const LoginSchema = Yup.object().shape({
+		email: Yup.string()
+			.matches(/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/, 'Please enter your LUMS email')
+			.required('Required'),
+		password: Yup.string().required('Required')
+	});
 
 	function Login(data: LoginData, formikProps: any) {
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
@@ -85,7 +78,7 @@ export const LoginScreen = ({ navigation }: any) => {
 					password: ''
 				}}
 				onSubmit={Login}
-				validate={Validate}
+				validationSchema={LoginSchema}
 				height="full"
 			>
 				{(formikProps) => (

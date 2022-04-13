@@ -52,6 +52,31 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 		return errors;
 	};
 
+	// function CheckDuplicate(data: SignUpData, formikProps: any) {
+	// 	Axios.post(
+	// 		`${LUMSAFAR_SERVER_URL}/users/exists`,
+	// 		{ email: data.email },
+	// 		{
+	// 			headers: JsonHeader
+	// 		}
+	// 	)
+	// 		.then((response) => {
+	// 			formikProps.setSubmitting(false);
+	// 			if (response.data === 'not-found') {
+	// 				// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
+	// 				navigation.navigate('Verification', {
+	// 					data: { email: data.email, isSociety: data.isSociety, password: data.password },
+	// 					type: 'SignUp'
+	// 				});
+	// 			} else if (response.data === 'success') {
+	// 				setIsDuplicate(true);
+	// 			}
+	// 		})
+	// 		.catch((response) => {
+	// 			console.log(response);
+	// 		});
+	// }
+
 	return showSearchChips ? (
 		<ChipsSearch
 			close={() => setShowSearchChips(false)}

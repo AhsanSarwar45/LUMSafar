@@ -45,7 +45,7 @@ router.route('/exists').post((req, res) => {
 			res.json('failure');
 			console.log(`[user/exists] ${email}: failure: ${err}`);
 		} else if (user) {
-			res.json('not-found');
+			res.json('not-found'); // ! Don't forget to change this to 'success' after testing
 			console.log(`[user/exists] ${email}: success`);
 		} else {
 			res.json('not-found');

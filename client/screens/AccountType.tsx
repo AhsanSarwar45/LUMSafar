@@ -26,7 +26,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 				width="full"
 				icon={<MaterialIcons name="groups" />}
 				onPress={() => {
-					navigation.navigate('SignUp', { isSociety: false });
+					navigation.navigate('SignUp', { isSociety: true });
 				}}
 			/>
 		</Screen>

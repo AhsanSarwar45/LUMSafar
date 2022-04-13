@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import AppLoading from 'expo-app-loading';
 import Axios from 'axios';
+import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
@@ -28,28 +26,18 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 		isSociety?: boolean;
 	}
 
-	const Validate = (values: SignUpData) => {
-		const errors: SignUpData = {};
-
-		const email: string = values.email as string;
-
-		if (!values.email) {
-			errors.email = 'Required';
-		}
-		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
-			errors.email = 'Please enter your LUMS email';
-		}
-		if (!values.password) {
-			errors.password = 'Required';
-		}
-		if (!values.confirmPassword) {
-			errors.confirmPassword = 'Required';
-		} else if (values.confirmPassword != values.password) {
-			errors.confirmPassword = 'Passwords do not match';
-		}
-
-		return errors;
-	};
+	const SignUpSchema = Yup.object().shape({
+		email: Yup.string()
+			.matches(/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/, 'Please enter your LUMS email')
+			.required('Required'),
+		password: Yup.string()
+			.min(6, 'Password must be at least 6 characters long')
+			.max(20, 'Password must be shorter than 20 characters long')
+			.required('Required'),
+		confirmPassword: Yup.string()
+			.oneOf([ Yup.ref('password'), null ], 'Passwords do not match')
+			.required('Required')
+	});
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	function CheckDuplicate(data: SignUpData, formikProps: any) {
@@ -89,7 +77,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 					confirmPassword: ''
 				}}
 				onSubmit={CheckDuplicate}
-				validate={Validate}
+				validationSchema={SignUpSchema}
 			>
 				{(formikProps) => (
 					<VStack space="15px" width="full">
@@ -116,7 +104,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 							isLoading={formikProps.isSubmitting}
 							isLoadingText="Checking"
 						>
-							SignUp
+							Sign Up
 						</Button>
 						<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
 							By signing up, you agree to our terms and conditions
