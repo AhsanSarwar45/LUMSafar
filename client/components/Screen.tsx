@@ -1,7 +1,9 @@
-import { ScrollView, VStack } from 'native-base';
+import AppLoading from 'expo-app-loading';
+import { ScrollView, VStack, View } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
 import { Dimensions, useWindowDimensions, StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 
 import ScreenHeader from './ScreenHeader';
 
@@ -11,6 +13,7 @@ interface ScreenProps {
 	topBar: ReactNode;
 	children: ReactNode;
 	keyboardAware: boolean;
+	lightScreen: boolean;
 }
 
 // const window = Dimensions.get('window');
@@ -43,22 +46,40 @@ const Screen = (props: ScreenProps) => {
 		);
 	};
 
-	return props.keyboardAware ? (
-		<KeyboardAwareScrollView>
-			<Inner />
-		</KeyboardAwareScrollView>
-	) : (
-		<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
-			<Inner />
-		</ScrollView>
-	);
+	const ScrollWrapper = () => {
+		return props.keyboardAware ? (
+			<KeyboardAwareScrollView>
+				<Inner />
+			</KeyboardAwareScrollView>
+		) : (
+			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
+				<Inner />
+			</ScrollView>
+		);
+	};
+
+	const HeavyScreenWrapper = () => {
+		return props.lightScreen ? (
+			<ScrollWrapper />
+		) : (
+			<View>
+				<AppLoading />
+				<OptimizedHeavyScreen>
+					<ScrollWrapper />
+				</OptimizedHeavyScreen>
+			</View>
+		);
+	};
+
+	return <HeavyScreenWrapper />;
 };
 
 Screen.defaultProps = {
 	heading: '',
 	backButton: false,
 	topBar: null,
-	keyboardAware: false
+	keyboardAware: false,
+	lightScreen: false
 };
 
 export default Screen;

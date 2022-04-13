@@ -20,19 +20,14 @@ const MapTab = (props: TabsProps) => {
 	const window = useWindowDimensions();
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<Screen topBar={<TopBar transparent />}>
-					<MapView
-						style={{
-							width: window.width,
-							height: window.height
-						}}
-					/>
-				</Screen>
-			</OptimizedHeavyScreen>
-		</View>
+		<Screen topBar={<TopBar transparent />}>
+			<MapView
+				style={{
+					width: window.width,
+					height: window.height
+				}}
+			/>
+		</Screen>
 	);
 };
 

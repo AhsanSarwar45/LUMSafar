@@ -67,54 +67,45 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 	}
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<KeyboardAwareScrollView>
-					<Formik
-						initialValues={{
-							email: ''
-						}}
-						onSubmit={CheckIfUserExists}
-						validate={Validate}
-					>
-						{(formikProps) => (
-							<Screen backButton>
-								<Heading size="lg" width="100%">
-									Lets get you a new password 🚀
-								</Heading>
+		<Screen keyboardAware backButton>
+			<Heading size="lg" width="100%">
+				Lets get you a new password 🚀
+			</Heading>
 
-								{userNotFound ? (
-									<Text width="full" color="red.500">
-										We couldn't find you. Please make sure your email is correct!
-									</Text>
-								) : null}
-
-								<VStack space="15px" py="20px" width="full">
-									<TextInput
-										label={'Email'}
-										name="email"
-										placeholder="example@lums.edu.pk"
-										formikProps={formikProps}
-									/>
-								</VStack>
-
-								<Button
-									disabled={formikProps.isSubmitting}
-									onPress={() => {
-										formikProps.handleSubmit();
-									}}
-									width="100%"
-									isLoading={formikProps.isSubmitting}
-									isLoadingText="Checking"
-								>
-									Next
-								</Button>
-							</Screen>
-						)}
-					</Formik>
-				</KeyboardAwareScrollView>
-			</OptimizedHeavyScreen>
-		</View>
+			{userNotFound ? (
+				<Text width="full" color="red.500">
+					We couldn't find you. Please make sure your email is correct!
+				</Text>
+			) : null}
+			<Formik
+				initialValues={{
+					email: ''
+				}}
+				onSubmit={CheckIfUserExists}
+				validate={Validate}
+			>
+				{(formikProps) => (
+					<VStack space="15px" py="20px" width="full">
+						<TextInput
+							label={'Email'}
+							name="email"
+							placeholder="example@lums.edu.pk"
+							formikProps={formikProps}
+						/>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							Next
+						</Button>
+					</VStack>
+				)}
+			</Formik>
+		</Screen>
 	);
 };

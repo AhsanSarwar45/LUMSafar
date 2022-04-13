@@ -78,7 +78,6 @@ export const LoginScreen = ({ navigation }: any) => {
 			headers: JsonHeader
 		})
 			.then((response) => {
-				console.log(response.data);
 				if (response.data === 'success') {
 					setUserNotFound(false);
 					StoreUserToken(data);
@@ -98,69 +97,59 @@ export const LoginScreen = ({ navigation }: any) => {
 	}
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<Screen keyboardAware heading="Login">
-					<ErrorMessage show={userNotFound}>
-						We couldn't find you. Please make sure your email and password are correct!
-					</ErrorMessage>
+		<Screen keyboardAware heading="Login">
+			<ErrorMessage show={userNotFound}>
+				We couldn't find you. Please make sure your email and password are correct!
+			</ErrorMessage>
 
-					<Formik
-						initialValues={{
-							email: '',
-							password: ''
-						}}
-						onSubmit={Login}
-						validate={Validate}
-						height="full"
-					>
-						{(formikProps) => (
-							<VStack space="15px" width="full">
-								<TextInput
-									label="University Email"
-									name="email"
-									placeholder="example@site.com"
-									formikProps={formikProps}
-								/>
-								<TextInput
-									label="Password"
-									name="password"
-									isPassword={true}
-									formikProps={formikProps}
-								/>
-								<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
-									<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
-										Forgot Password?
-									</Text>
-								</Pressable>
-								<Button
-									disabled={formikProps.isSubmitting}
-									onPress={() => {
-										formikProps.handleSubmit();
-									}}
-									width="100%"
-									isLoading={formikProps.isSubmitting}
-									isLoadingText="Checking"
-								>
-									Login
-								</Button>
-							</VStack>
-						)}
-					</Formik>
+			<Formik
+				initialValues={{
+					email: '',
+					password: ''
+				}}
+				onSubmit={Login}
+				validate={Validate}
+				height="full"
+			>
+				{(formikProps) => (
+					<VStack space="15px" width="full">
+						<TextInput
+							label="University Email"
+							name="email"
+							placeholder="example@site.com"
+							formikProps={formikProps}
+						/>
+						<TextInput label="Password" name="password" isPassword={true} formikProps={formikProps} />
+						<Pressable onPress={() => navigation.navigate('ForgotPassword')} width="full">
+							<Text width="full" textAlign="right" color="rgba(0, 0, 0, 0.4)">
+								Forgot Password?
+							</Text>
+						</Pressable>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							Login
+						</Button>
+					</VStack>
+				)}
+			</Formik>
 
-					<Pressable onPress={() => navigation.navigate('AccountType')}>
-						<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-							<Text fontSize="md" color="black" fontWeight={700}>
-								New here?
-							</Text>
-							<Text fontSize="md" color="primary.500" fontWeight={700}>
-								Sign Up
-							</Text>
-						</HStack>
-					</Pressable>
-				</Screen>
-			</OptimizedHeavyScreen>
-		</View>
+			<Pressable onPress={() => navigation.navigate('AccountType')}>
+				<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
+					<Text fontSize="md" color="black" fontWeight={700}>
+						New here?
+					</Text>
+					<Text fontSize="md" color="primary.500" fontWeight={700}>
+						Sign Up
+					</Text>
+				</HStack>
+			</Pressable>
+		</Screen>
 	);
 };

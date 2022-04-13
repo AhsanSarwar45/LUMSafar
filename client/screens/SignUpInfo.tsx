@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Center, Heading, View, VStack, Text } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Button, Heading, VStack } from 'native-base';
 import TextInput from '../components/TextInput';
 import { Formik } from 'formik';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
 
@@ -75,47 +72,38 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 	};
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<KeyboardAwareScrollView>
-					<Formik
-						initialValues={{
-							email: ''
-						}}
-						onSubmit={SetUsername}
-						validate={Validate}
-					>
-						{(formikProps) => (
-							<Screen backButton>
-								<Heading size="lg" width="100%">
-									Just one more thing...
-								</Heading>
-
-								<VStack space="15px" py="20px" width="full">
-									<TextInput
-										label={isSociety ? 'Society Name' : 'Name'}
-										name="username"
-										formikProps={formikProps}
-									/>
-								</VStack>
-
-								<Button
-									disabled={formikProps.isSubmitting}
-									onPress={() => {
-										formikProps.handleSubmit();
-									}}
-									width="100%"
-									isLoading={formikProps.isSubmitting}
-									isLoadingText="Checking"
-								>
-									Get Started
-								</Button>
-							</Screen>
-						)}
-					</Formik>
-				</KeyboardAwareScrollView>
-			</OptimizedHeavyScreen>
-		</View>
+		<Screen keyboardAware backButton>
+			<Heading size="lg" width="100%">
+				Just one more thing...
+			</Heading>
+			<Formik
+				initialValues={{
+					email: ''
+				}}
+				onSubmit={SetUsername}
+				validate={Validate}
+			>
+				{(formikProps) => (
+					<VStack space="15px" py="20px" width="full">
+						<TextInput
+							label={isSociety ? 'Society Name' : 'Name'}
+							name="username"
+							formikProps={formikProps}
+						/>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							Get Started
+						</Button>
+					</VStack>
+				)}
+			</Formik>
+		</Screen>
 	);
 };

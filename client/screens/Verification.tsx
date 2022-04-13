@@ -9,6 +9,10 @@ import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
 import { DeviceEventEmitter } from 'react-native';
+import ErrorMessage from '../components/ErrorMessage';
+import { Formik } from 'formik';
+import TextInput from '../components/TextInput';
+import SimpleScreen from '../components/SimpleScreen';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
@@ -94,7 +98,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 	}, []);
 
 	return (
-		<Screen backButton>
+		<SimpleScreen backButton>
 			<VStack width="full">
 				<Heading size="lg" width="100%">
 					Enter the 4-digit code sent to
@@ -103,42 +107,55 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 					{data.email}
 				</Heading>
 			</VStack>
+			<Formik
+				initialValues={{
+					email: ''
+				}}
+				onSubmit={() => {}}
+			>
+				{(formikProps) => (
+					<VStack space="15px" py="20px" width="full">
+						{/* <TextInput label={'Society Name'} formikProps={formikProps} /> */}
+						<CodeField
+							ref={ref}
+							{...props}
+							// Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+							// caretHidden={false}
+							value={value}
+							onChangeText={setValue}
+							cellCount={CODE_LENGTH}
+							// keyboardType="number-pad"
+							textContentType="oneTimeCode"
+							renderCell={({ index, symbol, isFocused }) => (
+								<Box
+									key={index}
+									mx={1}
+									shadow={isFocused ? 5 : 0}
+									borderWidth={isFocused ? 0 : 1}
+									borderColor="border.light"
+									width={60}
+									height={60}
+									bgColor="background"
+									rounded={borderRadius}
+									alignItems="center"
+									justifyContent="center"
+									onLayout={getCellOnLayoutHandler(index)}
+								>
+									<Text fontSize="lg">{symbol || (isFocused ? <Cursor /> : null)}</Text>
+								</Box>
+							)}
+						/>
 
-			<CodeField
-				ref={ref}
-				{...props}
-				// Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-				// caretHidden={false}
-				value={value}
-				onChangeText={setValue}
-				cellCount={CODE_LENGTH}
-				// keyboardType="number-pad"
-				textContentType="oneTimeCode"
-				renderCell={({ index, symbol, isFocused }) => (
-					<Box
-						key={index}
-						mx={1}
-						shadow={isFocused ? 5 : 0}
-						borderWidth={isFocused ? 0 : 1}
-						borderColor="border.light"
-						width={60}
-						height={60}
-						bgColor="background"
-						rounded={borderRadius}
-						alignItems="center"
-						justifyContent="center"
-						onLayout={getCellOnLayoutHandler(index)}
-					>
-						<Text fontSize="lg">{symbol || (isFocused ? <Cursor /> : null)}</Text>
-					</Box>
+						<ErrorMessage textAlign="center" show={isWrong}>
+							Wrong Code
+						</ErrorMessage>
+
+						<Button onPress={Verify} width="100%">
+							Verify
+						</Button>
+					</VStack>
 				)}
-			/>
-
-			{isWrong ? <Text color="red.500">Wrong Code</Text> : null}
-
-			<Button onPress={Verify} marginTop="20px" width="100%">
-				Verify
-			</Button>
+			</Formik>
 
 			<Pressable onPress={SendEmail}>
 				<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
@@ -151,10 +168,6 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 					</Text>
 				</HStack>
 			</Pressable>
-
-			{/* <VStack alignItems="center" space={5} height="20%" width="100%" px="10%"> */}
-
-			{/* </VStack> */}
-		</Screen>
+		</SimpleScreen>
 	);
 };

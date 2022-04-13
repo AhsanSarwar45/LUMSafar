@@ -38,10 +38,8 @@ export default function App() {
 			const data = JSON.parse(userData as string);
 
 			setInitialRouteName(data == null ? 'Login' : 'Home');
-
-			console.log(data);
 		} catch (error) {
-			console.log('Something went wrong', error);
+			console.log('Something went wrong getting storage data', error);
 		}
 	}
 
@@ -63,6 +61,7 @@ export default function App() {
 				<Stack.Navigator initialRouteName={initialRouteName}>
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 					<Stack.Screen options={{ headerShown: false }} name="CreateEvent" component={CreateEventScreen} />
+					{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
 					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />

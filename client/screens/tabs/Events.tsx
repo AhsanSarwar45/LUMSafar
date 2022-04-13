@@ -89,14 +89,9 @@ export const EventsTab = (props: TabsProps) => {
 	};
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<Screen heading="Events" topBar={<TopBar search />}>
-					{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
-					<Box height="120px" />
-				</Screen>
-			</OptimizedHeavyScreen>
-		</View>
+		<Screen heading="Events" topBar={<TopBar search />}>
+			{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
+			<Box height="120px" />
+		</Screen>
 	);
 };

@@ -81,67 +81,62 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	}
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-			    <Screen heading="Sign Up" backButton>
-								<ErrorMessage show={isDuplicate}>
-									The email you entered is already registered. Maybe you meant to login?
-								</ErrorMessage>
-					<Formik
-						initialValues={{
-							email: '',
-							password: '',
-							confirmPassword: ''
-						}}
-						onSubmit={CheckDuplicate}
-						validate={Validate}
-					>
-						{(formikProps) => (
-							
+		<Screen keyboardAware heading="Sign Up" backButton>
+			<ErrorMessage show={isDuplicate}>
+				The email you entered is already registered. Maybe you meant to login?
+			</ErrorMessage>
+			<Formik
+				initialValues={{
+					email: '',
+					password: '',
+					confirmPassword: ''
+				}}
+				onSubmit={CheckDuplicate}
+				validate={Validate}
+			>
+				{(formikProps) => (
+					<VStack space="15px" width="full">
+						<TextInput
+							label={isSociety ? 'Society Email' : 'University Email'}
+							name="email"
+							placeholder="example@lums.edu.pk"
+							formikProps={formikProps}
+						/>
+						<TextInput label="Password" name="password" isPassword={true} formikProps={formikProps} />
 
-								<VStack space ="15px" width="full">
-									<TextInput
-										label={isSociety ? 'Society Email' : 'University Email'}
-										name="email"
-										placeholder="example@lums.edu.pk"
-										formikProps={formikProps}
-									/>
-									<TextInput
-										label="Password"
-										name="password"
-										isPassword={true}
-										formikProps={formikProps}
-									/>
+						<TextInput
+							label="Confirm Password"
+							name="confirmPassword"
+							isPassword={true}
+							formikProps={formikProps}
+						/>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							SignUp
+						</Button>
+						<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
+							By signing up, you agree to our terms and conditions
+						</Text>
+					</VStack>
+				)}
+			</Formik>
 
-									<TextInput
-										label="Confirm Password"
-										name="confirmPassword"
-										isPassword={true}
-										formikProps={formikProps}
-									/>
-																	<Text width="100%" textAlign="center" fontSize={10} color="rgba(0, 0, 0, 0.5)">
-									By signing up, you agree to our terms and conditions
-								</Text>
+			<Pressable onPress={() => navigation.navigate('Login')}>
+				<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
+					<Text fontSize="md">Already one of us?</Text>
 
-								</VStack>
-
-
-
-						)}
-					</Formik>
-					
-								<Pressable onPress={() => navigation.navigate('Login')}>
-									<HStack space="5px" justifyContent="center" alignItems="center" py={5}>
-										<Text fontSize="md">Already one of us?</Text>
-
-										<Text fontSize="md" color="primary.500">
-											Login
-										</Text>
-									</HStack>
-								</Pressable>
-							</Screen>
-			</OptimizedHeavyScreen>
-		</View>
+					<Text fontSize="md" color="primary.500">
+						Login
+					</Text>
+				</HStack>
+			</Pressable>
+		</Screen>
 	);
 };

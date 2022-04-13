@@ -11,5 +11,6 @@ export type RootStackParamList = {
 	PasswordResetSuccess: undefined;
 	Home: undefined;
 	CreateEvent: undefined;
+	ChipsSearch: undefined;
 	Menu: undefined;
 };

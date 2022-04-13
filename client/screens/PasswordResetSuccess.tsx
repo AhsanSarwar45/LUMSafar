@@ -4,7 +4,7 @@ import Screen from '../components/Screen';
 
 export const PasswordResetSuccessScreen = ({ route, navigation }: any) => {
 	return (
-		<Screen backButton navigation={navigation}>
+		<Screen backButton>
 			<Heading size="lg" width="100%">
 				You now have a new password! 🎉
 			</Heading>

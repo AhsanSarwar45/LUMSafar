@@ -1,9 +1,6 @@
 import React from 'react';
-import { VStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { VStack, Button, Heading } from 'native-base';
 import { Formik } from 'formik';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-import AppLoading from 'expo-app-loading';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
 
@@ -58,54 +55,42 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 	}
 
 	return (
-		<View>
-			<AppLoading />
-			<OptimizedHeavyScreen>
-				<KeyboardAwareScrollView>
-					<Formik
-						initialValues={{
-							email: ''
-						}}
-						onSubmit={SetPassword}
-						validate={Validate}
-					>
-						{(formikProps) => (
-							<Screen backButton navigation={navigation}>
-								<Heading size="lg" width="100%">
-									Enter your new password
-								</Heading>
+		<Screen keyboardAware backButton>
+			<Heading size="lg" width="100%">
+				Enter your new password
+			</Heading>
 
-								<VStack space="15px" py="20px" width="full">
-									<TextInput
-										label="New Password"
-										name="password"
-										isPassword={true}
-										formikProps={formikProps}
-									/>
-									<TextInput
-										label="Confirm Password"
-										name="confirmPassword"
-										isPassword={true}
-										formikProps={formikProps}
-									/>
-								</VStack>
-								<Button
-									disabled={formikProps.isSubmitting}
-									onPress={() => {
-										formikProps.handleSubmit();
-									}}
-									marginTop="20px"
-									width="100%"
-									isLoading={formikProps.isSubmitting}
-									isLoadingText="Checking"
-								>
-									Next
-								</Button>
-							</Screen>
-						)}
-					</Formik>
-				</KeyboardAwareScrollView>
-			</OptimizedHeavyScreen>
-		</View>
+			<Formik
+				initialValues={{
+					email: ''
+				}}
+				onSubmit={SetPassword}
+				validate={Validate}
+			>
+				{(formikProps) => (
+					<VStack space="15px" py="20px" width="full">
+						<TextInput label="New Password" name="password" isPassword={true} formikProps={formikProps} />
+						<TextInput
+							label="Confirm Password"
+							name="confirmPassword"
+							isPassword={true}
+							formikProps={formikProps}
+						/>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							marginTop="20px"
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
+							Next
+						</Button>
+					</VStack>
+				)}
+			</Formik>
+		</Screen>
 	);
 };
