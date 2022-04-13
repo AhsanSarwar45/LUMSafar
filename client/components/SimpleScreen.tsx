@@ -7,6 +7,7 @@ import ScreenHeader from './ScreenHeader';
 interface SimpleScreenProps {
 	heading: string;
 	backButton: boolean;
+	onBackButton: Function;
 	topBar: ReactNode;
 	children: ReactNode;
 }
@@ -20,7 +21,7 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 	return (
 		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`}>
 			{props.topBar}
-			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
+			<ScrollView height={window.height} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
 				<VStack
 					px="10%"
 					space="15px"
@@ -34,7 +35,11 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 				>
 					{}
 					{props.heading || props.backButton ? (
-						<ScreenHeader text={props.heading} backButton={props.backButton} />
+						<ScreenHeader
+							text={props.heading}
+							backButton={props.backButton}
+							onBackButton={props.onBackButton}
+						/>
 					) : null}
 					{props.children}
 				</VStack>
@@ -46,6 +51,7 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 SimpleScreen.defaultProps = {
 	heading: '',
 	backButton: false,
+	onBackButton: null,
 	topBar: null
 };
 

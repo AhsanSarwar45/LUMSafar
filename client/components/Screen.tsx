@@ -10,6 +10,7 @@ import ScreenHeader from './ScreenHeader';
 interface ScreenProps {
 	heading: string;
 	backButton: boolean;
+	onBackButton: Function;
 	topBar: ReactNode;
 	children: ReactNode;
 	keyboardAware: boolean;
@@ -38,7 +39,11 @@ const Screen = (props: ScreenProps) => {
 					// {...otherProps}
 				>
 					{props.heading || props.backButton ? (
-						<ScreenHeader text={props.heading} backButton={props.backButton} />
+						<ScreenHeader
+							text={props.heading}
+							backButton={props.backButton}
+							onBackButton={props.onBackButton}
+						/>
 					) : null}
 					{props.children}
 				</VStack>
@@ -48,11 +53,11 @@ const Screen = (props: ScreenProps) => {
 
 	const ScrollWrapper = () => {
 		return props.keyboardAware ? (
-			<KeyboardAwareScrollView>
+			<KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
 				<Inner />
 			</KeyboardAwareScrollView>
 		) : (
-			<ScrollView height={window.height} showsVerticalScrollIndicator={false}>
+			<ScrollView keyboardShouldPersistTaps="handled" height={window.height} showsVerticalScrollIndicator={false}>
 				<Inner />
 			</ScrollView>
 		);
@@ -77,6 +82,7 @@ const Screen = (props: ScreenProps) => {
 Screen.defaultProps = {
 	heading: '',
 	backButton: false,
+	onBackButton: null,
 	topBar: null,
 	keyboardAware: false,
 	lightScreen: false

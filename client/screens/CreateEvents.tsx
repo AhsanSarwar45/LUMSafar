@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Formik } from 'formik';
 import moment from 'moment';
 import { HStack, Icon, View, VStack, Text, useTheme, Button, Pressable, Modal } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -43,7 +43,7 @@ const Tags = [ 'Badminton', 'Study', 'Cricket', 'Party', 'Music', 'Concert', 'Sh
 
 const CreateEventScreen = (props: CreateEventScreenProps) => {
 	const { colors } = useTheme();
-	const [ showModal, setShowModal ] = useState(false);
+	const [ showSearchChips, setShowSearchChips ] = useState(false);
 	const [ selectedTags, setSelectedTags ] = useState<Array<string>>([ 'Badminton', 'Study', 'Cricket', 'Party' ]);
 
 	const Validate = (values: CreateEventData) => {
@@ -52,39 +52,15 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 		return errors;
 	};
 
-	return (
+	return showSearchChips ? (
+		<ChipsSearch
+			close={() => setShowSearchChips(false)}
+			items={Tags}
+			selectedItems={selectedTags}
+			setSelectedItems={setSelectedTags}
+		/>
+	) : (
 		<Screen backButton keyboardAware heading="Create Event">
-			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-				<Modal.Content width="90%" rounded="2xl" bgColor="background">
-					<Modal.Body>
-						<ChipsSearch items={Tags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
-					</Modal.Body>
-					<Modal.Footer bgColor="background">
-						<Button.Group space={2}>
-							<Button
-								variant="unstyled"
-								shadow={0}
-								// colorScheme="primary"
-								_text={{
-									color: 'primary.500'
-								}}
-								onPress={() => {
-									setShowModal(false);
-								}}
-							>
-								Cancel
-							</Button>
-							<Button
-								onPress={() => {
-									setShowModal(false);
-								}}
-							>
-								Save
-							</Button>
-						</Button.Group>
-					</Modal.Footer>
-				</Modal.Content>
-			</Modal>
 			<Formik
 				initialValues={{
 					title: '',
@@ -107,26 +83,27 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 							<TimeCard time={formikProps.values.endTime} label="To" />
 						</HStack>
 						<TextInput label="Location" name="location" formikProps={formikProps} />
-						<VStack
-							borderWidth={1}
-							borderColor="border.light"
-							bgColor="background"
-							rounded="2xl"
-							px={5}
-							py={3}
-							space={2}
-						>
-							<HStack justifyContent="space-between" alignItems="center">
-								<Text fontSize="xs" color="text.secondary">
-									Tags
-								</Text>
-								<Icon
-									as={<FontAwesome5 onPress={() => {}} name="arrow-right" />}
-									size={5}
-									color="black"
-								/>
-							</HStack>
-							<Pressable onPress={() => setShowModal(true)}>
+						<Pressable onPress={() => setShowSearchChips(true)}>
+							<VStack
+								borderWidth={1}
+								borderColor="border.light"
+								bgColor="background"
+								rounded="2xl"
+								px={5}
+								py={3}
+								space={2}
+							>
+								<HStack justifyContent="space-between" alignItems="center">
+									<Text fontSize="xs" color="text.secondary">
+										Tags
+									</Text>
+									<Icon
+										as={<FontAwesome5 onPress={() => {}} name="arrow-right" />}
+										size={5}
+										color="black"
+									/>
+								</HStack>
+
 								<HStack flexWrap="wrap">
 									{selectedTags.map((tag: string, index: number) => (
 										<Chip
@@ -136,8 +113,8 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 										/>
 									))}
 								</HStack>
-							</Pressable>
-						</VStack>
+							</VStack>
+						</Pressable>
 						<ImagePicker />
 
 						<Button width="100%">Create</Button>
