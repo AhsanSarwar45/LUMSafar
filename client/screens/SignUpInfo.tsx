@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Heading, VStack } from 'native-base';
-import TextInput from '../components/TextInput';
 import { Formik } from 'formik';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
+import * as Yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import TextInput from '../components/TextInput';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SignUpInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpInfo'>;
 
@@ -60,6 +61,10 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 			});
 	}
 
+	const SignUpInfoSchema = Yup.object().shape({
+		username: Yup.string().required('Required')
+	});
+
 	const Validate = (values: UserInfoData) => {
 		const errors: UserInfoData = {};
 
@@ -79,7 +84,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 					email: ''
 				}}
 				onSubmit={SetUsername}
-				validate={Validate}
+				validationSchema={SignUpInfoSchema}
 			>
 				{(formikProps) => (
 					<VStack space="15px" py="20px" width="full">

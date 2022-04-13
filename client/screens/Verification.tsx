@@ -43,7 +43,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 		)
 			.then((response) => {
 				if (response.data === 'failure') {
-					console.log('Error occured please try again later');
+					console.log('Error occurred please try again later');
 				} else {
 					//verCode received
 					setVerificationCode(response.data);

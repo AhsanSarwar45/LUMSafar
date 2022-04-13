@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Center, Heading, View, VStack, Text } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInput from '../components/TextInput';
 import { Formik } from 'formik';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-import AppLoading from 'expo-app-loading';
+import * as Yup from 'yup';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
 import * as Crypto from 'expo-crypto';
@@ -21,25 +19,15 @@ type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'For
 export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreenProps) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
 
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 	interface ForgotPasswordData {
 		email?: string;
 	}
 
-	const Validate = (values: ForgotPasswordData) => {
-		const errors: ForgotPasswordData = {};
-
-		const email: string = values.email as string;
-
-		if (!values.email) {
-			errors.email = 'Required';
-		}
-		if (!/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/.test(email)) {
-			errors.email = 'Please enter your LUMS email';
-		}
-		return errors;
-	};
+	const ForgotPasswordSchema = Yup.object().shape({
+		email: Yup.string()
+			.matches(/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/, 'Please enter your LUMS email')
+			.required('Required')
+	});
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	function CheckIfUserExists(data: ForgotPasswordData, formikProps: any) {
@@ -84,7 +72,7 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 					email: ''
 				}}
 				onSubmit={CheckIfUserExists}
-				validate={Validate}
+				validationSchema={ForgotPasswordSchema}
 			>
 				{(formikProps) => (
 					<VStack space="15px" py="20px" width="full">

@@ -24,7 +24,12 @@
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
 			},
-			"package": "com.ahsansarwar.LUMSafar"
+			"package": "com.ahsansarwar.LUMSafar",
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyAQEUpohtyNtjBEdUQhPXjYdA3MyEySh3g"
+				}
+			}
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"

@@ -59,7 +59,11 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
     "react-navigation-heavy-screen": "^1.2.1",
+<<<<<<< HEAD
     "expo-crypto": "~10.1.1"
+=======
+    "yup": "^0.32.11"
+>>>>>>> e576247652eba984d60b90f3214515252299bb20
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

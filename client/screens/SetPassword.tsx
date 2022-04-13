@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
 import * as Crypto from 'expo-crypto';
+import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
@@ -22,20 +23,15 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 		confirmPassword?: string;
 	}
 
-	const Validate = (values: SetPasswordData) => {
-		const errors: SetPasswordData = {};
-
-		if (!values.password) {
-			errors.password = 'Required';
-		}
-		if (!values.confirmPassword) {
-			errors.confirmPassword = 'Required';
-		} else if (values.confirmPassword != values.password) {
-			errors.confirmPassword = 'Passwords do not match';
-		}
-
-		return errors;
-	};
+	const SetPasswordSchema = Yup.object().shape({
+		password: Yup.string()
+			.min(6, 'Password must be at least 6 characters long')
+			.max(20, 'Password must be shorter than 20 characters long')
+			.required('Required'),
+		confirmPassword: Yup.string()
+			.oneOf([ Yup.ref('password'), null ], 'Passwords do not match')
+			.required('Required')
+	});
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	async function SetPassword(data: SetPasswordData, formikProps: any) {
@@ -77,7 +73,7 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 					confirmPassword: ''
 				}}
 				onSubmit={SetPassword}
-				validate={Validate}
+				validationSchema={SetPasswordSchema}
 			>
 				{(formikProps) => (
 					<VStack space="15px" py="20px" width="full">
