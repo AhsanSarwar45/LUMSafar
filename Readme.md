@@ -28,10 +28,8 @@ Developed using:
 1. Clone the repository to local machine using
 ```git clone https://github.com/AhsanSarwar45/LUMSafar```.
 2. Open the cloned directory in VSCode either manually or using ```code LUMSafar```.
-3. Create an `.env` file in the `client/` directory and add `LUMSAFAR_SERVER_URL='http://<your ipv4 address>:3001'`.
 
 ### Client
-
 
 1. Navigate to client directory using `cd client`.
 2. Install required packages using ```npm ci```. Go watch Better Caul Saul while your computer does its thing.
@@ -42,7 +40,7 @@ Developed using:
 1. Navigate to client directory using `cd server`.
 2. Install required packages using `npm ci`.
 4. Start the server using `npm run start`, or if you have nodemon `npm run start-n`. With nodemon, the server gets automatically restarted when you save any changes.
-
+3. If you want to test the client with the local server instance, go to the `.env` file in the `client/` directory and replace content with `LUMSAFAR_SERVER_URL='http://<your ipv4 address>:3001'`.
 
 # Running the Client
 
