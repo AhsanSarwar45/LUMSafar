@@ -19,8 +19,6 @@ type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	const [ isDuplicate, setIsDuplicate ] = useState(false);
 
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 	const { isSociety } = route.params;
 
 	interface SignUpData {
@@ -54,7 +52,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	};
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function CheckDuplicate(data: SignUpData, actions: any) {
+	function CheckDuplicate(data: SignUpData, formikProps: any) {
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/exists`,
 			{ email: data.email },
@@ -63,6 +61,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			}
 		)
 			.then((response) => {
+				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
 					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
 					navigation.navigate('Verification', {
@@ -76,8 +75,6 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			.catch((response) => {
 				console.log(response);
 			});
-		await delay(500);
-		actions.setSubmitting(false);
 	}
 
 	return (

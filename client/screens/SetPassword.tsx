@@ -8,39 +8,44 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
+import { JsonHeader } from '../config/ControlHeader';
 
 type SetPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'SetPassword'>;
 
-export interface SetPasswordData {
-	password?: string;
-	confirmPassword?: string;
-}
-
-const Validate = (values: SetPasswordData) => {
-	const errors: SetPasswordData = {};
-
-	if (!values.password) {
-		errors.password = 'Required';
-	}
-	if (!values.confirmPassword) {
-		errors.confirmPassword = 'Required';
-	} else if (values.confirmPassword != values.password) {
-		errors.confirmPassword = 'Passwords do not match';
-	}
-
-	return errors;
-};
-
 export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps) => {
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+	const { email } = route.params;
+
+	interface SetPasswordData {
+		password?: string;
+		confirmPassword?: string;
+	}
+
+	const Validate = (values: SetPasswordData) => {
+		const errors: SetPasswordData = {};
+
+		if (!values.password) {
+			errors.password = 'Required';
+		}
+		if (!values.confirmPassword) {
+			errors.confirmPassword = 'Required';
+		} else if (values.confirmPassword != values.password) {
+			errors.confirmPassword = 'Passwords do not match';
+		}
+
+		return errors;
+	};
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SetPassword(data: SetPasswordData, actions: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/set-password`, data, {
-			headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
-		})
+	function SetPassword(data: SetPasswordData, formikProps: any) {
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/set-password`,
+			{ email: email, passwordNew: data.password },
+			{
+				headers: JsonHeader
+			}
+		)
 			.then((response) => {
-				console.log(response.data);
+				formikProps.setSubmitting(false);
 				if (response.data === 'success') {
 					navigation.navigate('PasswordResetSuccess');
 				} else if (response.data === 'failure') {
@@ -48,10 +53,9 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 				}
 			})
 			.catch((response) => {
+				formikProps.setSubmitting(false);
 				console.log(response);
 			});
-		await delay(500);
-		actions.setSubmitting(false);
 	}
 
 	return (
@@ -62,7 +66,8 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 
 			<Formik
 				initialValues={{
-					email: ''
+					password: '',
+					confirmPassword: ''
 				}}
 				onSubmit={SetPassword}
 				validate={Validate}

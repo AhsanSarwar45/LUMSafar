@@ -27,10 +27,10 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 		password?: string;
 	}
 
-	async function StoreUserToken(data: LoginData) {
+	async function StoreUserToken(data: LoginData, formikProps: any) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
-
+			formikProps.setSubmitting(false);
 			navigation.reset({
 				index: 0,
 				routes: [ { name: 'Home' } ]
@@ -41,7 +41,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 	}
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SetUsername(data: UserInfoData, actions: any) {
+	function SetUsername(data: UserInfoData, formikProps: any) {
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/set-username`,
 			{ email: email, name: data.username },
@@ -51,15 +51,13 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 		)
 			.then((response) => {
 				if (response.data === 'success') {
-					StoreUserToken({ email: email, password: '' });
+					StoreUserToken({ email: email, password: '' }, formikProps);
 				} else if (response.data === 'failure') {
 				}
 			})
 			.catch((response) => {
 				console.log(response);
 			});
-		await delay(500);
-		actions.setSubmitting(false);
 	}
 
 	const Validate = (values: UserInfoData) => {

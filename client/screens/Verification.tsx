@@ -54,19 +54,19 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			});
 	}
 
-	const ForgotPassword = () => {
+	const ForgotPassword = (formikProps: any) => {
+		formikProps.setSubmitting(false);
 		navigation.navigate('SetPassword', { email: data.email as string });
 	};
 
-	async function SignUp() {
-		const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+	function SignUp(formikProps: any) {
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/add`, data, {
 			headers: JsonHeader
 		})
 			.then((response) => {
-				console.log(response.data);
 				if (response.data === 'success') {
 					//login user
+					formikProps.setSubmitting(false);
 					navigation.navigate('SignUpInfo', {
 						email: data.email as string,
 						isSociety: data.isSociety as boolean
@@ -76,19 +76,20 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			.catch((response) => {
 				console.log(response);
 			});
-		await delay(500);
+
 		// actions.setSubmitting(false);
 	}
 
-	function Verify() {
-		if (value === verificationCode) {
+	function Verify(values: any, formikProps: any) {
+		if (values.code == verificationCode) {
 			setIsWrong(false);
 			if (type === 'SignUp') {
-				SignUp();
+				SignUp(formikProps);
 			} else if (type === 'ForgotPassword') {
-				ForgotPassword();
+				ForgotPassword(formikProps);
 			}
 		} else {
+			formikProps.setSubmitting(false);
 			setIsWrong(true);
 		}
 	}
@@ -109,9 +110,9 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			</VStack>
 			<Formik
 				initialValues={{
-					email: ''
+					code: ''
 				}}
-				onSubmit={() => {}}
+				onSubmit={Verify}
 			>
 				{(formikProps) => (
 					<VStack space="15px" py="20px" width="full">
@@ -121,8 +122,11 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 							{...props}
 							// Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
 							// caretHidden={false}
-							value={value}
-							onChangeText={setValue}
+							value={formikProps.values.code}
+							onChangeText={formikProps.handleChange('code')}
+							onBlur={() => {
+								formikProps.handleBlur('code');
+							}}
 							cellCount={CODE_LENGTH}
 							// keyboardType="number-pad"
 							textContentType="oneTimeCode"
@@ -150,7 +154,15 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 							Wrong Code
 						</ErrorMessage>
 
-						<Button onPress={Verify} width="100%">
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Checking"
+						>
 							Verify
 						</Button>
 					</VStack>

@@ -12,6 +12,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { DeviceEventEmitter } from 'react-native';
+import { JsonHeader } from '../config/ControlHeader';
 
 type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -39,15 +40,16 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 	};
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function CheckIfUserExists(data: ForgotPasswordData, actions: any) {
+	function CheckIfUserExists(data: ForgotPasswordData, formikProps: any) {
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/exists`,
 			{ email: data.email },
 			{
-				headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+				headers: JsonHeader
 			}
 		)
 			.then((response) => {
+				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
 					setUserNotFound(false);
 
@@ -62,8 +64,6 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 			.catch((response) => {
 				console.log(response);
 			});
-		await delay(500);
-		actions.setSubmitting(false);
 	}
 
 	return (

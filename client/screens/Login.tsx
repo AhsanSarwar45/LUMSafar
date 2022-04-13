@@ -14,41 +14,18 @@ import AppLoading from 'expo-app-loading';
 import Storage from 'react-native-storage';
 import { JsonHeader } from '../config/ControlHeader';
 
-// const storage = new Storage({
-// 	size: 1000,
-
-// 	storageBackend: AsyncStorage, // for web: window.localStorage
-
-// 	defaultExpires: 1000 * 3600 * 24,
-
-// 	enableCache: true,
-
-// 	sync: {
-// 	}
-//   });
-
-//   export default storage;
-
 export const LoginScreen = ({ navigation }: any) => {
-	// const isScreenMounted = useRef(true);
-
-	// useEffect(() => {
-	// 	return () => (isScreenMounted.current = false);
-	// }, []);
-
 	const [ userNotFound, setUserNotFound ] = useState(false);
-
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	interface LoginData {
 		email?: string;
 		password?: string;
 	}
 
-	async function StoreUserToken(data: LoginData) {
+	async function StoreUserToken(data: LoginData, formikProps: any) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
-
+			formikProps.setSubmitting(false);
 			navigation.reset({
 				index: 0,
 				routes: [ { name: 'Home' } ]
@@ -73,18 +50,19 @@ export const LoginScreen = ({ navigation }: any) => {
 		return errors;
 	};
 
-	async function Login(data: LoginData, actions: any) {
+	function Login(data: LoginData, formikProps: any) {
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: JsonHeader
 		})
 			.then((response) => {
 				if (response.data === 'success') {
 					setUserNotFound(false);
-					StoreUserToken(data);
+					StoreUserToken(data, formikProps);
 
 					// AsyncStorage.setItem('user-email', data.email as string);
 					// Go to Home page
 				} else if (response.data === 'not-found') {
+					formikProps.setSubmitting(false);
 					setUserNotFound(true);
 				}
 			})
@@ -92,8 +70,7 @@ export const LoginScreen = ({ navigation }: any) => {
 				console.log(response);
 			});
 
-		await delay(500);
-		actions.setSubmitting(false);
+		// await delay(500);
 	}
 
 	return (
