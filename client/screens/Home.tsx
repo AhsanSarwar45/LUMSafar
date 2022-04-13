@@ -6,6 +6,7 @@ import { Box, Pressable, Icon, useTheme } from 'native-base';
 import { NavigationState, Route } from 'react-native-tab-view';
 
 import DrawerVector from '../assets/vector/Drawer.svg';
+import DrawerFlatVector from '../assets/vector/DrawerFlat.svg';
 import TabIcon from '../components/TabIcon';
 import { EventsTab } from './tabs/Events';
 import MapTab from './tabs/Map';
@@ -163,7 +164,7 @@ export const Home = (props: HomeScreenProps) => {
 			>
 				<CAB icon={tabs[state.index].cab.icon} onPress={tabs[state.index].cab.onPress} />
 				<Box position="absolute" bottom={0} left={2}>
-					<DrawerVector width={initialLayout.width - 16} fill={colors.accent} />
+					<DrawerFlatVector width={initialLayout.width - 16} fill={colors.accent} />
 				</Box>
 				<HStack justifyContent="space-between" px="5%" py="5px">
 					<NavIconSet routeSet={firstHalf} offset={0} />
