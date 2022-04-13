@@ -67,8 +67,8 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 					description: '',
 					location: '',
 					// tags: [ 'Badminton', 'Study', 'Cricket', 'Party' ],
-					startTime: moment(),
-					endTime: moment().add(1, 'hour')
+					startTime: moment().add(1, 'hour').startOf('hour'),
+					endTime: moment().add(2, 'hour').startOf('hour')
 				}}
 				onSubmit={() => {}}
 				validate={Validate}
