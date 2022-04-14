@@ -1,7 +1,7 @@
 import AppLoading from 'expo-app-loading';
 import { ScrollView, VStack, View } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
-import { Dimensions, useWindowDimensions, StatusBar } from 'react-native';
+import { Dimensions, useWindowDimensions, StatusBar as ReactStatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 
@@ -60,16 +60,22 @@ const Screen = (props: ScreenProps) => {
 		);
 	};
 
+	const StatusBar = () => {
+		return <View height={`${ReactStatusBar.currentHeight}px`} bgColor="primary.500" />;
+	};
+
 	const HeavyScreenWrapper = () => {
 		return props.lightScreen ? (
-			<View mt={`${StatusBar.currentHeight}px`}>
+			<View>
+				<StatusBar />
 				{props.topBar}
 				<ScrollWrapper />
 			</View>
 		) : (
-			<View mt={`${StatusBar.currentHeight}px`}>
+			<View>
 				<AppLoading />
 				<OptimizedHeavyScreen>
+					<StatusBar />
 					{props.topBar}
 					<ScrollWrapper />
 				</OptimizedHeavyScreen>
