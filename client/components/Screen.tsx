@@ -1,11 +1,12 @@
 import AppLoading from 'expo-app-loading';
-import { ScrollView, VStack, View } from 'native-base';
+import { ScrollView, VStack, View, useTheme } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
-import { Dimensions, useWindowDimensions, StatusBar as ReactStatusBar } from 'react-native';
+import { Dimensions, useWindowDimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 
 import ScreenHeader from './ScreenHeader';
+import StatusBar from './StatusBar';
 
 interface ScreenProps {
 	heading: string;
@@ -27,11 +28,13 @@ const Screen = (props: ScreenProps) => {
 		return (
 			<VStack
 				px="10%"
+				pb="20%"
+				py={props.topBar ? '0' : '20px'}
 				space="15px"
 				width="full"
 				justifyContent="flex-start"
 				alignItems="center"
-				pb="80px"
+				// pb="80px"
 
 				// bgColor="blue.500"
 				// overflowY="scroll"
@@ -61,19 +64,15 @@ const Screen = (props: ScreenProps) => {
 		);
 	};
 
-	const StatusBar = () => {
-		return <View height={`${ReactStatusBar.currentHeight}px`} bgColor="primary.500" />;
-	};
-
 	const HeavyScreenWrapper = () => {
 		return props.lightScreen ? (
-			<View>
+			<View marginTop="5%">
 				<StatusBar />
 				{props.topBar}
 				<ScrollWrapper />
 			</View>
 		) : (
-			<View>
+			<View marginTop="5%">
 				<AppLoading />
 				<OptimizedHeavyScreen>
 					<StatusBar />

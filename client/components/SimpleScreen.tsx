@@ -1,8 +1,9 @@
-import { ScrollView, VStack } from 'native-base';
+import { ScrollView, useTheme, VStack } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
-import { Dimensions, useWindowDimensions, StatusBar } from 'react-native';
+import { Dimensions, useWindowDimensions } from 'react-native';
 
 import ScreenHeader from './ScreenHeader';
+import StatusBar from './StatusBar';
 
 interface SimpleScreenProps {
 	heading: string;
@@ -19,7 +20,8 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 	const window = useWindowDimensions();
 
 	return (
-		<VStack height={window.height} pt="5%" mt={`${StatusBar.currentHeight}px`}>
+		<VStack marginTop="5%" height={window.height}>
+			<StatusBar />
 			{props.topBar}
 			<ScrollView height={window.height} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
 				<VStack
@@ -28,12 +30,12 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 					width="full"
 					justifyContent="flex-start"
 					alignItems="center"
-					pb="20px"
+					pt="20px"
+					pb="20%"
 					// bgColor="blue.500"
 					// overflowY="scroll"
 					// {...otherProps}
 				>
-					{}
 					{props.heading || props.backButton ? (
 						<ScreenHeader
 							text={props.heading}

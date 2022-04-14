@@ -20,7 +20,7 @@ const TopBar = (props: TopBarProps) => {
 		<View>
 			<HStack
 				width="full"
-				height="60px"
+				height="80px"
 				position={props.overlay ? 'absolute' : 'relative'}
 				top={0}
 				// bgColor="red.500"
@@ -33,12 +33,12 @@ const TopBar = (props: TopBarProps) => {
 			>
 				<HamburgerIcon
 					fill="black"
-					height={'60%'}
+					height={'50%'}
 					onPress={() => {
 						navigation.navigate('Menu');
 					}}
 				/>
-				{props.search ? <SearchIcon fill="black" height={'60%'} onPress={() => props.onSearchPress} /> : null}
+				{props.search ? <SearchIcon fill="black" height={'50%'} onPress={() => props.onSearchPress} /> : null}
 			</HStack>
 		</View>
 	);
