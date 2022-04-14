@@ -18,10 +18,15 @@ const MapTab = (props: TabsProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const window = useWindowDimensions();
-
 	return (
 		<Screen topBar={<TopBar transparent />}>
 			<MapView
+				initialRegion={{
+					latitude: 31.47058452968967,
+					longitude: 74.40957425948184,
+					latitudeDelta: 0.005,
+					longitudeDelta: 0.005
+				}}
 				style={{
 					width: window.width,
 					height: window.height
