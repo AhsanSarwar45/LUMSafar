@@ -3,9 +3,12 @@ import { HStack, Button, Text, Pressable, VStack, View } from 'native-base';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
+import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
+import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
+import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
@@ -39,10 +42,19 @@ export const LoginScreen = ({ navigation }: any) => {
 		password: Yup.string().required('Required')
 	});
 
-	function Login(data: LoginData, formikProps: any) {
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
-			headers: JsonHeader
-		})
+	async function Login(data: LoginData, formikProps: any) {
+		const digest = await Crypto.digestStringAsync(
+			Crypto.CryptoDigestAlgorithm.SHA256,
+			data.password as string,
+			{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+		);
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/login`,
+			{ email: data.email, password: digest },
+			{
+				headers: JsonHeader
+			}
+		)
 			.then((response) => {
 				if (response.data === 'success') {
 					StoreUserToken(data, formikProps);

@@ -3,9 +3,11 @@ import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Ic
 import { Formik } from 'formik';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
+import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
+import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
@@ -48,12 +50,17 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				headers: JsonHeader
 			}
 		)
-			.then((response) => {
+			.then(async (response) => {
 				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
 					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
+					const digest = await Crypto.digestStringAsync(
+						Crypto.CryptoDigestAlgorithm.SHA256,
+						data.password as string,
+						{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+					  );
 					navigation.navigate('Verification', {
-						data: { email: data.email, isSociety: data.isSociety, password: data.password },
+						data: { email: data.email, isSociety: data.isSociety, password: digest },
 						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {

@@ -3,9 +3,11 @@ import { VStack, Button, Heading } from 'native-base';
 import { Formik } from 'formik';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
+import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
+import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
@@ -32,10 +34,15 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 	});
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	function SetPassword(data: SetPasswordData, formikProps: any) {
+	async function SetPassword(data: SetPasswordData, formikProps: any) {
+		const digest = await Crypto.digestStringAsync(
+			Crypto.CryptoDigestAlgorithm.SHA256,
+			data.password as string,
+			{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+		  );
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/set-password`,
-			{ email: email, passwordNew: data.password },
+			{ email: email, passwordNew: digest },
 			{
 				headers: JsonHeader
 			}
