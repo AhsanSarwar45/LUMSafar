@@ -20,9 +20,9 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	const { isSociety } = route.params;
 
 	interface SignUpData {
-		email?: string;
-		password?: string;
-		confirmPassword?: string;
+		email: string;
+		password: string;
+		confirmPassword: string;
 		isSociety?: boolean;
 	}
 

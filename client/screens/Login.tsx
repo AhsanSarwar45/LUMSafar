@@ -1,26 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, HStack, Button, Text, Center, Pressable, VStack, View } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { HStack, Button, Text, Pressable, VStack, View } from 'native-base';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
 import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
-import AppLoading from 'expo-app-loading';
-import Storage from 'react-native-storage';
 import { JsonHeader } from '../config/ControlHeader';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
 
 	interface LoginData {
-		email?: string;
-		password?: string;
+		email: string;
+		password: string;
 	}
 
 	async function StoreUserToken(data: LoginData, formikProps: any) {
@@ -49,7 +45,6 @@ export const LoginScreen = ({ navigation }: any) => {
 		})
 			.then((response) => {
 				if (response.data === 'success') {
-					setUserNotFound(false);
 					StoreUserToken(data, formikProps);
 
 					// AsyncStorage.setItem('user-email', data.email as string);

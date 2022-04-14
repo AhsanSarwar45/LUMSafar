@@ -1,21 +1,24 @@
-import { VStack, HStack, Text } from 'native-base';
+import { VStack, HStack, Text, Button } from 'native-base';
 import React from 'react';
 import moment from 'moment';
 
 interface TimeCardProps {
 	time: moment.Moment;
 	label: string;
+	onPress: Function;
 }
 
 export const TimeCard = (props: TimeCardProps) => {
 	const Days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
 	return (
-		<VStack
+		<Button
+			onPress={() => props.onPress()}
 			width="47.5%"
 			borderWidth={1}
 			borderColor="border.light"
 			bgColor="background"
 			rounded="2xl"
+			shadow={0}
 			px={5}
 			py={3}
 			space={2}
@@ -32,8 +35,12 @@ export const TimeCard = (props: TimeCardProps) => {
 					{/* <Text fontSize="lg">{props.time.getMinutes()}</Text> */}
 				</HStack>
 			</VStack>
-		</VStack>
+		</Button>
 	);
+};
+
+TimeCard.defaultProps = {
+	onPress: () => {}
 };
 
 export default TimeCard;
