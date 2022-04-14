@@ -8,7 +8,6 @@ import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
-import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
@@ -75,7 +74,6 @@ export const LoginScreen = ({ navigation }: any) => {
 
 	return (
 		<Screen keyboardAware heading="Login">
-			<Text>{LUMSAFAR_SERVER_URL}</Text>
 			<ErrorMessage show={userNotFound}>
 				We couldn't find you. Please make sure your email and password are correct!
 			</ErrorMessage>
