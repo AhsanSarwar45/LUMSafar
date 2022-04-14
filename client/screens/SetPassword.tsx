@@ -34,15 +34,15 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 	});
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
-	async function SetPassword(data: SetPasswordData, formikProps: any) {
-		const digest = await Crypto.digestStringAsync(
-			Crypto.CryptoDigestAlgorithm.SHA256,
-			data.password as string,
-			{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
-		  );
+	function SetPassword(data: SetPasswordData, formikProps: any) {
+		// const digest = await Crypto.digestStringAsync(
+		// 	Crypto.CryptoDigestAlgorithm.SHA256,
+		// 	data.password as string,
+		// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+		//   );
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/set-password`,
-			{ email: email, passwordNew: digest },
+			{ email: email, passwordNew: data.password },
 			{
 				headers: JsonHeader
 			}

@@ -50,17 +50,17 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				headers: JsonHeader
 			}
 		)
-			.then(async (response) => {
+			.then((response) => {
 				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
 					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
-					const digest = await Crypto.digestStringAsync(
-						Crypto.CryptoDigestAlgorithm.SHA256,
-						data.password as string,
-						{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
-					  );
+					// const digest = await Crypto.digestStringAsync(
+					// 	Crypto.CryptoDigestAlgorithm.SHA256,
+					// 	data.password as string,
+					// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+					//   );
 					navigation.navigate('Verification', {
-						data: { email: data.email, isSociety: data.isSociety, password: digest },
+						data: { email: data.email, isSociety: data.isSociety, password: data.password },
 						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {

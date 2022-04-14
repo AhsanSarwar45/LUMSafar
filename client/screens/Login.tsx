@@ -42,20 +42,20 @@ export const LoginScreen = ({ navigation }: any) => {
 		password: Yup.string().required('Required')
 	});
 
-	async function Login(data: LoginData, formikProps: any) {
-		const digest = await Crypto.digestStringAsync(
-			Crypto.CryptoDigestAlgorithm.SHA256,
-			data.password as string,
-			{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
-		);
+	function Login(data: LoginData, formikProps: any) {
+		// const digest = Crypto.digestString(
+		// 	Crypto.CryptoDigestAlgorithm.SHA256,
+		// 	data.password as string,
+		// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
+		// );
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/login`,
-			{ email: data.email, password: digest },
+			{ email: data.email, password: data.password },
 			{
 				headers: JsonHeader
 			}
 		)
-			.then((response) => {
+			.then(async (response) => {
 				if (response.data === 'success') {
 					StoreUserToken(data, formikProps);
 
