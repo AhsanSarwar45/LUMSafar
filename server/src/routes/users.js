@@ -5,10 +5,6 @@ let User = require('../models/user_model.js');
 
 // * HEAVY BRO
 
-function hash(string) {
-	return createHash('sha256').update(string).digest('hex');
-}
-
 router.route('/').get((req, res) => {
 	User.find().then((users) => res.json(users)).catch((err) => res.status(400).json('Error: ' + err));
 });
@@ -16,7 +12,7 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
 	const username = req.body.username;
 	const email = req.body.email;
-	const password = hash(req.body.password);
+	const password = createHash('sha256').update(req.body.password).digest('hex');
 	const isSociety = req.body.isSociety;
 
 	console.log(`[user/add] ${email}: received`);
@@ -144,7 +140,7 @@ router.route('/set-username').post((req, res) => {
 
 router.route('/set-password').post((req, res) => {
 	const email = req.body.email;
-	const passwordNew = hash(req.body.passwordNew);
+	const passwordNew = createHash('sha256').update(req.body.passwordNew).digest('hex');
 
 	// set the new password of the email
 
@@ -174,7 +170,7 @@ router.route('/set-password').post((req, res) => {
 
 router.route('/login').post((req, res) => {
 	const email = req.body.email;
-	const password = hash(req.body.password);
+	const password = createHash('sha256').update(req.body.password).digest('hex');
 
 	console.log(`[user/login] ${email} : received`);
 	User.where({ email: email, password: password }).findOne((err, user) => {
