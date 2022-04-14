@@ -33,12 +33,12 @@ const TopBar = (props: TopBarProps) => {
 			>
 				<HamburgerIcon
 					fill="black"
-					height={'50%'}
+					height={'45%'}
 					onPress={() => {
 						navigation.navigate('Menu');
 					}}
 				/>
-				{props.search ? <SearchIcon fill="black" height={'50%'} onPress={() => props.onSearchPress} /> : null}
+				{props.search ? <SearchIcon fill="black" height={'45%'} onPress={() => props.onSearchPress} /> : null}
 			</HStack>
 		</View>
 	);

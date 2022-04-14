@@ -55,7 +55,7 @@ export const LoginScreen = ({ navigation }: any) => {
 				headers: JsonHeader
 			}
 		)
-			.then(async (response) => {
+			.then((response) => {
 				if (response.data === 'success') {
 					StoreUserToken(data, formikProps);
 
@@ -75,6 +75,7 @@ export const LoginScreen = ({ navigation }: any) => {
 
 	return (
 		<Screen keyboardAware heading="Login">
+			<Text>{LUMSAFAR_SERVER_URL}</Text>
 			<ErrorMessage show={userNotFound}>
 				We couldn't find you. Please make sure your email and password are correct!
 			</ErrorMessage>
