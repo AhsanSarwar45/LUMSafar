@@ -15,15 +15,15 @@ import AppLoading from 'expo-app-loading';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Menu from './screens/Menu';
 import CreateEventScreen from './screens/CreateEvents';
+import SplashScreen from './screens/Splash';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-	const [ initialRouteName, setInitialRouteName ] = useState('');
+	// const [ initialRouteName, setInitialRouteName ] = useState('');
 
 	let [ fontsLoaded ] = useFonts({
 		Jost_300Light,
@@ -31,21 +31,6 @@ export default function App() {
 		Jost_500Medium,
 		Jost_700Bold
 	});
-
-	function CheckLogin() {
-		try {
-			const userData = AsyncStorage.getItem('userData');
-			const data = JSON.parse(userData as string);
-
-			setInitialRouteName(data == null ? 'Login' : 'Home');
-		} catch (error) {
-			console.log('Something went wrong getting storage data', error);
-		}
-	}
-
-	useEffect(() => {
-		CheckLogin();
-	}, []);
 
 	const navigationTheme = {
 		...DefaultTheme,
@@ -58,7 +43,8 @@ export default function App() {
 	return fontsLoaded ? (
 		<NativeBaseProvider config={config} theme={theme}>
 			<NavigationContainer theme={navigationTheme}>
-				<Stack.Navigator initialRouteName={initialRouteName}>
+				<Stack.Navigator initialRouteName={'Splash'}>
+					<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 					<Stack.Screen options={{ headerShown: false }} name="CreateEvent" component={CreateEventScreen} />
 					{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}

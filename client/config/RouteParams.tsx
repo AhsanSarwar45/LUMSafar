@@ -13,4 +13,5 @@ export type RootStackParamList = {
 	CreateEvent: undefined;
 	ChipsSearch: undefined;
 	Menu: undefined;
+	Splash: undefined;
 };
