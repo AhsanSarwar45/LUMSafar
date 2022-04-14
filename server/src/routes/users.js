@@ -65,7 +65,7 @@ router.route('/send-email').post((req, res) => {
 
 	console.log(`[user/send-email] ${email}: received`);
 
-	let verCode = crypto.randomBytes(2).toString('hex');
+	let verCode = randomBytes(2).toString('hex');
 
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
