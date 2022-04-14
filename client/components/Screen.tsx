@@ -31,7 +31,8 @@ const Screen = (props: ScreenProps) => {
 				width="full"
 				justifyContent="flex-start"
 				alignItems="center"
-				pb="20px"
+				pb="80px"
+
 				// bgColor="blue.500"
 				// overflowY="scroll"
 				// {...otherProps}
