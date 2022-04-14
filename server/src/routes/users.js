@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
-const { createHash } = require('crypto');
 let User = require('../models/user_model.js');
 
 // * HEAVY BRO
@@ -12,7 +11,7 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
 	const username = req.body.username;
 	const email = req.body.email;
-	const password = createHash('sha256').update(req.body.password).digest('hex');
+	const password = req.body.password;
 	const isSociety = req.body.isSociety;
 
 	console.log(`[user/add] ${email}: received`);
@@ -140,7 +139,7 @@ router.route('/set-username').post((req, res) => {
 
 router.route('/set-password').post((req, res) => {
 	const email = req.body.email;
-	const passwordNew = createHash('sha256').update(req.body.passwordNew).digest('hex');
+	const passwordNew = req.body.passwordNew;
 
 	// set the new password of the email
 
@@ -170,7 +169,7 @@ router.route('/set-password').post((req, res) => {
 
 router.route('/login').post((req, res) => {
 	const email = req.body.email;
-	const password = createHash('sha256').update(req.body.password).digest('hex');
+	const password = req.body.password;
 
 	console.log(`[user/login] ${email} : received`);
 	User.where({ email: email, password: password }).findOne((err, user) => {
@@ -179,8 +178,7 @@ router.route('/login').post((req, res) => {
 			console.log(`[user/login] ${email} : failure: ${err}`);
 		} else {
 			if (user) {
-				//check if a doc was found
-				//TODO: need to send user doc. frontend needs catering
+				//check if a doc was foundzz
 				res.json('success');
 				// TODO: return the entire user document
 				console.log(`[user/login] ${email} : success`);
