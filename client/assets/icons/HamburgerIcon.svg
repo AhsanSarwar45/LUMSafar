@@ -1,3 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black" viewBox="0 0 50 32">
-  <path fill-rule="evenodd" d="M0 3.889C0 1.74 1.75 0 3.91 0h35.18C41.25 0 43 1.741 43 3.889c0 2.148-1.75 3.889-3.91 3.889H3.91C1.75 7.778 0 6.037 0 3.888Zm0 12.222c0-2.148 1.777-3.889 3.97-3.889h18.522c2.192 0 3.97 1.741 3.97 3.89 0 2.147-1.777 3.888-3.97 3.888H3.97C1.777 20 0 18.259 0 16.111Z" clip-rule="evenodd"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="50"
+   height="50"
+   fill="#000000"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="HamburgerIcon.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#cccccc"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="10.65625"
+     inkscape:cx="32"
+     inkscape:cy="18.439883"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <path
+     fill-rule="evenodd"
+     d="m -9,20.092109 c 0,-1.910466 1.7377074,-3.45733 3.8825343,-3.45733 H 29.815414 c 2.144826,0 3.882534,1.547752 3.882534,3.45733 0,1.909579 -1.737708,3.457333 -3.882534,3.457333 H -5.1174657 C -7.2622926,23.549442 -9,22.001688 -9,20.09122 Z m 0,10.865392 c 0,-1.909579 1.7645166,-3.457332 3.9421123,-3.457332 H 13.334005 c 2.176603,0 3.942113,1.547753 3.942113,3.458221 0,1.908687 -1.764516,3.456441 -3.942113,3.456441 H -5.0578877 C -7.2354834,34.414831 -9,32.867077 -9,30.957501 Z"
+     clip-rule="evenodd"
+     id="path2"
+     style="stroke-width:0.939551"
+     sodipodi:nodetypes="csssssccsssssss" />
 </svg>

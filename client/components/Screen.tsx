@@ -25,28 +25,25 @@ const Screen = (props: ScreenProps) => {
 
 	const Inner = () => {
 		return (
-			<VStack pt="5%" mt={`${StatusBar.currentHeight}px`}>
-				{props.topBar}
-				<VStack
-					px="10%"
-					space="15px"
-					width="full"
-					justifyContent="flex-start"
-					alignItems="center"
-					pb="20px"
-					// bgColor="blue.500"
-					// overflowY="scroll"
-					// {...otherProps}
-				>
-					{props.heading || props.backButton ? (
-						<ScreenHeader
-							text={props.heading}
-							backButton={props.backButton}
-							onBackButton={props.onBackButton}
-						/>
-					) : null}
-					{props.children}
-				</VStack>
+			<VStack
+				px="10%"
+				space="15px"
+				width="full"
+				justifyContent="flex-start"
+				alignItems="center"
+				pb="20px"
+				// bgColor="blue.500"
+				// overflowY="scroll"
+				// {...otherProps}
+			>
+				{props.heading || props.backButton ? (
+					<ScreenHeader
+						text={props.heading}
+						backButton={props.backButton}
+						onBackButton={props.onBackButton}
+					/>
+				) : null}
+				{props.children}
 			</VStack>
 		);
 	};
@@ -65,11 +62,15 @@ const Screen = (props: ScreenProps) => {
 
 	const HeavyScreenWrapper = () => {
 		return props.lightScreen ? (
-			<ScrollWrapper />
+			<View mt={`${StatusBar.currentHeight}px`}>
+				{props.topBar}
+				<ScrollWrapper />
+			</View>
 		) : (
-			<View>
+			<View mt={`${StatusBar.currentHeight}px`}>
 				<AppLoading />
 				<OptimizedHeavyScreen>
+					{props.topBar}
 					<ScrollWrapper />
 				</OptimizedHeavyScreen>
 			</View>

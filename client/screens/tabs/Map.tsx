@@ -19,7 +19,7 @@ const MapTab = (props: TabsProps) => {
 
 	const window = useWindowDimensions();
 	return (
-		<Screen topBar={<TopBar transparent />}>
+		<Screen topBar={<TopBar overlay type="icons" />}>
 			<MapView
 				initialRegion={{
 					latitude: 31.47058452968967,

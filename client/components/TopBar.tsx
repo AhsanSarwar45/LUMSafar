@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HStack, Pressable } from 'native-base';
+import { AspectRatio, Button, HStack, Icon, Pressable } from 'native-base';
 import React from 'react';
 import HamburgerIcon from '../assets/icons/HamburgerIcon.svg';
 import SearchIcon from '../assets/icons/SearchIcon.svg';
@@ -9,35 +9,100 @@ import { RootStackParamList } from '../config/RouteParams';
 interface TopBarProps {
 	search: boolean;
 	onSearchPress: Function;
-	transparent: boolean;
+	overlay: boolean;
+	type: 'bar' | 'icons';
 }
 
 const TopBar = (props: TopBarProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 	return (
 		<HStack
 			width="full"
+			height="60px"
+			position={props.overlay ? 'absolute' : 'relative'}
+			top={0}
+			// bgColor="red.500"
 			// opacity={props.transparent?0:1}
 			justifyContent="space-between"
 			px="10%"
+			// py="2%"
+			zIndex={5}
 			alignItems="center"
 		>
 			<HamburgerIcon
 				fill="black"
-				width={'10%'}
+				height={'60%'}
 				onPress={() => {
 					navigation.navigate('Menu');
 				}}
 			/>
-			{props.search ? <SearchIcon fill="black" width={'12%'} onPress={() => props.onSearchPress} /> : null}
+			{props.search ? <SearchIcon fill="black" height={'60%'} onPress={() => props.onSearchPress} /> : null}
 		</HStack>
 	);
 };
 
 TopBar.defaultProps = {
 	search: false,
-	transparent: false,
+	overlay: false,
+	type: 'bar',
 	onSearchPress: () => {}
 };
 
 export default TopBar;
+
+{
+	/* <HStack
+			width="full"
+			position="absolute"
+			top={0}
+			// opacity={props.transparent?0:1}
+			justifyContent="space-between"
+			px="10%"
+			alignItems="center"
+			zIndex={5}
+			// elevation={5}
+		>
+			<AspectRatio
+				width="20%"
+				ratio={{
+					base: 1 / 1,
+					md: 1 / 1
+				}}
+			>
+				<Button
+					rounded="full"
+					bgColor="background"
+					onPress={() => {
+						navigation.navigate('Menu');
+					}}
+					justifyContent="center"
+					alignItems="center"
+				>
+					<Icon as={<HamburgerIcon fill="black" width={32} height={32} />} />
+				</Button>
+			</AspectRatio>
+
+			{props.search ? (
+				<AspectRatio
+					width="20%"
+					ratio={{
+						base: 1 / 1,
+						md: 1 / 1
+					}}
+				>
+					<Button
+						rounded="full"
+						bgColor="background"
+						onPress={() => {
+							navigation.navigate('Menu');
+						}}
+						justifyContent="center"
+						alignItems="center"
+					>
+						<Icon as={<SearchIcon fill="black" width={32} height={32} />} />
+					</Button>
+				</AspectRatio>
+			) : null}
+		</HStack> */
+}
