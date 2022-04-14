@@ -167,6 +167,37 @@ router.route('/set-password').post((req, res) => {
 	});
 });
 
+/*
+
+router.route('/verify-password').post((req, res) => {
+	const passwordOld = req.body.passwordOld;
+	const passwordNew = req.body.passwordNew;
+	const email = req.body.email;
+
+	// check if passwordOld-email combo exists in database or not
+	User.where({ email: email, password: passwordOld }).findOne((err, user) => {
+
+		if (err) {
+			res.json('failure');
+			console.log(`[user/set-username] ${email}: failure: ${err}`);
+		}
+		else {
+			user.password = passwordNew;
+			user
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[user/set-password] ${email}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/set-password] ${email}: failure: ${err}`);
+				});
+		}
+});
+
+*/
+
 router.route('/login').post((req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
