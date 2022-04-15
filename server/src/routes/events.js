@@ -111,12 +111,12 @@ router.route('/add-remove-interest').post((req, res) => {
 
 router.route('/fetch-recommendations').get((req, res) => {
 	let own_id = req.body.own_id;
-
+	// let events = [];
 	Users.findById(own_id)
 		.then((user) => {
 			let following = user.following
-			Events.find( {creator: {$in : following}}).exec().then((events) => {
-				console.log(events);
+			Events.find( {creator: {$in : following}}).limit(4).exec().then((events) => {
+				res.json(events);
 			});
 		});
 });
