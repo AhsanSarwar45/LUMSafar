@@ -109,7 +109,7 @@ router.route('/add-remove-interest').post((req, res) => {
 	// });
 });
 
-router.route('/fetch-recommendations').get((req, res) => {
+router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
 	let promiseArray = [];
 

@@ -145,7 +145,7 @@ export const EventsTab = (props: TabsProps) => {
 		console.log('fetch');
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/events/fetch-recommendations`,
-			{ currenList: events, userId: userData._id },
+			{ userId: userData._id, currentList: events },
 			{
 				headers: JsonHeader
 			}
