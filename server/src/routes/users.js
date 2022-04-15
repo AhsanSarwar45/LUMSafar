@@ -30,7 +30,7 @@ router.route('/add').post((req, res) => {
 	newUser
 		.save()
 		.then(() => {
-			res.json('success');
+			res.json(newUser);
 			console.log(`[user/add] ${email}: success`);
 		})
 		.catch((err) => {
@@ -209,21 +209,21 @@ router.route('/login').post((req, res) => {
 	const email = req.body.email;
 	const password = hash(req.body.password);
 
-	console.log(`[user/login] ${email} : received`);
+	console.log(`[user/login] ${email}: received`);
 	User.where({ email: email, password: password }).findOne((err, user) => {
 		if (err) {
 			res.status(400).json('failure');
-			console.log(`[user/login] ${email} : failure: ${err}`);
+			console.log(`[user/login] ${email}: failure: ${err}`);
 		} else {
 			if (user) {
 				//check if a doc was foundzz
 				//added status element in the json object. Its sent along with the rest of the doc
 				res.json(user);
 				// TODO: return the entire user document
-				console.log(`[user/login] ${email} : success`);
+				console.log(`[user/login] ${email}: success`);
 			} else {
 				res.json('not-found');
-				console.log(`[user/login] ${email} : not-found`);
+				console.log(`[user/login] ${email}: not-found`);
 			}
 			// res.json(user);
 		}
@@ -232,7 +232,18 @@ router.route('/login').post((req, res) => {
 });
 
 router.route('/:id').get((req, res) => {
-	User.findById(req.params.id).then((user) => res.json(user)).catch((err) => res.status(400).json('Error: ' + err));
+	const id = req.params.id;
+	console.log(`[user/:id] ${id} : received`);
+
+	User.findById(id)
+		.then((user) => {
+			res.json(user);
+			console.log(`[user/:id] ${id} : success`);
+		})
+		.catch((err) => {
+			res.status(400).json('failure');
+			console.log(`[user/:id] ${id} : failure`);
+		});
 });
 
 router.route('/:id').delete((req, res) => {
@@ -244,9 +255,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
 	User.findById(req.params.id) // returns doc
 		.then((user) => {
-			user.email = req.body.email;
-			user.password = req.body.password;
-			user.isSociety = req.body.isSociety;
+			user = req.body;
 
 			user.save().then(() => res.json('User updated!')).catch((err) => res.status(400).json('Error: ' + err));
 		})
