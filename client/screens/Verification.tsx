@@ -91,9 +91,9 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 					console.log('something went wrong');
 				} else {
 					//login user
-					StoreUserData(response.data, (data: UserData) => {
+					StoreUserData(response.data, (userData: UserData) => {
 						formikProps.setSubmitting(false);
-						setUserData(data);
+						setUserData(userData);
 					});
 				}
 			})

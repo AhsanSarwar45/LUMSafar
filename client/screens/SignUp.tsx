@@ -55,7 +55,12 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
 					navigation.navigate('Verification', {
-						data: { email: data.email, isSociety: data.userType, password: data.password },
+						data: {
+							email: data.email,
+							username: data.username,
+							userType: data.userType,
+							password: data.password
+						},
 						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {
