@@ -394,7 +394,7 @@ router.route('/search-result').post((req, res) => {
 				console.log(`[user/search-result]: failure fetching users : ${err}`);
 			});
 	} else if (search_type == 'events') {
-		Event.find({ event_title: search })
+		Event.find({ title: search })
 			.then((events) => {
 				console.log(`[user/search-result] ${search}: success`);
 				res.json(events);
