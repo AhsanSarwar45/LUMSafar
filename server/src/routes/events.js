@@ -9,10 +9,10 @@ router.route('/').get((req, res) => {
 
 router.route('/view').get((req, res) => {
 	const title = req.body.title;
-	const creator = req.body.creator;
+	const creatorId = req.body.creatorId;
 	console.log(`[events/view] ${title}: received`);
 
-	Events.find({ title: title, creator: creator }).then((err, data) => {
+	Events.find({ title: title, creatorId: creatorId }).then((err, data) => {
 		if (err) {
 			res.json('failure');
 			console.log(`[events/view] ${title}: failure: ${err}`);
@@ -58,19 +58,19 @@ router.route('/update/:id').post((req, res) => {
 
 router.route('/add-remove-interest').post((req, res) => {
 	const title = req.body.title;
-	const creator = req.body.creator;
+	const creatorId = req.body.creatorId;
 	const email = req.body.email;
 
 	const user = Users.find({ email: email });
 
-	Events.find({ title: title, creator: creator }).then((err, data) => {
+	Events.find({ title: title, creatorId: creatorId }).then((err, data) => {
 		if (err) {
 			res.json('failure');
 			console.log(`[event-interest/addition] ${email}: failure: ${err}`);
 		} else if (data) {
 			Events.find({
 				title: title,
-				creator: creator,
+				creatorId: creatorId,
 				interestedUsers: email
 			}).then((err2, data2) => {
 				if (err2) {
@@ -78,9 +78,9 @@ router.route('/add-remove-interest').post((req, res) => {
 					console.log(`[event-interest/addition] ${email}: failure: ${err}`);
 				} else if (data2) {
 					res.json('already-marked-as-interested');
-					Events.updateOne({ title: title, creator: creator }, { $pull: { interestedUsers: user._id } });
+					Events.updateOne({ title: title, creatorId: creatorId }, { $pull: { interestedUsers: user._id } });
 				} else {
-					Events.updateOne({ title: title, creator: creator }, { $push: { interestedUsers: user._id } });
+					Events.updateOne({ title: title, creatorId: creatorId }, { $push: { interestedUsers: user._id } });
 				}
 			});
 		} else {
@@ -101,7 +101,7 @@ router.route('/add-remove-interest').post((req, res) => {
 	//         res.json('marked-as-interested');
 	//         console.log(`[user/exists] ${email}: success`);
 	//         Event.updateOne(
-	//             { title: title, creator: creator},
+	//             { title: title, creatorId: creatorId},
 	//             { $push: { interestedUsers: user} }
 	//          )
 	// 	}
@@ -110,9 +110,9 @@ router.route('/add-remove-interest').post((req, res) => {
 
 router.route('/search-event').get((req, res) => {
 	const event_title_query = req.body.title;
-	const created_by_query = req.body.creator;
+	const created_by_query = req.body.creatorId;
 
-	Events.where({ title: event_title_query, creator: created_by_query }).findOne((err, event) => {
+	Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
 		if (err) console.log(err);
 		if (event) {
 			// query result is not null

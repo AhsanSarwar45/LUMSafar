@@ -53,7 +53,7 @@ const EventCard = (props: EventCardProps) => {
 							{props.data.title}
 						</Text>
 						<Text width="100%" color="rgba(255,255,255,0.75)">
-							{props.data.creator}
+							{props.data.creatorUsername}
 						</Text>
 					</VStack>
 

@@ -17,27 +17,27 @@ export const EventsTab = (props: TabsProps) => {
 	const events = [
 		{
 			title: 'Badminton Fest',
-			creator: 'Abdullah',
+			creatorUsername: 'Abdullah',
 			imagePath: ''
 		},
 		{
 			title: 'Codinguru',
-			creator: 'IEEE',
+			creatorUsername: 'IEEE',
 			imagePath: ''
 		},
 		{
 			title: 'Arson',
-			creator: 'Me and the boiz',
+			creatorUsername: 'Me and the boiz',
 			imagePath: ''
 		},
 		{
 			title: 'UX Pakistan',
-			creator: 'INDEX',
+			creatorUsername: 'INDEX',
 			imagePath: ''
 		},
 		{
 			title: 'Geek Study Session',
-			creator: 'Omer Kamran',
+			creatorUsername: 'Omer Kamran',
 			imagePath: ''
 		}
 	];
