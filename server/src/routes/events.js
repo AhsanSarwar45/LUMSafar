@@ -111,14 +111,39 @@ router.route('/add-remove-interest').post((req, res) => {
 
 router.route('/fetch-recommendations').get((req, res) => {
 	let own_id = req.body.own_id;
-	// let events = [];
+	let events_list = [];
 	Users.findById(own_id)
 		.then((user) => {
 			let following = user.following
 			Events.find( {creator: {$in : following}}).limit(4).exec().then((events) => {
-				res.json(events);
+				events_list.push(events);
+				// res.json(events);
+
 			});
 		});
+
+	Events.aggregate(
+		[
+			{	"$project": {
+				"title": 1,
+				"creatorId": 1,
+				"creatorUsername": 1,
+				"description": 1,
+				"location": 1,
+				"tags": 1,
+				"startTime": 1,
+				"endTime": 1,
+				"interestedUsers": 1,
+				"imagePath": 1,
+				"length": { "$size": "$interestedUsers" }
+			}},
+			{ "$sort": { "length": -1 } },
+			{ "$limit": 4 }
+		], function (err, result) {
+			// events_list.push(result);
+			res.json(results);
+		}
+	)
 });
 
 router.route('/search-event').get((req, res) => {
