@@ -247,4 +247,82 @@ router.route('/friends-menu').post((req, res) => {
 	});
 });
 
+router.route('/friend-request').post((req, res) => {
+	let own_id = req.body.own_id;
+	let friend_id = req.body.friend_id;
+
+	User.findById(friend_id)
+		.then((user) => {
+			user.friend_request.push(own_id)
+			user.save()
+				.then(() => {
+					res.json('success')
+					console.log(`[user/friend-request] ${own_id}: success`)
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/friend-request] failure ${err}`)
+				})
+		}).catch((err) => {
+			res.json('failure')
+			console.log(`[user/friend-request]: failure fetching user : ${err}`)
+		});
+})
+
+router.route('/accept-request').post((req, res) => {
+	let own_id = req.body.own_id;
+	let friend_id = req.body.friend_id;
+
+	User.findById(own_id)
+		.then((user) => {
+			user.friends.push(friend_id)
+			user.save()
+				.then(() => {
+					User.findById(friend_id)
+					.then((user_friend) => {
+						user_friend.friends.push(own_id)
+						user_friend.save()
+									.then(() => {
+										res.json("handshake-complete")
+										console.log(`[user/accept-request: success]`)
+									})
+									.catch((err) => {
+										res.json("handshake-failed")
+										console.log(`[user/accept-request]: failed : ${err}`)
+									})
+					})
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/accept-request] failure ${err}`)
+				})
+
+		}).catch((err) => {
+			res.json('failure')
+			console.log(`[user/friend-request]: failure fetching user : ${err}`)
+		});
+})
+
+router.route('/follow-user').post((req, res) => {
+	let own_id = req.body.own_id;
+	let friend_id = req.body.friend_id;
+
+	User.findById(own_id)
+		.then((user) => {
+			user.following.push(friend_id);
+			user.save()
+				.then(() => {
+					res.json('success')
+					console.log(`[user/follow-user] ${friend_id}: success`)
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/friend-request] failure ${err}`)
+				})
+		}).catch((err) => {
+			res.json('failure')
+			console.log(`[user/follow-user]: failure fetching user : ${err}`)
+		})
+})
+
 module.exports = router;

@@ -26,6 +26,10 @@ const userschema = new mongoose.Schema({
     type: String,
     enum: ["student", "society"],
   },
+  friend_requests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  }],
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
