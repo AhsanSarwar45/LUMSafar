@@ -70,7 +70,7 @@ export const Home = (props: HomeScreenProps) => {
 					props.navigation.navigate('CreateEvent', {
 						data: {
 							title: '',
-							creatorId: userData.id,
+							creatorId: userData._id,
 							creatorUsername: userData.username,
 							description: '',
 							location: '',

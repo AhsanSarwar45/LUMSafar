@@ -21,13 +21,15 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	const { isSociety } = route.params;
 
 	interface SignUpData {
+		username: string;
 		email: string;
 		password: string;
 		confirmPassword: string;
-		isSociety?: boolean;
+		userType?: 'society' | 'student';
 	}
 
 	const SignUpSchema = Yup.object().shape({
+		username: Yup.string().required('Required'),
 		email: Yup.string()
 			.matches(/^\"?[\w-_\.]*\"?@lums\.edu\.pk$/, 'Please enter your LUMS email')
 			.required('Required'),
@@ -52,14 +54,8 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			.then((response) => {
 				formikProps.setSubmitting(false);
 				if (response.data === 'not-found') {
-					// DeviceEventEmitter.addListener('event.verify-email', (eventData) => SignUp(data));
-					// const digest = await Crypto.digestStringAsync(
-					// 	Crypto.CryptoDigestAlgorithm.SHA256,
-					// 	data.password as string,
-					// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
-					//   );
 					navigation.navigate('Verification', {
-						data: { email: data.email, isSociety: data.isSociety, password: data.password },
+						data: { email: data.email, isSociety: data.userType, password: data.password },
 						type: 'SignUp'
 					});
 				} else if (response.data === 'success') {
@@ -78,6 +74,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			</ErrorMessage>
 			<Formik
 				initialValues={{
+					username: '',
 					email: '',
 					password: '',
 					confirmPassword: ''
@@ -87,6 +84,11 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			>
 				{(formikProps) => (
 					<VStack space="15px" width="full">
+						<TextInput
+							label={isSociety ? 'Society Name' : 'Name'}
+							name="username"
+							formikProps={formikProps}
+						/>
 						<TextInput
 							label={isSociety ? 'Society Email' : 'University Email'}
 							name="email"

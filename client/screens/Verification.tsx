@@ -63,9 +63,13 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 	useEffect(
 		() => {
 			if (isMountedRef.current) {
-				navigation.navigate('SignUpInfo', {
-					email: data.email as string,
-					isSociety: data.isSociety as boolean
+				// navigation.navigate('SignUpInfo', {
+				// 	email: data.email as string,
+				// 	isSociety: data.isSociety as boolean
+				// });
+				navigation.reset({
+					index: 0,
+					routes: [ { name: 'Home' } ]
 				});
 			}
 			isMountedRef.current = true;
