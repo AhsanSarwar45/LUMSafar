@@ -12,6 +12,7 @@ interface OptionCardProps {
 	height: number | string;
 	py: number | string;
 	px: number | string;
+	mt: number | string;
 }
 
 const OptionCard = (props: OptionCardProps) => {
@@ -24,6 +25,7 @@ const OptionCard = (props: OptionCardProps) => {
 			height={props.height}
 			py={props.py}
 			px={props.px}
+			mt={props.mt}
 			bgColor="primary.500"
 			justifyContent="center"
 			alignItems="center"
@@ -44,7 +46,8 @@ OptionCard.defaultProps = {
 	labelSize: 24,
 	iconSize: 16,
 	py: 0,
-	px: 0
+	px: 0,
+	mt: 0
 };
 
 export default OptionCard;
