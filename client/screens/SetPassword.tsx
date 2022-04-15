@@ -61,7 +61,7 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 	}
 
 	return (
-		<Screen keyboardAware backButton>
+		<Screen scrollType="keyboardAware" backButton>
 			<Heading size="lg" width="100%">
 				Enter your new password
 			</Heading>

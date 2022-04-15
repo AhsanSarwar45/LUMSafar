@@ -65,7 +65,7 @@ export const LoginScreen = ({ navigation }: any) => {
 	}
 
 	return (
-		<Screen keyboardAware heading="Login">
+		<Screen scrollType="keyboardAware" heading="Login">
 			<ErrorMessage show={userNotFound}>
 				We couldn't find you. Please make sure your email and password are correct!
 			</ErrorMessage>

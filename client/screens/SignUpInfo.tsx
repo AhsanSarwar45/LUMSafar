@@ -64,7 +64,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 	});
 
 	return (
-		<Screen keyboardAware backButton>
+		<Screen scrollType="keyboardAware" backButton>
 			<Heading size="lg" width="100%">
 				What should we call you?
 			</Heading>

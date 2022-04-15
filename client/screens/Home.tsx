@@ -69,6 +69,7 @@ export const Home = (props: HomeScreenProps) => {
 				onPress: () => {
 					props.navigation.navigate('CreateEvent', {
 						data: {
+							_id: '',
 							title: '',
 							creatorId: userData._id,
 							creatorUsername: userData.username,

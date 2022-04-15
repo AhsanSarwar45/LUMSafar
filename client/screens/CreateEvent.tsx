@@ -33,7 +33,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 	};
 
 	return (
-		<Screen backButton keyboardAware heading="Create Event">
+		<Screen backButton scrollType="keyboardAware" heading="Create Event">
 			<Formik
 				initialValues={{
 					title: data.title,

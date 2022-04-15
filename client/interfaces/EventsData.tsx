@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 
 export interface EventData {
+	_id: string;
 	title: string;
 	creatorId: string;
 	creatorUsername: string;

@@ -56,7 +56,7 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 	}
 
 	return (
-		<Screen keyboardAware backButton>
+		<Screen scrollType="keyboardAware" backButton>
 			<Heading size="lg" width="100%">
 				Lets get you a new password 🚀
 			</Heading>

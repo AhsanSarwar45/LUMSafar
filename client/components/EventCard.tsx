@@ -21,6 +21,7 @@ const EventCard = (props: EventCardProps) => {
 
 	return (
 		<AspectRatio
+			marginBottom={4}
 			width="full"
 			ratio={{
 				base: 16 / 9,
