@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Heading, HStack } from 'native-base';
+import { Heading, HStack, useTheme } from 'native-base';
 import React, { useContext } from 'react';
 import Screen from '../components/Screen';
 import { RootStackParamList } from '../config/RouteParams';
@@ -12,11 +12,13 @@ import MenuCard from '../components/MenuCard';
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 
 const MenuScreen = (props: MenuScreenProps) => {
+	const { colors } = useTheme();
 	const { userData, setUserData } = useContext(UserDataContext);
 	return (
 		<Screen backButton>
 			<Heading>{userData.username} </Heading>
 			<MenuCard
+				iconColor={colors.cards[0]}
 				label="Profile"
 				icon={<MaterialIcons name="person" />}
 				onPress={() => {
@@ -25,6 +27,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 			/>
 
 			<MenuCard
+				iconColor={colors.cards[1]}
 				label="Friends"
 				icon={<MaterialIcons name="group" />}
 				onPress={() => {
@@ -32,6 +35,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 				}}
 			/>
 			<MenuCard
+				iconColor={colors.cards[2]}
 				label="Following"
 				icon={<MaterialCommunityIcons name="cards-heart" />}
 				onPress={() => {
@@ -39,6 +43,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 				}}
 			/>
 			<MenuCard
+				iconColor={colors.cards[3]}
 				label="Settings"
 				icon={<MaterialIcons name="settings" />}
 				onPress={() => {
@@ -46,15 +51,17 @@ const MenuScreen = (props: MenuScreenProps) => {
 				}}
 			/>
 			<MenuCard
+				iconColor={colors.cards[4]}
 				label="About"
-				icon={<MaterialIcons name="info-outline" />}
+				icon={<MaterialIcons name="info" />}
 				onPress={() => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
 			/>
 			<MenuCard
+				iconColor={colors.cards[0]}
 				label="Log Out"
-				icon={<Ionicons name="arrow-undo-outline" />}
+				icon={<Ionicons name="arrow-undo" />}
 				onPress={() => {
 					AsyncStorage.clear();
 					props.navigation.reset({

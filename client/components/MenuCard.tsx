@@ -4,6 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 interface MenuCardProps {
 	label: string;
+	iconColor: string;
 	icon: ReactNode;
 	onPress: Function;
 }
@@ -20,13 +21,14 @@ const MenuCard = (props: MenuCardProps) => {
 				space={2}
 				width="full"
 				justifyContent="space-between"
+				alignItems="center"
 			>
-				<HStack space={2}>
-					<Icon as={props.icon} size={6} color="black" />
+				<HStack space={2} alignItems="center">
+					<Icon as={props.icon} size={6} color={props.iconColor} />
 					<Text fontSize="lg">{props.label}</Text>
 				</HStack>
 
-				<Icon as={<FontAwesome5 name="arrow-right" />} size={6} color="black" />
+				<Icon as={<FontAwesome5 name="arrow-right" />} size={5} color="text.secondary" />
 			</HStack>
 		</Pressable>
 	);
