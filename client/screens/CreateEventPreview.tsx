@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Button, VStack } from 'native-base';
+import { Box, Button, VStack } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
+import { useToast, useTheme } from 'native-base';
+
 import EventCard from '../components/EventCard';
 import Screen from '../components/Screen';
-
 import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
@@ -15,17 +16,34 @@ type CreateEventPreviewScreenProps = NativeStackScreenProps<RootStackParamList, 
 
 const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 	const { data } = props.route.params;
-
+	const toast = useToast();
+	const { borderRadius } = useTheme();
 	const [ isSubmitting, setSubmitting ] = useState(false);
 
 	function CreateEvent(data: EventData) {
-		console.log(data);
+		setSubmitting(true);
 		Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
 			headers: JsonHeader
 		})
 			.then((response) => {
 				setSubmitting(false);
 				if (response.data === 'success') {
+					toast.show({
+						render: () => {
+							return (
+								<Box
+									_text={{ color: 'white' }}
+									bg="emerald.500"
+									px="3"
+									py="2"
+									rounded={borderRadius}
+									mb={10}
+								>
+									Event created! 🚀
+								</Box>
+							);
+						}
+					});
 					props.navigation.navigate('Home');
 				} else if (response.data === 'failure') {
 					console.log('Failure creating event');

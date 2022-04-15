@@ -8,7 +8,6 @@ import Axios from 'axios';
 import * as Crypto from 'expo-crypto';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
-import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { DeviceEventEmitter } from 'react-native';
