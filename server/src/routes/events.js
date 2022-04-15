@@ -112,6 +112,7 @@ router.route('/add-remove-interest').post((req, res) => {
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
 	let currentEvents = req.body.currentEvents;
+	console.log(currentEvents);
 	let promiseArray = [];
 
 	console.log(`[event/fetch-recommendations] ${own_id}: received`);
@@ -169,6 +170,7 @@ router.route('/fetch-recommendations').post((req, res) => {
 			});
 
 			// console.log(data1);
+			console.log(data1);
 			res.json(data1);
 			console.log(`[event/fetch-recommendations] ${own_id}: success`);
 		});

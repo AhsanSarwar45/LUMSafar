@@ -20,73 +20,75 @@ export const EventsTab = (props: TabsProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
 
-	const [ events, setEvents ] = useState<Array<EventData>>([
-		{
-			_id: '1',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'Badminton Fest',
-			creatorUsername: 'Abdullah',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '2',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'Codinguru',
-			creatorUsername: 'IEEE',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '3',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'UX Pakistan',
-			creatorUsername: 'INDEX',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '4',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'UX Pakistan',
-			creatorUsername: 'INDEX',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '5',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'Badminton Fest',
-			creatorUsername: 'Abdullah',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		}
-	]);
+	const [ events, setEvents ] = useState<Array<EventData>>(
+		[
+			// {
+			// 	_id: '1',
+			// 	creatorId: '',
+			// 	description: '',
+			// 	location: '',
+			// 	title: 'Badminton Fest',
+			// 	creatorUsername: 'Abdullah',
+			// 	imagePath: '',
+			// 	tags: [],
+			// 	startTime: 0,
+			// 	endTime: 0,
+			// 	interestedUsers: []
+			// },
+			// {
+			// 	_id: '2',
+			// 	creatorId: '',
+			// 	description: '',
+			// 	location: '',
+			// 	title: 'Codinguru',
+			// 	creatorUsername: 'IEEE',
+			// 	imagePath: '',
+			// 	tags: [],
+			// 	startTime: 0,
+			// 	endTime: 0,
+			// 	interestedUsers: []
+			// },
+			// {
+			// 	_id: '3',
+			// 	creatorId: '',
+			// 	description: '',
+			// 	location: '',
+			// 	title: 'UX Pakistan',
+			// 	creatorUsername: 'INDEX',
+			// 	imagePath: '',
+			// 	tags: [],
+			// 	startTime: 0,
+			// 	endTime: 0,
+			// 	interestedUsers: []
+			// },
+			// {
+			// 	_id: '4',
+			// 	creatorId: '',
+			// 	description: '',
+			// 	location: '',
+			// 	title: 'UX Pakistan',
+			// 	creatorUsername: 'INDEX',
+			// 	imagePath: '',
+			// 	tags: [],
+			// 	startTime: 0,
+			// 	endTime: 0,
+			// 	interestedUsers: []
+			// },
+			// {
+			// 	_id: '5',
+			// 	creatorId: '',
+			// 	description: '',
+			// 	location: '',
+			// 	title: 'Badminton Fest',
+			// 	creatorUsername: 'Abdullah',
+			// 	imagePath: '',
+			// 	tags: [],
+			// 	startTime: 0,
+			// 	endTime: 0,
+			// 	interestedUsers: []
+			// }
+		]
+	);
 
 	useEffect(
 		() => {
@@ -97,16 +99,21 @@ export const EventsTab = (props: TabsProps) => {
 		[ isFetching ]
 	);
 
+	useEffect(() => {
+		setIsFetching(true);
+	}, []);
+
 	const Refresh = () => {
 		setEvents([]);
 		FetchRecommendations();
 	};
 
 	function FetchRecommendations() {
-		console.log('fetch');
+		const currentEvents = events.map((value: EventData, index: number) => value._id);
+		console.log(currentEvents);
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/events/fetch-recommendations`,
-			{ userId: userData._id, currentEvents: events.map((value: EventData, index: number) => value._id) },
+			{ userId: userData._id, currentEvents: currentEvents },
 			{
 				headers: JsonHeader
 			}
