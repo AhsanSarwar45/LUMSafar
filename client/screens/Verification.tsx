@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { VStack, HStack, Button, Heading, Pressable, Text, Box, useTheme } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
@@ -13,12 +13,18 @@ import ErrorMessage from '../components/ErrorMessage';
 import { Formik } from 'formik';
 import TextInput from '../components/TextInput';
 import SimpleScreen from '../components/SimpleScreen';
+import { UserData } from '../interfaces/UserData';
+import { StoreUserData } from '../data/AsyncStorage';
+import { UserDataContext } from '../data/UserDataContext';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
 const CODE_LENGTH = 4;
 
 export const VerificationScreen = ({ route, navigation }: VerificationScreenProps) => {
+	const { userData, setUserData } = useContext(UserDataContext);
+	const isMountedRef = useRef(false);
+
 	const [ value, setValue ] = useState<string>('');
 	const [ verificationCode, setVerificationCode ] = useState<string>('');
 	const ref = useBlurOnFulfill({ value, cellCount: CODE_LENGTH });
@@ -54,6 +60,19 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			});
 	}
 
+	useEffect(
+		() => {
+			if (isMountedRef.current) {
+				navigation.navigate('SignUpInfo', {
+					email: data.email as string,
+					isSociety: data.isSociety as boolean
+				});
+			}
+			isMountedRef.current = true;
+		},
+		[ userData ]
+	);
+
 	const ForgotPassword = (formikProps: any) => {
 		formikProps.setSubmitting(false);
 		navigation.navigate('SetPassword', { email: data.email as string });
@@ -64,12 +83,13 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 			headers: JsonHeader
 		})
 			.then((response) => {
-				if (response.data === 'success') {
+				if (response.data === 'failure') {
+					console.log('something went wrong');
+				} else {
 					//login user
-					formikProps.setSubmitting(false);
-					navigation.navigate('SignUpInfo', {
-						email: data.email as string,
-						isSociety: data.isSociety as boolean
+					StoreUserData(response.data, (data: UserData) => {
+						formikProps.setSubmitting(false);
+						setUserData(data);
 					});
 				}
 			})

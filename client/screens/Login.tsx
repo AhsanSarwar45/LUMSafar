@@ -11,6 +11,8 @@ import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
 import { JsonHeader } from '../config/ControlHeader';
 import { UserDataContext } from '../data/UserDataContext';
+import { UserData } from '../interfaces/UserData';
+import { StoreUserData } from '../data/AsyncStorage';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
@@ -20,16 +22,6 @@ export const LoginScreen = ({ navigation }: any) => {
 	interface LoginData {
 		email: string;
 		password: string;
-	}
-
-	async function StoreUserToken(data: any, formikProps: any) {
-		try {
-			await AsyncStorage.setItem('userData', JSON.stringify(data));
-			formikProps.setSubmitting(false);
-			setUserData(data);
-		} catch (error) {
-			console.log('Something went wrong', error);
-		}
 	}
 
 	useEffect(
@@ -61,7 +53,10 @@ export const LoginScreen = ({ navigation }: any) => {
 					formikProps.setSubmitting(false);
 					setUserNotFound(true);
 				} else {
-					StoreUserToken(response.data, formikProps);
+					StoreUserData(response.data, (data: UserData) => {
+						formikProps.setSubmitting(false);
+						setUserData(data);
+					});
 				}
 			})
 			.catch((response) => {
