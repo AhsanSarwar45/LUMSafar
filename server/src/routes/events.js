@@ -111,6 +111,7 @@ router.route('/add-remove-interest').post((req, res) => {
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
+	let currentEvents = req.body.currentEvents;
 	let promiseArray = [];
 
 	console.log(`[event/fetch-recommendations] ${own_id}: received`);
@@ -119,29 +120,15 @@ router.route('/fetch-recommendations').post((req, res) => {
 		let following = user.following;
 		let interests = user.interests;
 
-		promiseArray.push(Events.find({ creator: { $in: following } }).limit(4).exec());
+		promiseArray.push(Events.find({ creator: { $in: following }, _id: { $nin: arr } }).limit(4).exec());
 
-		// .then((events) => {
-		// 	events.forEach((event) => {
-		// 		events_list.push(event);
-		// 	});
-		// 	// events_list.push(events);
-		// });
+		promiseArray.push(Events.find({ tags: { $in: interests }, _id: { $nin: arr } }).limit(2).exec());
 
-		promiseArray.push(Events.find({ tags: { $in: interests } }).limit(2).exec());
-
-		// .then((events) => {
-		// 	events.forEach((event) => {
-		// 		events_list.push(event);
-		// 	});
-		// 	// events_list.push(events);
-		// 	// res.json(events);
-		// });
-
-		promiseArray.push(Events.find({ interestedUsers: { $in: own_id } }).limit(2).exec());
+		promiseArray.push(Events.find({ interestedUsers: { $in: own_id }, _id: { $nin: arr } }).limit(2).exec());
 
 		promiseArray.push(
 			Events.aggregate([
+				{ $match: { _id: { $nin: arr } } },
 				{
 					$project: {
 						title: 1,

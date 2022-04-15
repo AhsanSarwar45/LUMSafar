@@ -48,7 +48,7 @@ const EventCard = (props: EventCardProps) => {
 									'3xl'
 								)
 							}
-							lineHeight="xs"
+							lineHeight="sm"
 							color="white"
 						>
 							{props.data.title}

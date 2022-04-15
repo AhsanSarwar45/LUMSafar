@@ -85,45 +85,6 @@ export const EventsTab = (props: TabsProps) => {
 			startTime: 0,
 			endTime: 0,
 			interestedUsers: []
-		},
-		{
-			_id: '6',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'Codinguru',
-			creatorUsername: 'IEEE',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '7',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'UX Pakistan',
-			creatorUsername: 'INDEX',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
-		},
-		{
-			_id: '8',
-			creatorId: '',
-			description: '',
-			location: '',
-			title: 'UX Pakistan',
-			creatorUsername: 'INDEX',
-			imagePath: '',
-			tags: [],
-			startTime: 0,
-			endTime: 0,
-			interestedUsers: []
 		}
 	]);
 
@@ -145,7 +106,7 @@ export const EventsTab = (props: TabsProps) => {
 		console.log('fetch');
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/events/fetch-recommendations`,
-			{ userId: userData._id, currentList: events },
+			{ userId: userData._id, currentEvents: events.map((value: EventData, index: number) => value._id) },
 			{
 				headers: JsonHeader
 			}
