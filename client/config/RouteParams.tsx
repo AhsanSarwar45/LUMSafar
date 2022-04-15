@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CreateEventData } from '../interfaces/Events';
 
 export type RootStackParamList = {
 	Login: undefined;
@@ -10,7 +11,10 @@ export type RootStackParamList = {
 	SetPassword: { email: string };
 	PasswordResetSuccess: undefined;
 	Home: undefined;
-	CreateEvent: undefined;
+	CreateEvent: { data: CreateEventData };
+	CreateEventTags: { data: CreateEventData };
+	CreateEventTime: { data: CreateEventData };
+	CreateEventPreview: { data: CreateEventData };
 	ChipsSearch: undefined;
 	Menu: undefined;
 	Splash: undefined;

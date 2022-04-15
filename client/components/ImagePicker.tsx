@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { AspectRatio, Button, Image, Text, Pressable } from 'native-base';
-import { TouchableNativeFeedbackBase } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const ImagePicker = () => {
-	const [ image, setImage ] = useState<any>(null);
+interface ImagePickerProps {
+	image: string;
+	setImage: Function;
+}
 
+const ImagePicker = (props: ImagePickerProps) => {
 	const pickImage = async () => {
 		// No permissions request is necessary for launching the image library
 		let result = await ExpoImagePicker.launchImageLibraryAsync({
@@ -19,7 +20,7 @@ const ImagePicker = () => {
 		// console.log(result);
 
 		if (!result.cancelled) {
-			setImage(result.uri);
+			props.setImage(result.uri);
 		}
 	};
 	return (
@@ -39,7 +40,7 @@ const ImagePicker = () => {
 				color="black"
 				p={0}
 			>
-				{image ? (
+				{props.image ? (
 					<AspectRatio
 						width="full"
 						ratio={{
@@ -49,7 +50,7 @@ const ImagePicker = () => {
 					>
 						<Image
 							source={{
-								uri: image
+								uri: props.image
 							}}
 							alt="Event Card Image"
 						/>

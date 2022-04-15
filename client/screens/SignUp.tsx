@@ -7,7 +7,6 @@ import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
-import { LUMSAFAR_PASSWORD_ENCRYPTION_KEY } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';

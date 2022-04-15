@@ -16,8 +16,11 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
 import Menu from './screens/Menu';
-import CreateEventScreen from './screens/CreateEvents';
+import CreateEventScreen from './screens/CreateEvent';
 import SplashScreen from './screens/Splash';
+import CreateEventTagsScreen from './screens/CreateEventTags';
+import CreateEventTimeScreen from './screens/CreateEventTime';
+import CreateEventPreviewScreen from './screens/CreateEventPreview';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -47,6 +50,21 @@ export default function App() {
 					<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
 					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 					<Stack.Screen options={{ headerShown: false }} name="CreateEvent" component={CreateEventScreen} />
+					<Stack.Screen
+						options={{ headerShown: false }}
+						name="CreateEventTags"
+						component={CreateEventTagsScreen}
+					/>
+					<Stack.Screen
+						options={{ headerShown: false }}
+						name="CreateEventTime"
+						component={CreateEventTimeScreen}
+					/>
+					<Stack.Screen
+						options={{ headerShown: false }}
+						name="CreateEventPreview"
+						component={CreateEventPreviewScreen}
+					/>
 					{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
 					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
 					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />

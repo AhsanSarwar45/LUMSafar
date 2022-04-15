@@ -90,6 +90,23 @@ export const theme = extendTheme({
 				_text: {
 					fontWeight: 700
 				}
+			},
+			variants: {
+				minimal: ({ colorScheme }: any) => {
+					return {
+						borderWidth: 1,
+						borderColor: 'border.light',
+						bgColor: 'background',
+						rounded: '2xl',
+						shadow: 0,
+						px: 5,
+						py: 3,
+						space: 2,
+						_text: {
+							color: 'text.primary'
+						}
+					};
+				}
 			}
 		},
 		Image: {

@@ -17,6 +17,7 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-naviga
 import { RootStackParamList } from '../config/RouteParams';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import CAB from '../components/CAB';
+import moment from 'moment';
 // import {BottomTabBarP}
 
 const SecondRoute = () => (
@@ -69,7 +70,17 @@ export const Home = (props: HomeScreenProps) => {
 			cab: {
 				icon: 'Add',
 				onPress: () => {
-					props.navigation.navigate('CreateEvent');
+					props.navigation.navigate('CreateEvent', {
+						data: {
+							title: '',
+							description: '',
+							location: '',
+							tags: [],
+							endTime: moment().add(1, 'hour').startOf('hour').unix(),
+							startTime: moment().add(2, 'hour').startOf('hour').unix(),
+							image: ''
+						}
+					});
 				}
 			}
 		},
