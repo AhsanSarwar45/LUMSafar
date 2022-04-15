@@ -28,7 +28,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 		password?: string;
 	}
 
-	async function StoreUserToken(data: LoginData, formikProps: any) {
+	async function StoreUserToken(data: any, formikProps: any) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
 			formikProps.setSubmitting(false);

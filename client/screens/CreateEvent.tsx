@@ -53,17 +53,13 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 						<Button
 							width="100%"
 							onPress={() => {
-								console.log(formikProps.values.image);
+								let eventData = data;
+								data.title = formikProps.values.title;
+								data.description = formikProps.values.description;
+								data.location = formikProps.values.location;
+								data.image = formikProps.values.image;
 								props.navigation.navigate('CreateEventTags', {
-									data: {
-										title: formikProps.values.title,
-										description: formikProps.values.description,
-										location: formikProps.values.location,
-										image: formikProps.values.image,
-										tags: data.tags,
-										endTime: data.endTime,
-										startTime: data.startTime
-									}
+									data: eventData
 								});
 							}}
 						>

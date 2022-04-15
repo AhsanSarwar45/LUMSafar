@@ -1,6 +1,6 @@
 import { AspectRatio, useTheme, VStack, Text, HStack, Image } from 'native-base';
 import React, { useEffect } from 'react';
-import { EventData } from '../interfaces/Events';
+import { EventData } from '../interfaces/EventsData';
 import HeartIcon from '../assets/icons/HeartIcon.svg';
 
 interface EventCardProps {
@@ -12,10 +12,12 @@ const EventCard = (props: EventCardProps) => {
 	const { colors } = useTheme();
 
 	const colorIndex: number = props.index % Object.keys(colors.cards).length;
+	const isTitleLong = props.data.title.length > 14;
+	// const fontSize =
 
-	useEffect(() => {
-		console.log('Card image', props.data.image);
-	}, []);
+	// useEffect(() => {
+	// 	// console.log('Card image', props.data.image);
+	// }, []);
 
 	return (
 		<AspectRatio
@@ -36,11 +38,13 @@ const EventCard = (props: EventCardProps) => {
 					<VStack width="100%">
 						<Text
 							width="100%"
-							fontSize={props.data.image || props.data.name.length > 14 ? 'xl' : '3xl'}
+							fontSize={
+								props.data.image && isTitleLong ? 'xl' : props.data.image || isTitleLong ? '2xl' : '3xl'
+							}
 							lineHeight="xs"
 							color="white"
 						>
-							{props.data.name}
+							{props.data.title}
 						</Text>
 						<Text width="100%" color="rgba(255,255,255,0.75)">
 							{props.data.creator}

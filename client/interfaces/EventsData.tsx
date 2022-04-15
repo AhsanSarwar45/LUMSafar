@@ -1,18 +1,13 @@
 import { Moment } from 'moment';
 
-export interface CreateEventData {
+export interface EventData {
 	title: string;
+	creator: string;
 	description: string;
 	location: string;
 	tags: Array<string>;
 	startTime: number;
 	endTime: number;
-	image: string;
-}
-
-export interface EventData {
-	name: string;
-	creator: string;
-	interested: boolean;
+	interestedUsers: Array<number>;
 	image: string;
 }

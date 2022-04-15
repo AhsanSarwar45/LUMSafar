@@ -19,34 +19,22 @@ const CreateEventTagsScreen = (props: CreateEventTagsScreenProps) => {
 		<SimpleScreen
 			heading="Add Tags"
 			backButton
-			onBackButton={() =>
+			onBackButton={() => {
+				let eventData = data;
+				eventData.tags = selectedTags;
 				props.navigation.navigate('CreateEvent', {
-					data: {
-						title: data.title,
-						description: data.description,
-						location: data.location,
-						image: data.image,
-						tags: selectedTags,
-						endTime: data.endTime,
-						startTime: data.startTime
-					}
-				})}
+					data: data
+				});
+			}}
 		>
 			<ChipsSearch items={Tags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
 			<Button
 				width="100%"
 				onPress={() => {
-					console.log(data.image);
+					let eventData = data;
+					eventData.tags = selectedTags;
 					props.navigation.navigate('CreateEventTime', {
-						data: {
-							title: data.title,
-							description: data.description,
-							location: data.location,
-							image: data.image,
-							tags: selectedTags,
-							endTime: data.endTime,
-							startTime: data.startTime
-						}
+						data: data
 					});
 				}}
 			>

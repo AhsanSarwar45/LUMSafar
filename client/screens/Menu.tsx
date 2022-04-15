@@ -1,17 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { HStack } from 'native-base';
-import React from 'react';
+import { Heading, HStack } from 'native-base';
+import React, { useContext } from 'react';
 import Screen from '../components/Screen';
 import { RootStackParamList } from '../config/RouteParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OptionCard from '../components/Option';
 import { Ionicons } from '@expo/vector-icons';
+import { UserDataContext } from '../data/UserDataCOntext';
 
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 
 const MenuScreen = ({ route, navigation }: MenuScreenProps) => {
+	const { userData, setUserData } = useContext(UserDataContext);
 	return (
 		<Screen backButton>
+			<Heading>{userData.username} </Heading>
 			<HStack space="5%">
 				<OptionCard
 					label="Logout"

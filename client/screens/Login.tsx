@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { HStack, Button, Text, Pressable, VStack, View } from 'native-base';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
-import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-import * as Crypto from 'expo-crypto';
 import * as Yup from 'yup';
 
 import { LUMSAFAR_SERVER_URL } from '@env';
@@ -12,27 +10,41 @@ import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
 import { JsonHeader } from '../config/ControlHeader';
+import { UserDataContext } from '../data/UserDataCOntext';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
+	const isMountedRef = useRef(false);
+	const { userData, setUserData } = useContext(UserDataContext);
 
 	interface LoginData {
 		email: string;
 		password: string;
 	}
 
-	async function StoreUserToken(data: LoginData, formikProps: any) {
+	async function StoreUserToken(data: any, formikProps: any) {
 		try {
 			await AsyncStorage.setItem('userData', JSON.stringify(data));
 			formikProps.setSubmitting(false);
-			navigation.reset({
-				index: 0,
-				routes: [ { name: 'Home' } ]
-			});
+			setUserData(data);
 		} catch (error) {
 			console.log('Something went wrong', error);
 		}
 	}
+
+	useEffect(
+		() => {
+			if (isMountedRef.current) {
+				console.log(userData);
+				navigation.reset({
+					index: 0,
+					routes: [ { name: 'Home' } ]
+				});
+			}
+			isMountedRef.current = true;
+		},
+		[ userData ]
+	);
 
 	const LoginSchema = Yup.object().shape({
 		email: Yup.string()
@@ -42,35 +54,22 @@ export const LoginScreen = ({ navigation }: any) => {
 	});
 
 	function Login(data: LoginData, formikProps: any) {
-		// const digest = Crypto.digestString(
-		// 	Crypto.CryptoDigestAlgorithm.SHA256,
-		// 	data.password as string,
-		// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
-		// );
-		console.log(`${LUMSAFAR_SERVER_URL}/users/login`)
-		Axios.post(
-			`${LUMSAFAR_SERVER_URL}/users/login`,
-			{ email: data.email, password: data.password },
-			{
-				headers: JsonHeader
-			}
-		)
+		console.log(`${LUMSAFAR_SERVER_URL}/users/login`);
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
+			headers: JsonHeader
+		})
 			.then((response) => {
-				if (response.data === 'success') {
-					StoreUserToken(data, formikProps);
-
-					// AsyncStorage.setItem('user-email', data.email as string);
-					// Go to Home page
-				} else if (response.data === 'not-found') {
+				if (response.data === 'not-found') {
 					formikProps.setSubmitting(false);
 					setUserNotFound(true);
+				} else {
+					// console.log(response.data);
+					StoreUserToken(response.data, formikProps);
 				}
 			})
 			.catch((response) => {
 				console.log(response);
 			});
-
-		// await delay(500);
 	}
 
 	return (

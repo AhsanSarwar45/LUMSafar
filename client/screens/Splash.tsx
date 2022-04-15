@@ -12,7 +12,7 @@ const SplashScreen = (props: SplashScreenProps) => {
 			const userData = await AsyncStorage.getItem('userData');
 			const data = JSON.parse(userData as string);
 
-			const routeName = data == null ? 'Login' : 'Home';
+			const routeName = data === null ? 'Login' : 'Home';
 
 			props.navigation.reset({
 				index: 0,

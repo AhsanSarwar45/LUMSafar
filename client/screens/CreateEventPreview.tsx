@@ -9,7 +9,7 @@ import Screen from '../components/Screen';
 import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
-import { CreateEventData } from '../interfaces/Events';
+import { EventData } from '../interfaces/EventsData';
 
 type CreateEventPreviewScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEventPreview'>;
 
@@ -18,7 +18,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 
 	const [ isSubmitting, setSubmitting ] = useState(false);
 
-	function CreateEvent(data: CreateEventData) {
+	function CreateEvent(data: EventData) {
 		console.log(data);
 		Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
 			headers: JsonHeader
@@ -48,10 +48,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 				});
 			}}
 		>
-			<EventCard
-				data={{ name: data.title, creator: 'Somebody', interested: false, image: data.image }}
-				index={0}
-			/>
+			<EventCard data={data} index={0} />
 			<Button
 				disabled={isSubmitting}
 				isLoading={isSubmitting}

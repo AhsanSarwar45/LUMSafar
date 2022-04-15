@@ -5,7 +5,7 @@ import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 const StatusBar = () => {
 	const { colors } = useTheme();
 
-	return <ExpoStatusBar style="light" backgroundColor={colors.primary[700]} />;
+	return <ExpoStatusBar style="dark" backgroundColor={colors.background} />;
 };
 
 export default StatusBar;

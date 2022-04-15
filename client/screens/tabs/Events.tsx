@@ -9,46 +9,42 @@ import Screen from '../../components/Screen';
 import TabsProps from '../../interfaces/TabsProps';
 import { RootStackParamList } from '../../config/RouteParams';
 import EventCard from '../../components/EventCard';
+import { EventData } from '../../interfaces/EventsData';
 
 export const EventsTab = (props: TabsProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const events = [
 		{
-			name: 'Badminton Fest',
+			title: 'Badminton Fest',
 			creator: 'Abdullah',
-			interested: false,
 			image: ''
 		},
 		{
-			name: 'Codinguru',
+			title: 'Codinguru',
 			creator: 'IEEE',
-			interested: true,
 			image: ''
 		},
 		{
-			name: 'Arson',
+			title: 'Arson',
 			creator: 'Me and the boiz',
-			interested: false,
 			image: ''
 		},
 		{
-			name: 'UX Pakistan',
-			creator: 'INDEXS',
-			interested: false,
+			title: 'UX Pakistan',
+			creator: 'INDEX',
 			image: ''
 		},
 		{
-			name: 'Geek Study Session',
+			title: 'Geek Study Session',
 			creator: 'Omer Kamran',
-			interested: false,
 			image: ''
 		}
 	];
 
 	return (
 		<Screen heading="Events" topBar={<TopBar search />}>
-			{events.map((item, index) => <EventCard data={item} index={index} key={index} />)}
+			{events.map((item, index) => <EventCard data={item as EventData} index={index} key={index} />)}
 			<Box height="120px" />
 		</Screen>
 	);

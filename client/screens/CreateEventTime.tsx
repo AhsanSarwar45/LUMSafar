@@ -52,16 +52,11 @@ const CreateEventTimeScreen = (props: CreateEventTimeScreenProps) => {
 			heading="Set Time"
 			backButton
 			onBackButton={() => {
+				let eventData = data;
+				eventData.startTime = startTime.unix();
+				eventData.endTime = endTime.unix();
 				props.navigation.navigate('CreateEventTags', {
-					data: {
-						title: data.title,
-						description: data.description,
-						location: data.location,
-						image: data.image,
-						tags: data.tags,
-						endTime: endTime.unix(),
-						startTime: startTime.unix()
-					}
+					data: eventData
 				});
 			}}
 		>
@@ -136,17 +131,11 @@ const CreateEventTimeScreen = (props: CreateEventTimeScreenProps) => {
 			<Button
 				width="100%"
 				onPress={() => {
-					console.log(data.image);
+					let eventData = data;
+					eventData.startTime = startTime.unix();
+					eventData.endTime = endTime.unix();
 					props.navigation.navigate('CreateEventPreview', {
-						data: {
-							title: data.title,
-							description: data.description,
-							location: data.location,
-							image: data.image,
-							tags: data.tags,
-							endTime: endTime.unix(),
-							startTime: startTime.unix()
-						}
+						data: eventData
 					});
 				}}
 			>

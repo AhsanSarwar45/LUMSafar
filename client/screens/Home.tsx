@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Dimensions } from 'react-native';
-import { TabView, SceneMap, SceneRendererProps } from 'react-native-tab-view';
 import { Center, HStack } from 'native-base';
 import { Box, Pressable, Icon, useTheme } from 'native-base';
-import { NavigationState, Route } from 'react-native-tab-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import DrawerVector from '../assets/vector/Drawer.svg';
 import DrawerFlatVector from '../assets/vector/DrawerFlat.svg';
@@ -11,20 +10,16 @@ import TabIcon from '../components/TabIcon';
 import { EventsTab } from './tabs/Events';
 import MapTab from './tabs/Map';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import CAB from '../components/CAB';
 import moment from 'moment';
+import { GetUserData } from '../data/AsyncStorage';
+import { UserDataContext } from '../data/UserDataCOntext';
 // import {BottomTabBarP}
-
-const SecondRoute = () => (
-	<Center flex={1} my="4">
-		This is Tab 2
-	</Center>
-);
 
 const ThirdRoute = () => (
 	<Center flex={1} my="4">
@@ -47,6 +42,22 @@ type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const TabNavigator = createBottomTabNavigator();
 
 export const Home = (props: HomeScreenProps) => {
+	const { userData, setUserData } = useContext(UserDataContext);
+
+	// async function GetUserData() {
+	// 	try {
+	// 		const userData = await AsyncStorage.getItem('userData');
+	// 		const data = JSON.parse(userData as string);
+	// 		setUserData(data);
+	// 	} catch (error) {
+	// 		console.log('Something went wrong', error);
+	// 	}
+	// }
+
+	useEffect(() => {
+		console.log(userData);
+	}, []);
+
 	interface NaveIconSetProps {
 		routeSet: any;
 		offset: number;
@@ -73,12 +84,14 @@ export const Home = (props: HomeScreenProps) => {
 					props.navigation.navigate('CreateEvent', {
 						data: {
 							title: '',
+							creator: userData.username,
 							description: '',
 							location: '',
 							tags: [],
 							endTime: moment().add(1, 'hour').startOf('hour').unix(),
 							startTime: moment().add(2, 'hour').startOf('hour').unix(),
-							image: ''
+							image: '',
+							interestedUsers: []
 						}
 					});
 				}
@@ -115,7 +128,6 @@ export const Home = (props: HomeScreenProps) => {
 		const [ secondHalf ] = useState(state.routes.slice(2));
 
 		const { borderRadius, colors } = useTheme();
-		const cabSize = 15;
 
 		const NavIconSet = (props: NaveIconSetProps) => {
 			return (

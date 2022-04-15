@@ -21,11 +21,14 @@ import SplashScreen from './screens/Splash';
 import CreateEventTagsScreen from './screens/CreateEventTags';
 import CreateEventTimeScreen from './screens/CreateEventTime';
 import CreateEventPreviewScreen from './screens/CreateEventPreview';
+import { UserData } from './interfaces/UserData';
+import { UserDataContext } from './data/UserDataCOntext';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+	const [ userData, setUserData ] = useState({} as UserData);
 	// const [ initialRouteName, setInitialRouteName ] = useState('');
 
 	let [ fontsLoaded ] = useFonts({
@@ -44,50 +47,68 @@ export default function App() {
 	};
 
 	return fontsLoaded ? (
-		<NativeBaseProvider config={config} theme={theme}>
-			<NavigationContainer theme={navigationTheme}>
-				<Stack.Navigator initialRouteName={'Splash'}>
-					<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
-					<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
-					<Stack.Screen options={{ headerShown: false }} name="CreateEvent" component={CreateEventScreen} />
-					<Stack.Screen
-						options={{ headerShown: false }}
-						name="CreateEventTags"
-						component={CreateEventTagsScreen}
-					/>
-					<Stack.Screen
-						options={{ headerShown: false }}
-						name="CreateEventTime"
-						component={CreateEventTimeScreen}
-					/>
-					<Stack.Screen
-						options={{ headerShown: false }}
-						name="CreateEventPreview"
-						component={CreateEventPreviewScreen}
-					/>
-					{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
-					<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
-					<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-					<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
-					<Stack.Screen options={{ headerShown: false }} name="SignUpInfo" component={SignUpInfoScreen} />
-					<Stack.Screen options={{ headerShown: false }} name="AccountType" component={AccountTypeScreen} />
-					<Stack.Screen options={{ headerShown: false }} name="Verification" component={VerificationScreen} />
-					<Stack.Screen
-						options={{ headerShown: false }}
-						name="ForgotPassword"
-						component={ForgotPasswordScreen}
-					/>
-					<Stack.Screen options={{ headerShown: false }} name="SetPassword" component={SetPasswordScreen} />
-					<Stack.Screen
-						options={{ headerShown: false }}
-						name="PasswordResetSuccess"
-						component={PasswordResetSuccessScreen}
-					/>
-					{/* {test} */}
-					{/* <Login /> */}
-				</Stack.Navigator>
-			</NavigationContainer>
-		</NativeBaseProvider>
+		<UserDataContext.Provider value={{ userData, setUserData }}>
+			<NativeBaseProvider config={config} theme={theme}>
+				<NavigationContainer theme={navigationTheme}>
+					<Stack.Navigator initialRouteName={'Splash'}>
+						<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
+						<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="CreateEvent"
+							component={CreateEventScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="CreateEventTags"
+							component={CreateEventTagsScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="CreateEventTime"
+							component={CreateEventTimeScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="CreateEventPreview"
+							component={CreateEventPreviewScreen}
+						/>
+						{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
+						<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />
+						<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+						<Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUpScreen} />
+						<Stack.Screen options={{ headerShown: false }} name="SignUpInfo" component={SignUpInfoScreen} />
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="AccountType"
+							component={AccountTypeScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="Verification"
+							component={VerificationScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="ForgotPassword"
+							component={ForgotPasswordScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="SetPassword"
+							component={SetPasswordScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="PasswordResetSuccess"
+							component={PasswordResetSuccessScreen}
+						/>
+						{/* {test} */}
+						{/* <Login /> */}
+					</Stack.Navigator>
+				</NavigationContainer>
+			</NativeBaseProvider>
+		</UserDataContext.Provider>
 	) : (
 		<AppLoading />
 	);
