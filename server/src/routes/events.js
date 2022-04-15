@@ -105,6 +105,18 @@ router.route('/add-remove-interest').post((req, res) => {
 	// });
 });
 
+router.route('/fetch-recommendations').get((req, res) => {
+	let own_id = req.body.own_id;
+
+	User.findById(own_id)
+		.then((user) => {
+			let following = user.following
+			Event.find( {creator: {$in : following}}).exec().then((events) => {
+				console.log(events);
+			});
+		});
+});
+
 router.route('/search-event').get((req, res) => {
 	const event_title_query = req.body.title;
 	const created_by_query = req.body.creator;
