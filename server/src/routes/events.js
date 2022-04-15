@@ -111,7 +111,7 @@ router.route('/add-remove-interest').post((req, res) => {
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
-	let currentEvents = req.body.currentEvents;
+	let currentEvents = req.body.currentEvents.map((id) => mongoose.Types.ObjectId(id));
 	console.log(currentEvents);
 	let promiseArray = [];
 
