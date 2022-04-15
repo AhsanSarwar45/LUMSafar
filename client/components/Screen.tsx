@@ -14,7 +14,8 @@ interface ScreenProps {
 	onBackButton: Function;
 	topBar: ReactNode;
 	children: ReactNode;
-	keyboardAware: boolean;
+	scrollType: 'none' | 'scroll' | 'keyboardAware';
+	stacked: boolean;
 	lightScreen: boolean;
 }
 
@@ -25,9 +26,9 @@ const Screen = (props: ScreenProps) => {
 	const window = useWindowDimensions();
 
 	const Inner = () => {
-		return (
+		return props.stacked ? (
 			<VStack
-				px="10%"
+				px="8%"
 				pb="20%"
 				py={props.topBar ? '0' : '20px'}
 				space="15px"
@@ -49,11 +50,24 @@ const Screen = (props: ScreenProps) => {
 				) : null}
 				{props.children}
 			</VStack>
+		) : (
+			<View px="8%" pb="20%" py={props.topBar ? '0' : '20px'} width="full">
+				{props.heading || props.backButton ? (
+					<ScreenHeader
+						text={props.heading}
+						backButton={props.backButton}
+						onBackButton={props.onBackButton}
+					/>
+				) : null}
+				{props.children}
+			</View>
 		);
 	};
 
 	const ScrollWrapper = () => {
-		return props.keyboardAware ? (
+		return props.scrollType === 'none' ? (
+			<Inner />
+		) : props.scrollType === 'scroll' ? (
 			<KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
 				<Inner />
 			</KeyboardAwareScrollView>
@@ -88,11 +102,13 @@ const Screen = (props: ScreenProps) => {
 
 Screen.defaultProps = {
 	heading: '',
+	stacked: true,
 	backButton: false,
 	onBackButton: null,
 	topBar: null,
 	keyboardAware: false,
-	lightScreen: false
+	lightScreen: false,
+	scrollType: 'scroll'
 };
 
 export default Screen;

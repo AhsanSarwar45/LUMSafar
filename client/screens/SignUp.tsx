@@ -73,7 +73,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	}
 
 	return (
-		<Screen keyboardAware heading="Sign Up" backButton>
+		<Screen scrollType="keyboardAware" heading="Sign Up" backButton>
 			<ErrorMessage show={isDuplicate}>
 				The email you entered is already registered. Maybe you meant to login?
 			</ErrorMessage>

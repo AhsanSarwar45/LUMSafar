@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AspectRatio, Button, HStack, Icon, Pressable, View } from 'native-base';
+import { AspectRatio, Button, Heading, HStack, Icon, Pressable, View } from 'native-base';
 import React from 'react';
 import HamburgerIcon from '../assets/icons/HamburgerIcon.svg';
 import SearchIcon from '../assets/icons/SearchIcon.svg';
@@ -11,6 +11,7 @@ interface TopBarProps {
 	onSearchPress: Function;
 	overlay: boolean;
 	type: 'bar' | 'icons';
+	label: string;
 }
 
 const TopBar = (props: TopBarProps) => {
@@ -32,14 +33,17 @@ const TopBar = (props: TopBarProps) => {
 				zIndex={5}
 				alignItems="center"
 			>
-				<HamburgerIcon
-					fill="black"
-					height={32}
-					onPress={() => {
-						navigation.navigate('Menu');
-					}}
-				/>
-				{props.search ? <SearchIcon fill="black" height={32} onPress={() => props.onSearchPress} /> : null}
+				<Heading size="xl">{props.label}</Heading>
+				<HStack alignItems="center" justifyContent="center">
+					{props.search ? <SearchIcon fill="black" height={32} onPress={() => props.onSearchPress} /> : null}
+					<HamburgerIcon
+						fill="black"
+						height={32}
+						onPress={() => {
+							navigation.navigate('Menu');
+						}}
+					/>
+				</HStack>
 			</HStack>
 		</View>
 	);
@@ -49,6 +53,7 @@ TopBar.defaultProps = {
 	search: false,
 	overlay: false,
 	type: 'bar',
+	label: '',
 	onSearchPress: () => {}
 };
 
