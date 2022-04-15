@@ -34,6 +34,3 @@ jobs:
         
       - name: Build on EAS
         run: eas build -p android --non-interactive --profile preview
-
-      - name: Fetch Hashes
-        run: expo fetch:android:hashes
