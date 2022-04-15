@@ -2,6 +2,7 @@ const router = require('express').Router();
 const nodemailer = require('nodemailer');
 const {randomBytes, createHash} = require('crypto');
 let User = require('../models/user_model.js');
+let Event = require('../models/event_model.js');
 const { route } = require('./events.js');
 
 // * HEAVY BRO
@@ -371,6 +372,35 @@ router.route('/follow-user').post((req, res) => {
 			res.json('failure')
 			console.log(`[user/follow-user]: failure fetching user : ${err}`)
 		})
+})
+
+router.route('/search-result').post((req, res) => {//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
+	let search = req.body.search
+	let search_type = req.body.search_type
+
+	if(search_type == 'users')
+	{
+		User.find({username: search}).then((users) => {
+			console.log(`[user/search-result] ${search}: success`)
+			res.json(users)
+		})
+		.catch((err) => {
+			res.json('failure')
+			console.log(`[user/search-result]: failure fetching users : ${err}`)
+		})
+	}
+	else if (search_type == 'events')
+	{
+		Event.find({event_title: search}).then((events) => {
+			console.log(`[user/search-result] ${search}: success`)
+			res.json(events)
+		})
+		.catch((err) => {
+			res.json('failure')
+			console.log(`[user/search-result]: failure fetching events : ${err}`)
+		})
+	}
+
 })
 
 module.exports = router;
