@@ -215,11 +215,13 @@ router.route('/login').post((req, res) => {
 		} else {
 			if (user) {
 				//check if a doc was foundzz
-				res.json('success');
+				//added status element in the json object. Its sent along with the rest of the doc
+				user.status = 'success'
+				res.json(user);
 				// TODO: return the entire user document
 				console.log(`[user/login] ${email} : success`);
 			} else {
-				res.json('not-found');
+				res.json({status: 'not-found'});
 				console.log(`[user/login] ${email} : not-found`);
 			}
 			// res.json(user);
