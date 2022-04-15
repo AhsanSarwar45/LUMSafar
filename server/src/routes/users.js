@@ -218,10 +218,7 @@ router.route('/login').post((req, res) => {
 			if (user) {
 				//check if a doc was foundzz
 				//added status element in the json object. Its sent along with the rest of the doc
-				userData = user;
-				delete userData['password'];
-
-				res.json(userData);
+				res.json(user);
 				// TODO: return the entire user document
 				console.log(`[user/login] ${email} : success`);
 			} else {
