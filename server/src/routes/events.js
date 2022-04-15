@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 let Events = require('../models/event_model.js');
 const { find } = require('../models/user_model.js');
 let Users = require('../models/user_model.js');
