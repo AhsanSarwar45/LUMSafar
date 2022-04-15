@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 let Events = require('../models/event_model.js');
 const { find } = require('../models/user_model.js');
-let Users = require('../models/user_model.js');
+let User = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
 	Events.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
