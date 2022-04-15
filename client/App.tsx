@@ -23,6 +23,7 @@ import CreateEventTimeScreen from './screens/CreateEventTime';
 import CreateEventPreviewScreen from './screens/CreateEventPreview';
 import { UserData } from './interfaces/UserData';
 import { UserDataContext } from './data/UserDataContext';
+import ProfileScreen from './screens/Profile';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,7 @@ export default function App() {
 					<Stack.Navigator initialRouteName={'Splash'}>
 						<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
 						<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+						<Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />
 						<Stack.Screen
 							options={{ headerShown: false }}
 							name="CreateEvent"

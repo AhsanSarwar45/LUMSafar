@@ -21,6 +21,17 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 		location: Yup.string().required('Required')
 	});
 
+	const Submit = (values: any, formikProps: any) => {
+		let eventData = data;
+		data.title = values.title;
+		data.description = values.description;
+		data.location = values.location;
+		// data.imagePath = formikProps.values.imagePath;
+		props.navigation.navigate('CreateEventTags', {
+			data: eventData
+		});
+	};
+
 	return (
 		<Screen backButton keyboardAware heading="Create Event">
 			<Formik
@@ -30,7 +41,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 					location: data.location,
 					imagePath: data.imagePath
 				}}
-				onSubmit={() => {}}
+				onSubmit={Submit}
 				validationSchema={CreateEventSchema}
 				height="full"
 				enableReinitialize={true}
@@ -49,19 +60,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 							}}
 						/>
 
-						<Button
-							width="100%"
-							onPress={() => {
-								let eventData = data;
-								data.title = formikProps.values.title;
-								data.description = formikProps.values.description;
-								data.location = formikProps.values.location;
-								// data.imagePath = formikProps.values.imagePath;
-								props.navigation.navigate('CreateEventTags', {
-									data: eventData
-								});
-							}}
-						>
+						<Button width="100%" onPress={() => formikProps.handleSubmit()}>
 							Next
 						</Button>
 

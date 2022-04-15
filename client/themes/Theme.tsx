@@ -13,6 +13,19 @@ export const config = {
 };
 
 const borderRadius = '2xl';
+const minimalStyle = {
+	borderWidth: 1,
+	borderColor: 'border.light',
+	bgColor: 'background',
+	rounded: '2xl',
+	shadow: 0,
+	px: 5,
+	py: 3,
+	space: 2,
+	_text: {
+		color: 'text.primary'
+	}
+};
 
 export const theme = extendTheme({
 	colors: {
@@ -50,6 +63,7 @@ export const theme = extendTheme({
 	},
 
 	borderRadius: borderRadius,
+	minimalStyle: minimalStyle,
 
 	config: {
 		// Changing initialColorMode to 'dark'
@@ -93,19 +107,14 @@ export const theme = extendTheme({
 			},
 			variants: {
 				minimal: ({ colorScheme }: any) => {
-					return {
-						borderWidth: 1,
-						borderColor: 'border.light',
-						bgColor: 'background',
-						rounded: '2xl',
-						shadow: 0,
-						px: 5,
-						py: 3,
-						space: 2,
-						_text: {
-							color: 'text.primary'
-						}
-					};
+					return minimalStyle;
+				}
+			}
+		},
+		Box: {
+			variants: {
+				minimal: ({ colorScheme }: any) => {
+					return minimalStyle;
 				}
 			}
 		},

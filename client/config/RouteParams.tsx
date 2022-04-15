@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { EventData } from '../interfaces/EventsData';
+import { UserData } from '../interfaces/UserData';
 
 export type RootStackParamList = {
 	Login: undefined;
@@ -18,4 +19,5 @@ export type RootStackParamList = {
 	ChipsSearch: undefined;
 	Menu: undefined;
 	Splash: undefined;
+	Profile: { data: UserData };
 };
