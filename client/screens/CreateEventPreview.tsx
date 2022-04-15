@@ -26,17 +26,15 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 			.then((response) => {
 				setSubmitting(false);
 				if (response.data === 'success') {
+					props.navigation.navigate('Home');
 				} else if (response.data === 'failure') {
+					console.log('Failure creating event');
 				}
 			})
 			.catch((response) => {
 				console.log(response);
 			});
 	}
-
-	useEffect(() => {
-		console.log(data.image);
-	}, []);
 
 	return (
 		<Screen

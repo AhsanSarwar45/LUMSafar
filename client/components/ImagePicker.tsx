@@ -3,13 +3,13 @@ import * as ExpoImagePicker from 'expo-image-picker';
 import { AspectRatio, Button, Image, Text, Pressable } from 'native-base';
 
 interface ImagePickerProps {
-	image: string;
+	imagePath: string;
 	setImage: Function;
 }
 
 const ImagePicker = (props: ImagePickerProps) => {
 	const pickImage = async () => {
-		// No permissions request is necessary for launching the image library
+		// No permissions request is necessary for launching the imagePath library
 		let result = await ExpoImagePicker.launchImageLibraryAsync({
 			mediaTypes: ExpoImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
@@ -40,7 +40,7 @@ const ImagePicker = (props: ImagePickerProps) => {
 				color="black"
 				p={0}
 			>
-				{props.image ? (
+				{props.imagePath ? (
 					<AspectRatio
 						width="full"
 						ratio={{
@@ -50,7 +50,7 @@ const ImagePicker = (props: ImagePickerProps) => {
 					>
 						<Image
 							source={{
-								uri: props.image
+								uri: props.imagePath
 							}}
 							alt="Event Card Image"
 						/>

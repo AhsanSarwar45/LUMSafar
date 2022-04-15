@@ -9,5 +9,5 @@ export interface EventData {
 	startTime: number;
 	endTime: number;
 	interestedUsers: Array<number>;
-	image: string;
+	imagePath: string;
 }

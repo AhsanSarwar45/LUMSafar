@@ -22,7 +22,7 @@ import CreateEventTagsScreen from './screens/CreateEventTags';
 import CreateEventTimeScreen from './screens/CreateEventTime';
 import CreateEventPreviewScreen from './screens/CreateEventPreview';
 import { UserData } from './interfaces/UserData';
-import { UserDataContext } from './data/UserDataCOntext';
+import { UserDataContext } from './data/UserDataContext';
 
 enableScreens();
 const Stack = createNativeStackNavigator();

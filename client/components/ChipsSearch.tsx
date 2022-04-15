@@ -59,12 +59,10 @@ const ChipsSearch = (props: ChipsSearchProps) => {
 	};
 
 	const SelectItem = (item: string) => {
-		// console.log('selected', item);
 		props.setSelectedItems((oldArray: Array<string>) => [ ...oldArray, item ]);
 	};
 
 	const RemoveItem = (item: string) => {
-		// console.log('removed', item);
 		props.setSelectedItems(props.selectedItems.filter((selectedItem: string) => selectedItem !== item));
 	};
 

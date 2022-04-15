@@ -28,7 +28,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 					title: data.title,
 					description: data.description,
 					location: data.location,
-					image: data.image
+					imagePath: data.imagePath
 				}}
 				onSubmit={() => {}}
 				validationSchema={CreateEventSchema}
@@ -43,10 +43,9 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 						<TextInput label="Location" name="location" formikProps={formikProps} />
 
 						<ImagePicker
-							image={formikProps.values.image}
-							setImage={(image: string) => {
-								formikProps.setFieldValue('image', image);
-								console.log(image);
+							imagePath={formikProps.values.imagePath}
+							setImage={(imagePath: string) => {
+								formikProps.setFieldValue('imagePath', imagePath);
 							}}
 						/>
 
@@ -57,7 +56,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 								data.title = formikProps.values.title;
 								data.description = formikProps.values.description;
 								data.location = formikProps.values.location;
-								data.image = formikProps.values.image;
+								// data.imagePath = formikProps.values.imagePath;
 								props.navigation.navigate('CreateEventTags', {
 									data: eventData
 								});

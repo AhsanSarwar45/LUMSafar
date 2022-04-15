@@ -10,7 +10,7 @@ import Screen from '../components/Screen';
 import TextInput from '../components/TextInput';
 import ErrorMessage from '../components/ErrorMessage';
 import { JsonHeader } from '../config/ControlHeader';
-import { UserDataContext } from '../data/UserDataCOntext';
+import { UserDataContext } from '../data/UserDataContext';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
@@ -35,7 +35,6 @@ export const LoginScreen = ({ navigation }: any) => {
 	useEffect(
 		() => {
 			if (isMountedRef.current) {
-				console.log(userData);
 				navigation.reset({
 					index: 0,
 					routes: [ { name: 'Home' } ]
@@ -54,7 +53,6 @@ export const LoginScreen = ({ navigation }: any) => {
 	});
 
 	function Login(data: LoginData, formikProps: any) {
-		console.log(`${LUMSAFAR_SERVER_URL}/users/login`);
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: JsonHeader
 		})
@@ -63,7 +61,6 @@ export const LoginScreen = ({ navigation }: any) => {
 					formikProps.setSubmitting(false);
 					setUserNotFound(true);
 				} else {
-					// console.log(response.data);
 					StoreUserToken(response.data, formikProps);
 				}
 			})

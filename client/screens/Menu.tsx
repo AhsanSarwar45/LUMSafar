@@ -6,7 +6,7 @@ import { RootStackParamList } from '../config/RouteParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OptionCard from '../components/Option';
 import { Ionicons } from '@expo/vector-icons';
-import { UserDataContext } from '../data/UserDataCOntext';
+import { UserDataContext } from '../data/UserDataContext';
 
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 

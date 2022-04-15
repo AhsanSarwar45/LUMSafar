@@ -18,7 +18,7 @@ import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/b
 import CAB from '../components/CAB';
 import moment from 'moment';
 import { GetUserData } from '../data/AsyncStorage';
-import { UserDataContext } from '../data/UserDataCOntext';
+import { UserDataContext } from '../data/UserDataContext';
 // import {BottomTabBarP}
 
 const ThirdRoute = () => (
@@ -43,20 +43,6 @@ const TabNavigator = createBottomTabNavigator();
 
 export const Home = (props: HomeScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
-
-	// async function GetUserData() {
-	// 	try {
-	// 		const userData = await AsyncStorage.getItem('userData');
-	// 		const data = JSON.parse(userData as string);
-	// 		setUserData(data);
-	// 	} catch (error) {
-	// 		console.log('Something went wrong', error);
-	// 	}
-	// }
-
-	useEffect(() => {
-		console.log(userData);
-	}, []);
 
 	interface NaveIconSetProps {
 		routeSet: any;
@@ -90,7 +76,7 @@ export const Home = (props: HomeScreenProps) => {
 							tags: [],
 							endTime: moment().add(1, 'hour').startOf('hour').unix(),
 							startTime: moment().add(2, 'hour').startOf('hour').unix(),
-							image: '',
+							imagePath: '',
 							interestedUsers: []
 						}
 					});

@@ -16,7 +16,7 @@ const EventCard = (props: EventCardProps) => {
 	// const fontSize =
 
 	// useEffect(() => {
-	// 	// console.log('Card image', props.data.image);
+	// 	// console.log('Card imagePath', props.data.imagePath);
 	// }, []);
 
 	return (
@@ -29,7 +29,7 @@ const EventCard = (props: EventCardProps) => {
 		>
 			<HStack justifyContent="space-between" rounded={'3xl'} bgColor={colors.cards[colorIndex]} shadow={5}>
 				<VStack
-					width={props.data.image ? '60%' : '100%'}
+					width={props.data.imagePath ? '60%' : '100%'}
 					px="9%"
 					pt="8%"
 					pb="6%"
@@ -39,7 +39,13 @@ const EventCard = (props: EventCardProps) => {
 						<Text
 							width="100%"
 							fontSize={
-								props.data.image && isTitleLong ? 'xl' : props.data.image || isTitleLong ? '2xl' : '3xl'
+								props.data.imagePath && isTitleLong ? (
+									'xl'
+								) : props.data.imagePath || isTitleLong ? (
+									'2xl'
+								) : (
+									'3xl'
+								)
 							}
 							lineHeight="xs"
 							color="white"
@@ -53,13 +59,13 @@ const EventCard = (props: EventCardProps) => {
 
 					<HeartIcon fill="white" width={32} height={32} />
 				</VStack>
-				{props.data.image ? (
+				{props.data.imagePath ? (
 					<Image
 						roundedLeft="none"
 						width="40%"
 						height="full"
 						source={{
-							uri: props.data.image
+							uri: props.data.imagePath
 						}}
 						alt="Event Card Image"
 					/>
