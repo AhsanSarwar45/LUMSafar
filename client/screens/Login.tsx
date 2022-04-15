@@ -47,6 +47,7 @@ export const LoginScreen = ({ navigation }: any) => {
 		// 	data.password as string,
 		// 	{ encoding: Crypto.CryptoEncoding.HEX } as Crypto.CryptoDigestOptions
 		// );
+		console.log(`${LUMSAFAR_SERVER_URL}/users/login`)
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/login`,
 			{ email: data.email, password: data.password },
