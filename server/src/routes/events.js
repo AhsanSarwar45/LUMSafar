@@ -8,8 +8,8 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/view').get((req, res) => {
-	title = req.body.title;
-	creator = req.body.creator;
+	const title = req.body.title;
+	const creator = req.body.creator;
 	console.log(`[events/view] ${title}: received`);
 
 	Event.find({ title: title, creator: creator }).then((err, data) => {
@@ -27,6 +27,7 @@ router.route('/view').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+	const title = req.body.title;
 	console.log(`[events/add] ${title}: received`);
 
 	const newEvent = new Event(req.body);
@@ -53,9 +54,9 @@ router.route('/update/:id').post((req, res) => {
 });
 
 router.route('/add-remove-interest').post((req, res) => {
-	let title = req.body.title;
-	let creator = req.body.creator;
-	let email = req.body.email;
+	const title = req.body.title;
+	const creator = req.body.creator;
+	const email = req.body.email;
 
 	const user = User.find({ email: email });
 
