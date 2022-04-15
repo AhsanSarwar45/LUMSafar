@@ -120,15 +120,17 @@ router.route('/fetch-recommendations').post((req, res) => {
 		let following = user.following;
 		let interests = user.interests;
 
-		promiseArray.push(Events.find({ creator: { $in: following }, _id: { $nin: arr } }).limit(4).exec());
+		promiseArray.push(Events.find({ creator: { $in: following }, _id: { $nin: currentEvents } }).limit(4).exec());
 
-		promiseArray.push(Events.find({ tags: { $in: interests }, _id: { $nin: arr } }).limit(2).exec());
+		promiseArray.push(Events.find({ tags: { $in: interests }, _id: { $nin: currentEvents } }).limit(2).exec());
 
-		promiseArray.push(Events.find({ interestedUsers: { $in: own_id }, _id: { $nin: arr } }).limit(2).exec());
+		promiseArray.push(
+			Events.find({ interestedUsers: { $in: own_id }, _id: { $nin: currentEvents } }).limit(2).exec()
+		);
 
 		promiseArray.push(
 			Events.aggregate([
-				{ $match: { _id: { $nin: arr } } },
+				{ $match: { _id: { $nin: currentEvents } } },
 				{
 					$project: {
 						title: 1,
