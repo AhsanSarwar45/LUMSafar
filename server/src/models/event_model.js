@@ -24,11 +24,11 @@ const eventschema = new mongoose.Schema({
 		}
 	],
 	startTime: {
-		type: number,
+		type: Number,
 		required: true
 	},
 	endTime: {
-		type: number,
+		type: Number,
 		required: true
 	},
 
