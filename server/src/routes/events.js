@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 let Events = require('../models/event_model.js');
 const { find } = require('../models/user_model.js');
-let User = require('../models/user_model.js');
+let Users = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
 	Events.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
@@ -112,10 +112,10 @@ router.route('/add-remove-interest').post((req, res) => {
 router.route('/fetch-recommendations').get((req, res) => {
 	let own_id = req.body.own_id;
 
-	User.findById(own_id)
+	Users.findById(own_id)
 		.then((user) => {
 			let following = user.following
-			Event.find( {creator: {$in : following}}).exec().then((events) => {
+			Events.find( {creator: {$in : following}}).exec().then((events) => {
 				console.log(events);
 			});
 		});
