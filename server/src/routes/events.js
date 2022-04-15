@@ -112,38 +112,68 @@ router.route('/add-remove-interest').post((req, res) => {
 router.route('/fetch-recommendations').get((req, res) => {
 	let own_id = req.body.own_id;
 	let events_list = [];
+
+	let promiseArray = [];
+
 	Users.findById(own_id)
 		.then((user) => {
-			let following = user.following
-			Events.find( {creator: {$in : following}}).limit(4).exec().then((events) => {
-				events_list.push(events);
-				// res.json(events);
+			let following = user.following;
+			let interests = user.interests;
 
-			});
+			promiseArray.push(Events.find( {creator: {$in : following}}).limit(4).exec())
+			
+			// .then((events) => {
+			// 	events.forEach((event) => {
+			// 		events_list.push(event);
+			// 	});
+			// 	// events_list.push(events);
+			// });
+
+			promiseArray.push(Events.find( {tags: {$in : interests}}).limit(2).exec())
+			
+			// .then((events) => {
+			// 	events.forEach((event) => {
+			// 		events_list.push(event);
+			// 	});
+			// 	// events_list.push(events);
+			// 	// res.json(events);
+			// });
+
+			promiseArray.push(Events.aggregate(
+				[
+					{	"$project": {
+						"title": 1,
+						"creatorId": 1,
+						"creatorUsername": 1,
+						"description": 1,
+						"location": 1,
+						"tags": 1,
+						"startTime": 1,
+						"endTime": 1,
+						"interestedUsers": 1,
+						"imagePath": 1,
+						"length": { "$size": "$interestedUsers" }
+						}
+					},
+					{ "$sort": { "length": -1 } },
+					{ "$limit": 4 }
+				]).exec())
+
+			Promise.all(promiseArray).then((data1, data2, data3) => {
+				console.log(data1);
+				console.log(data2);
+				console.log(data3);
+			})
 		});
 
-	Events.aggregate(
-		[
-			{	"$project": {
-				"title": 1,
-				"creatorId": 1,
-				"creatorUsername": 1,
-				"description": 1,
-				"location": 1,
-				"tags": 1,
-				"startTime": 1,
-				"endTime": 1,
-				"interestedUsers": 1,
-				"imagePath": 1,
-				"length": { "$size": "$interestedUsers" }
-			}},
-			{ "$sort": { "length": -1 } },
-			{ "$limit": 4 }
-		], function (err, result) {
-			// events_list.push(result);
-			res.json(results);
-		}
-	)
+	// function (err, result) {
+	// 	result.forEach((event) => {
+	// 		events_list.push(event);
+	// 	});
+	// 	res.json(result); //for testing purposes
+	// }
+
+
 });
 
 router.route('/search-event').get((req, res) => {
