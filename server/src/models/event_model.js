@@ -12,7 +12,7 @@ const eventSchema = new mongoose.Schema({
 		ref: 'user'
 	},
 	creatorUsername: {
-		type: string,
+		type: String,
 		required: true
 	},
 	description: {
