@@ -110,9 +110,7 @@ router.route('/add-remove-interest').post((req, res) => {
 });
 
 router.route('/fetch-recommendations').get((req, res) => {
-	let own_id = req.body.own_id;
-	let events_list = [];
-
+	let own_id = req.body.user_id;
 	let promiseArray = [];
 
 	Users.findById(own_id)
@@ -139,6 +137,8 @@ router.route('/fetch-recommendations').get((req, res) => {
 			// 	// res.json(events);
 			// });
 
+			promiseArray.push(Events.find( {interestedUsers: {$in : own_id}}).limit(2).exec())
+
 			promiseArray.push(Events.aggregate(
 				[
 					{	"$project": {
@@ -152,6 +152,7 @@ router.route('/fetch-recommendations').get((req, res) => {
 						"endTime": 1,
 						"interestedUsers": 1,
 						"imagePath": 1,
+						"__v": 1,
 						"length": { "$size": "$interestedUsers" }
 						}
 					},
@@ -159,10 +160,27 @@ router.route('/fetch-recommendations').get((req, res) => {
 					{ "$limit": 4 }
 				]).exec())
 
-			Promise.all(promiseArray).then((data1, data2, data3) => {
-				console.log(data1);
-				console.log(data2);
-				console.log(data3);
+			
+			Promise.all(promiseArray).then(([data1, data2, data3, data4]) => {
+				
+				let data = [...data2, ...data3, ...data4];
+				data.forEach((element1) => {
+					let check = false;
+					data1.forEach((element2) => {
+						if (element1._id.equals(element2._id)){
+							// console.log('working')
+							check = true;
+						}
+					})
+					if (!check){
+						// console.log("element pushed")
+						data1.push(element1);
+					}
+				})
+
+				
+				// console.log(data1);
+				res.json(data1);
 			})
 		});
 
