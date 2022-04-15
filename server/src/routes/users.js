@@ -16,7 +16,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-	const username = req.body.username;
+	const username = 'Temporary';
 	const email = req.body.email;
 	const password = hash(req.body.password);
 	const isSociety = req.body.isSociety;
