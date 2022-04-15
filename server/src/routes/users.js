@@ -2,6 +2,7 @@ const router = require('express').Router();
 const nodemailer = require('nodemailer');
 const {randomBytes, createHash} = require('crypto');
 let User = require('../models/user_model.js');
+const { route } = require('./events.js');
 
 // * HEAVY BRO
 
@@ -266,7 +267,7 @@ router.route('/following-menu').post((req, res) => {
 	});
 });
 
-router.route('/friends-menu').post((req, res) => {
+router.route('/friends-menu').post((req, res) => {// dont think this is needed, since we will have the entire doc saved in local storage. We would need to update local storage after adding or removing friends/followers
 	let email = req.body.email;
 
 	User.find({ email: email }).then((err, data) => {
@@ -335,6 +336,20 @@ router.route('/accept-request').post((req, res) => {
 			console.log(`[user/friend-request]: failure fetching user : ${err}`)
 		});
 })
+
+router.route('/show-friend-requests').post((req,res) => {
+	let own_id = req.body.own_id //or should it be _id
+
+	User.findById(own_id).then((user) => {
+		res.json({friend_requests: user.friend_requests})
+	})
+	.catch((err) => {
+		res.json('failure')
+			console.log(`[user/show-friend-requests]: failure fetching friend requests : ${err}`)
+	})
+})
+
+
 
 router.route('/follow-user').post((req, res) => {
 	let own_id = req.body.own_id;
