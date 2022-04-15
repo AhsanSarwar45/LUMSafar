@@ -137,21 +137,26 @@ export const EventsTab = (props: TabsProps) => {
 	);
 
 	const Refresh = () => {
-		console.log('hello');
-		setIsFetching(false);
+		setEvents([]);
+		FetchRecommendations();
 	};
 
 	function FetchRecommendations() {
 		console.log('fetch');
-		// Axios.post(`${LUMSAFAR_SERVER_URL}/events/fetch-recommendations`, {currenList:events, userId:userData._id}, {
-		// 	headers: JsonHeader
-		// })
-		// 	.then((response) => {
-		// 		 setEvents(old => [...old, ...response.data]);
-		// 	})
-		// 	.catch((response) => {
-		// 		console.log(response);
-		// 	});
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/events/fetch-recommendations`,
+			{ currenList: events, userId: userData._id },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				setEvents((old) => [ ...old, ...response.data ]);
+				setIsFetching(false);
+			})
+			.catch((response) => {
+				console.log(response);
+			});
 	}
 
 	return (
