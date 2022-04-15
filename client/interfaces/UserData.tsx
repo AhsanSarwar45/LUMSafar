@@ -1,7 +1,7 @@
 export interface UserData {
 	username: string;
 	email: string;
-	id: number;
+	id: string;
 	accountType: 'student' | 'society';
 	interests: Array<string>;
 	profile_pic_path: string;

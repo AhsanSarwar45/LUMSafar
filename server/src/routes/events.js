@@ -1,10 +1,10 @@
 const router = require('express').Router();
-let Event = require('../models/event_model.js');
+let Events = require('../models/event_model.js');
 const { find } = require('../models/user_model.js');
-let User = require('../models/user_model.js');
+let Users = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
-	Event.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
+	Events.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
 });
 
 router.route('/view').get((req, res) => {
@@ -12,7 +12,7 @@ router.route('/view').get((req, res) => {
 	const creator = req.body.creator;
 	console.log(`[events/view] ${title}: received`);
 
-	Event.find({ title: title, creator: creator }).then((err, data) => {
+	Events.find({ title: title, creator: creator }).then((err, data) => {
 		if (err) {
 			res.json('failure');
 			console.log(`[events/view] ${title}: failure: ${err}`);
@@ -30,7 +30,10 @@ router.route('/add').post((req, res) => {
 	const title = req.body.title;
 	console.log(`[events/add] ${title}: received`);
 
-	const newEvent = new Event(req.body);
+	const event = req.body;
+	event.creatorId = mongoose.Types.ObjectId(event.creatorId);
+
+	const newEvent = new Events(event);
 	newEvent
 		.save()
 		.then(() => {
@@ -44,7 +47,7 @@ router.route('/add').post((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
-	Event.findById(req.params.id)
+	Events.findById(req.params.id)
 		.then((event) => {
 			event = req.body;
 
@@ -58,14 +61,14 @@ router.route('/add-remove-interest').post((req, res) => {
 	const creator = req.body.creator;
 	const email = req.body.email;
 
-	const user = User.find({ email: email });
+	const user = Users.find({ email: email });
 
-	Event.find({ title: title, creator: creator }).then((err, data) => {
+	Events.find({ title: title, creator: creator }).then((err, data) => {
 		if (err) {
 			res.json('failure');
 			console.log(`[event-interest/addition] ${email}: failure: ${err}`);
 		} else if (data) {
-			Event.find({
+			Events.find({
 				title: title,
 				creator: creator,
 				interestedUsers: email
@@ -75,9 +78,9 @@ router.route('/add-remove-interest').post((req, res) => {
 					console.log(`[event-interest/addition] ${email}: failure: ${err}`);
 				} else if (data2) {
 					res.json('already-marked-as-interested');
-					Event.updateOne({ title: title, creator: creator }, { $pull: { interestedUsers: user._id } });
+					Events.updateOne({ title: title, creator: creator }, { $pull: { interestedUsers: user._id } });
 				} else {
-					Event.updateOne({ title: title, creator: creator }, { $push: { interestedUsers: user._id } });
+					Events.updateOne({ title: title, creator: creator }, { $push: { interestedUsers: user._id } });
 				}
 			});
 		} else {
@@ -121,7 +124,7 @@ router.route('/search-event').get((req, res) => {
 	const event_title_query = req.body.title;
 	const created_by_query = req.body.creator;
 
-	Event.where({ title: event_title_query, creator: created_by_query }).findOne((err, event) => {
+	Events.where({ title: event_title_query, creator: created_by_query }).findOne((err, event) => {
 		if (err) console.log(err);
 		if (event) {
 			// query result is not null

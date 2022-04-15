@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import OptionCard from '../components/Option';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { UserDataContext } from '../data/UserDataContext';
+import MenuCard from '../components/MenuCard';
 
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -15,7 +16,55 @@ const MenuScreen = (props: MenuScreenProps) => {
 	return (
 		<Screen backButton>
 			<Heading>{userData.username} </Heading>
-			<HStack space="5%" flexWrap="wrap">
+			<MenuCard
+				label="Profile"
+				icon={<MaterialIcons name="person" />}
+				onPress={() => {
+					props.navigation.navigate('Profile', { data: userData });
+				}}
+			/>
+
+			<MenuCard
+				label="Friends"
+				icon={<MaterialIcons name="group" />}
+				onPress={() => {
+					props.navigation.navigate('Profile', { data: userData });
+				}}
+			/>
+			<MenuCard
+				label="Following"
+				icon={<MaterialCommunityIcons name="cards-heart" />}
+				onPress={() => {
+					props.navigation.navigate('Profile', { data: userData });
+				}}
+			/>
+			<MenuCard
+				label="Settings"
+				icon={<MaterialIcons name="settings" />}
+				onPress={() => {
+					props.navigation.navigate('Profile', { data: userData });
+				}}
+			/>
+			<MenuCard
+				label="About"
+				icon={<MaterialIcons name="info-outline" />}
+				onPress={() => {
+					props.navigation.navigate('Profile', { data: userData });
+				}}
+			/>
+			<MenuCard
+				label="Log Out"
+				icon={<Ionicons name="arrow-undo-outline" />}
+				onPress={() => {
+					AsyncStorage.clear();
+					props.navigation.reset({
+						index: 0,
+						routes: [ { name: 'Login' } ]
+					});
+				}}
+			/>
+
+			{/* <HStack space="5%" flexWrap="wrap">
 				<OptionCard
 					label="Profile"
 					width="45%"
@@ -87,7 +136,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 						});
 					}}
 				/>
-			</HStack>
+			</HStack> */}
 		</Screen>
 	);
 };

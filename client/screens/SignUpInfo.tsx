@@ -21,8 +21,6 @@ export interface UserInfoData {
 export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) => {
 	const { email, isSociety } = route.params;
 
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 	interface LoginData {
 		email?: string;
 		password?: string;
@@ -65,19 +63,10 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 		username: Yup.string().required('Required')
 	});
 
-	const Validate = (values: UserInfoData) => {
-		const errors: UserInfoData = {};
-
-		if (!values.username) {
-			errors.username = 'Required';
-		}
-		return errors;
-	};
-
 	return (
 		<Screen keyboardAware backButton>
 			<Heading size="lg" width="100%">
-				Just one more thing...
+				What should we call you?
 			</Heading>
 			<Formik
 				initialValues={{
@@ -102,7 +91,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 							isLoading={formikProps.isSubmitting}
 							isLoadingText="Checking"
 						>
-							Get Started
+							Next
 						</Button>
 					</VStack>
 				)}

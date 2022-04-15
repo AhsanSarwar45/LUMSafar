@@ -2,7 +2,8 @@ import { Moment } from 'moment';
 
 export interface EventData {
 	title: string;
-	creator: string;
+	creatorId: string;
+	creatorUsername: string;
 	description: string;
 	location: string;
 	tags: Array<string>;

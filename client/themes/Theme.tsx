@@ -26,6 +26,17 @@ const minimalStyle = {
 		color: 'text.primary'
 	}
 };
+const focusedMinimalStyle = {
+	bgColor: 'background',
+	rounded: '2xl',
+	shadow: 2,
+	px: 5,
+	py: 3,
+	space: 2,
+	_text: {
+		color: 'text.primary'
+	}
+};
 
 export const theme = extendTheme({
 	colors: {
@@ -64,6 +75,7 @@ export const theme = extendTheme({
 
 	borderRadius: borderRadius,
 	minimalStyle: minimalStyle,
+	focusedMinimalStyle: focusedMinimalStyle,
 
 	config: {
 		// Changing initialColorMode to 'dark'
@@ -115,6 +127,9 @@ export const theme = extendTheme({
 			variants: {
 				minimal: ({ colorScheme }: any) => {
 					return minimalStyle;
+				},
+				focusedMinimal: ({ colorScheme }: any) => {
+					return focusedMinimalStyle;
 				}
 			}
 		},
