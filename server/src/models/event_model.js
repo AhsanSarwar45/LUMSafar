@@ -11,8 +11,7 @@ const eventschema = new mongoose.Schema({
 		ref: 'user'
 	},
 	description: {
-		type: String,
-		required: true
+		type: String
 	},
 	location: {
 		type: String,
@@ -39,8 +38,7 @@ const eventschema = new mongoose.Schema({
 		}
 	],
 	imagePath: {
-		type: String,
-		required: true
+		type: String
 	}
 });
 
