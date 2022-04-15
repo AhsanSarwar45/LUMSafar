@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
-const {randomBytes, createHash} = require('crypto');
+const { randomBytes, createHash } = require('crypto');
 let User = require('../models/user_model.js');
 let Event = require('../models/event_model.js');
 const { route } = require('./events.js');
@@ -218,12 +218,14 @@ router.route('/login').post((req, res) => {
 			if (user) {
 				//check if a doc was foundzz
 				//added status element in the json object. Its sent along with the rest of the doc
-				user.status = 'success'
-				res.json(user);
+				userData = user;
+				delete userData['password'];
+
+				res.json(userData);
 				// TODO: return the entire user document
 				console.log(`[user/login] ${email} : success`);
 			} else {
-				res.json({status: 'not-found'});
+				res.json('not-found');
 				console.log(`[user/login] ${email} : not-found`);
 			}
 			// res.json(user);
@@ -268,7 +270,8 @@ router.route('/following-menu').post((req, res) => {
 	});
 });
 
-router.route('/friends-menu').post((req, res) => {// dont think this is needed, since we will have the entire doc saved in local storage. We would need to update local storage after adding or removing friends/followers
+router.route('/friends-menu').post((req, res) => {
+	// dont think this is needed, since we will have the entire doc saved in local storage. We would need to update local storage after adding or removing friends/followers
 	let email = req.body.email;
 
 	User.find({ email: email }).then((err, data) => {
@@ -288,21 +291,23 @@ router.route('/friend-request').post((req, res) => {
 
 	User.findById(friend_id)
 		.then((user) => {
-			user.friend_request.push(own_id)
-			user.save()
+			user.friend_request.push(own_id);
+			user
+				.save()
 				.then(() => {
-					res.json('success')
-					console.log(`[user/friend-request] ${own_id}: success`)
+					res.json('success');
+					console.log(`[user/friend-request] ${own_id}: success`);
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log(`[user/friend-request] failure ${err}`)
-				})
-		}).catch((err) => {
-			res.json('failure')
-			console.log(`[user/friend-request]: failure fetching user : ${err}`)
+					console.log(`[user/friend-request] failure ${err}`);
+				});
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log(`[user/friend-request]: failure fetching user : ${err}`);
 		});
-})
+});
 
 router.route('/accept-request').post((req, res) => {
 	let own_id = req.body.own_id;
@@ -310,47 +315,47 @@ router.route('/accept-request').post((req, res) => {
 
 	User.findById(own_id)
 		.then((user) => {
-			user.friends.push(friend_id)
-			user.save()
+			user.friends.push(friend_id);
+			user
+				.save()
 				.then(() => {
-					User.findById(friend_id)
-					.then((user_friend) => {
-						user_friend.friends.push(own_id)
-						user_friend.save()
-									.then(() => {
-										res.json("handshake-complete")
-										console.log(`[user/accept-request: success]`)
-									})
-									.catch((err) => {
-										res.json("handshake-failed")
-										console.log(`[user/accept-request]: failed : ${err}`)
-									})
-					})
+					User.findById(friend_id).then((user_friend) => {
+						user_friend.friends.push(own_id);
+						user_friend
+							.save()
+							.then(() => {
+								res.json('handshake-complete');
+								console.log(`[user/accept-request: success]`);
+							})
+							.catch((err) => {
+								res.json('handshake-failed');
+								console.log(`[user/accept-request]: failed : ${err}`);
+							});
+					});
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log(`[user/accept-request] failure ${err}`)
-				})
-
-		}).catch((err) => {
-			res.json('failure')
-			console.log(`[user/friend-request]: failure fetching user : ${err}`)
+					console.log(`[user/accept-request] failure ${err}`);
+				});
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log(`[user/friend-request]: failure fetching user : ${err}`);
 		});
-})
+});
 
-router.route('/show-friend-requests').post((req,res) => {
-	let own_id = req.body.own_id //or should it be _id
+router.route('/show-friend-requests').post((req, res) => {
+	let own_id = req.body.own_id; //or should it be _id
 
-	User.findById(own_id).then((user) => {
-		res.json({friend_requests: user.friend_requests})
-	})
-	.catch((err) => {
-		res.json('failure')
-			console.log(`[user/show-friend-requests]: failure fetching friend requests : ${err}`)
-	})
-})
-
-
+	User.findById(own_id)
+		.then((user) => {
+			res.json({ friendRequests: user.friendRequests });
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log(`[user/show-friend-requests]: failure fetching friend requests : ${err}`);
+		});
+});
 
 router.route('/follow-user').post((req, res) => {
 	let own_id = req.body.own_id;
@@ -359,48 +364,49 @@ router.route('/follow-user').post((req, res) => {
 	User.findById(own_id)
 		.then((user) => {
 			user.following.push(friend_id);
-			user.save()
+			user
+				.save()
 				.then(() => {
-					res.json('success')
-					console.log(`[user/follow-user] ${friend_id}: success`)
+					res.json('success');
+					console.log(`[user/follow-user] ${friend_id}: success`);
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log(`[user/friend-request] failure ${err}`)
-				})
-		}).catch((err) => {
-			res.json('failure')
-			console.log(`[user/follow-user]: failure fetching user : ${err}`)
-		})
-})
-
-router.route('/search-result').post((req, res) => {//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
-	let search = req.body.search
-	let search_type = req.body.search_type
-
-	if(search_type == 'users')
-	{
-		User.find({username: search}).then((users) => {
-			console.log(`[user/search-result] ${search}: success`)
-			res.json(users)
+					console.log(`[user/friend-request] failure ${err}`);
+				});
 		})
 		.catch((err) => {
-			res.json('failure')
-			console.log(`[user/search-result]: failure fetching users : ${err}`)
-		})
-	}
-	else if (search_type == 'events')
-	{
-		Event.find({event_title: search}).then((events) => {
-			console.log(`[user/search-result] ${search}: success`)
-			res.json(events)
-		})
-		.catch((err) => {
-			res.json('failure')
-			console.log(`[user/search-result]: failure fetching events : ${err}`)
-		})
-	}
+			res.json('failure');
+			console.log(`[user/follow-user]: failure fetching user : ${err}`);
+		});
+});
 
-})
+router.route('/search-result').post((req, res) => {
+	//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
+	let search = req.body.search;
+	let search_type = req.body.search_type;
+
+	if (search_type == 'users') {
+		User.find({ username: search })
+			.then((users) => {
+				console.log(`[user/search-result] ${search}: success`);
+				res.json(users);
+			})
+			.catch((err) => {
+				res.json('failure');
+				console.log(`[user/search-result]: failure fetching users : ${err}`);
+			});
+	} else if (search_type == 'events') {
+		Event.find({ event_title: search })
+			.then((events) => {
+				console.log(`[user/search-result] ${search}: success`);
+				res.json(events);
+			})
+			.catch((err) => {
+				res.json('failure');
+				console.log(`[user/search-result]: failure fetching events : ${err}`);
+			});
+	}
+});
 
 module.exports = router;
