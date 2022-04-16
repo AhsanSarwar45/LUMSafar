@@ -112,25 +112,7 @@ router.route('/toggle-interest').post((req, res) => {
 	});
 });
 
-//  User.where({ email: req.body.email }).findOne((err, user) => {
-// 	if (err) {
-// 		res.json('failure');
-// 		console.log(`[user/exists] ${email}: failure: ${err}`);
 
-// 	} else if (user) {
-//         res.json('already-marked-as-interested');
-// 		console.log(`[user/exists] ${email}: not-found`);
-
-//     } else {
-//         res.json('marked-as-interested');
-//         console.log(`[user/exists] ${email}: success`);
-//         Event.updateOne(
-//             { title: title, creatorId: creatorId},
-//             { $push: { interestedUsers: user} }
-//          )
-// 	}
-// });
-// });
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
@@ -206,6 +188,23 @@ router.route('/fetch-recommendations').post((req, res) => {
 	// 	res.json(result); //for testing purposes
 	// }
 });
+
+router.route('/interested-users').post((req, res) => {
+	const eventId = mongoose.Types.ObjectId(req.body.eventId);
+
+	Events.findById(eventId, (err, event) => {
+		if (err) {
+			console.log(`[event/interested-users] ${eventId}: failure: ${err}`);
+		} else {
+			Users.find({
+				'_id': { $in: event.interestedUsers}
+			}, function(err, users){
+				//  console.log(users);
+				res.json(users)
+			});
+		}
+	});
+})
 
 router.route('/search-event').get((req, res) => {
 	const event_title_query = req.body.title;
