@@ -81,6 +81,7 @@ router.route('/update/:id').post((req, res) => {
 router.route('/toggle-interest').post((req, res) => {
 	const eventId = mongoose.Types.ObjectId(req.body.eventId);
 	const userId = mongoose.Types.ObjectId(req.body.userId);
+	console.log(`[event-interest/toggle-interest] ${userId}: received`);
 
 	Events.findById(eventId, (err, event) => {
 		if (err) {
@@ -109,8 +110,6 @@ router.route('/toggle-interest').post((req, res) => {
 		}
 	});
 });
-
-
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
@@ -194,24 +193,29 @@ router.route('/interested-users').post((req, res) => {
 		if (err) {
 			console.log(`[event/interested-users] ${eventId}: failure: ${err}`);
 		} else {
-			Users.find({
-				'_id': { $in: event.interestedUsers}
-			}, function(err, users){
-				//  console.log(users);
-				res.json(users)
-			});
+			Users.find(
+				{
+					_id: { $in: event.interestedUsers }
+				},
+				function(err, users) {
+					//  console.log(users);
+					res.json(users);
+				}
+			);
 		}
 	});
-})
+});
 
 router.route('/search-event').get((req, res) => {
 	const query = req.body.query;
 	// const created_by_query = req.body.creatorId;
-	Events.fuzzySearch(query).then((result) => {
-		console.log(result)
-	}).catch((err) => {
-		console.log(err)
-	})
+	Events.fuzzySearch(query)
+		.then((result) => {
+			console.log(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 
 	// Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
 	// 	if (err) console.log(err);
