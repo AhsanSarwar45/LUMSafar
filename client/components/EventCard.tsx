@@ -10,6 +10,7 @@ import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
 import { UserDataContext } from '../data/UserDataContext';
+import moment from 'moment';
 
 interface EventCardProps {
 	index: number;
@@ -112,12 +113,22 @@ const EventCard = (props: EventCardProps) => {
 								{props.data.creatorUsername}
 							</Text>
 						</VStack>
-						<Icon
-							as={<Ionicons name={interested ? 'ios-heart' : 'ios-heart-outline'} />}
-							size={8}
-							onPress={ToggleInterest}
-							color="white"
-						/>
+						<HStack justifyContent="space-between" alignItems="flex-end">
+							<Icon
+								as={<Ionicons name={interested ? 'ios-heart' : 'ios-heart-outline'} />}
+								size={8}
+								onPress={ToggleInterest}
+								color="white"
+							/>
+							<VStack alignItems="flex-end">
+								<Text color="white" fontSize="sm">
+									{moment.unix(props.data.startTime).format('hh:mm A')}
+								</Text>
+								<Text color="white" fontSize="md">
+									{moment.unix(props.data.startTime).format('D MMM')}
+								</Text>
+							</VStack>
+						</HStack>
 					</VStack>
 					{props.data.imagePath ? (
 						<Image
