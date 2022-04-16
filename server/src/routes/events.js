@@ -206,7 +206,7 @@ router.route('/interested-users').post((req, res) => {
 	});
 });
 
-router.route('/search-event').get((req, res) => {
+router.route('/search').get((req, res) => {
 	const query = req.body.query;
 	// const created_by_query = req.body.creatorId;
 	Events.fuzzySearch(query)
