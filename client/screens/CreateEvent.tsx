@@ -26,7 +26,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 		data.title = values.title;
 		data.description = values.description;
 		data.location = values.location;
-		// data.imagePath = formikProps.values.imagePath;
+		data.imagePath = formikProps.values.imagePath;
 		props.navigation.navigate('CreateEventTags', {
 			data: eventData
 		});
