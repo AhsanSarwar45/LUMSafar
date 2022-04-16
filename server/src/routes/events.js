@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const eventModel = require('../models/event_model.js');
-let Events = require('../models/event_model.js');
-const { find } = require('../models/user_model.js');
+// const eventModel = require('../models/event_model.js');
+const {eventSearch, Events} = require('../models/event_model.js');
+// import {eventSearch, eventModel} from '../models/event_model.js';
+// const Events = require('../models/event_model.js');
+// const { find } = require('../models/user_model.js');
 let Users = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
@@ -207,19 +209,24 @@ router.route('/interested-users').post((req, res) => {
 })
 
 router.route('/search-event').get((req, res) => {
-	const event_title_query = req.body.title;
-	const created_by_query = req.body.creatorId;
+	const query = req.body.query;
+	// const created_by_query = req.body.creatorId;
+	Events.fuzzySearch(query).then((result) => {
+		console.log(result)
+	}).catch((err) => {
+		console.log(err)
+	})
 
-	Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
-		if (err) console.log(err);
-		if (event) {
-			// query result is not null
-			console.log('query successful', result);
-			res.json(result);
-		} else {
-			res.json('no_match');
-		}
-	});
+	// Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
+	// 	if (err) console.log(err);
+	// 	if (event) {
+	// 		// query result is not null
+	// 		console.log('query successful', result);
+	// 		res.json(result);
+	// 	} else {
+	// 		res.json('no_match');
+	// 	}
+	// });
 });
 
 module.exports = router;
