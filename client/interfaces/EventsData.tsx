@@ -10,7 +10,7 @@ export interface EventData {
 	tags: Array<string>;
 	startTime: number;
 	endTime: number;
-	interestedUsers: Array<number>;
+	interestedUsers: Array<string>;
 	imagePath: string;
 	imageBase64: string;
 }

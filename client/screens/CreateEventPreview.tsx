@@ -75,6 +75,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 				})
 					.then((response) => {
 						if (response.data === 'success') {
+							setSubmitting(false);
 							toast.show({
 								render: () => {
 									return (
@@ -94,13 +95,12 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 							props.navigation.navigate('Home');
 						} else if (response.data === 'failure') {
 							console.log('Failure creating event');
+							setSubmitting(false);
 						}
 					})
 					.catch((response) => {
-						console.log('Add event', response);
-					})
-					.finally(() => {
 						setSubmitting(false);
+						console.log('Add event', response);
 					});
 			})
 			.catch((response) => {

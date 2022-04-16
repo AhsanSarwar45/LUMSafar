@@ -69,6 +69,12 @@ export const EventsTab = (props: TabsProps) => {
 			});
 	}
 
+	const ModifyEvent = (index: number, data: EventData) => {
+		let newArr = [ ...events ]; // copying the old datas array
+		newArr[index] = data; // replace e.target.value with whatever you want to change it to
+		setEvents(newArr);
+	};
+
 	return (
 		<View marginTop="5%">
 			<StatusBar />
@@ -93,7 +99,9 @@ export const EventsTab = (props: TabsProps) => {
 							</VStack>
 						)
 					}
-					renderItem={({ item, index }) => <EventCard data={item as EventData} index={index} key={index} />}
+					renderItem={({ item, index }) => (
+						<EventCard setEvents={ModifyEvent} data={item as EventData} index={index} key={index} />
+					)}
 					keyExtractor={(item: EventData) => item._id}
 					onEndReached={() => {
 						if (!areEventsFinished) FetchRecommendations(() => {});

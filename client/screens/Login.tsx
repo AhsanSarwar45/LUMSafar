@@ -60,6 +60,7 @@ export const LoginScreen = ({ navigation }: any) => {
 				}
 			})
 			.catch((response) => {
+				formikProps.setSubmitting(false);
 				console.log(response);
 			});
 	}

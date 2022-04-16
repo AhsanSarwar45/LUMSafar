@@ -1,19 +1,26 @@
-import { AspectRatio, useTheme, VStack, Text, HStack, Image, Skeleton, Button } from 'native-base';
-import React, { useEffect } from 'react';
+import { AspectRatio, useTheme, VStack, Text, HStack, Image, Skeleton, Button, Icon } from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
+import Axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 import { EventData } from '../interfaces/EventsData';
 import HeartIcon from '../assets/icons/HeartIcon.svg';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../config/RouteParams';
+import { LUMSAFAR_SERVER_URL } from '@env';
+import { JsonHeader } from '../config/ControlHeader';
+import { UserDataContext } from '../data/UserDataContext';
 
 interface EventCardProps {
 	index: number;
 	data: EventData;
+	setEvents: Function;
 }
 
 const EventCard = (props: EventCardProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const { userData, setUserData } = useContext(UserDataContext);
+	const [ interested, setInterested ] = useState(props.data.interestedUsers.includes(userData._id));
 
 	const { colors } = useTheme();
 
@@ -24,6 +31,38 @@ const EventCard = (props: EventCardProps) => {
 	// useEffect(() => {
 	// 	// console.log('Card imagePath', props.data.imagePath);
 	// }, []);
+
+	function ToggleInterest() {
+		let modifiedData = props.data;
+		if (modifiedData.interestedUsers.includes(userData._id)) {
+			const index = modifiedData.interestedUsers.indexOf(userData._id);
+			if (index > -1) {
+				modifiedData.interestedUsers.splice(index, 1); // 2nd parameter means remove one item only
+			}
+			setInterested(false);
+		} else {
+			modifiedData.interestedUsers.push(userData._id);
+			setInterested(true);
+		}
+		props.setEvents(props.index, modifiedData);
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/events/toggle-interest`,
+			{ eventId: props.data._id, userId: userData._id },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				if (response.data === 'success') {
+					console.log('marked as interested');
+				} else {
+					console.log('failure');
+				}
+			})
+			.catch((response) => {
+				console.log(response);
+			});
+	}
 
 	return (
 		<AspectRatio
@@ -78,8 +117,12 @@ const EventCard = (props: EventCardProps) => {
 								{props.data.creatorUsername}
 							</Text>
 						</VStack>
-
-						<HeartIcon fill="white" width={32} height={32} />
+						<Icon
+							as={<Ionicons name={interested ? 'ios-heart' : 'ios-heart-outline'} />}
+							size={8}
+							onPress={ToggleInterest}
+							color="white"
+						/>
 					</VStack>
 					{props.data.imagePath ? (
 						<Image

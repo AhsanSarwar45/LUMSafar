@@ -98,6 +98,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 				}
 			})
 			.catch((response) => {
+				formikProps.setSubmitting(false);
 				console.log(response);
 			});
 

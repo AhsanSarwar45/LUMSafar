@@ -51,6 +51,7 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 				}
 			})
 			.catch((response) => {
+				formikProps.setSubmitting(false);
 				console.log(response);
 			});
 	}

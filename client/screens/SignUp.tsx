@@ -68,6 +68,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				}
 			})
 			.catch((response) => {
+				formikProps.setSubmitting(false);
 				console.log(response);
 			});
 	}
