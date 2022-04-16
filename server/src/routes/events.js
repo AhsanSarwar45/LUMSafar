@@ -1,11 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-// const eventModel = require('../models/event_model.js');
-const {eventSearch, Events} = require('../models/event_model.js');
-// import {eventSearch, eventModel} from '../models/event_model.js';
-// const Events = require('../models/event_model.js');
-// const { find } = require('../models/user_model.js');
-let Users = require('../models/user_model.js');
+const Events = require('../models/event_model.js');
+const Users = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
 	Events.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
