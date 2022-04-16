@@ -206,21 +206,33 @@ router.route('/interested-users').post((req, res) => {
 	});
 });
 
-router.route('/search').post((req, res) => {
+router.route('/search').post(async (req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
-	// const created_by_query = req.body.creatorId;
-	Events.find({ email:`/${query}/` })
-		.then((result) => {
-			console.log(`[event/search] ${query}: success`);
-			res.json(result);
-			console.log(result);
+
+	Events.find( {$or: [{ title: {$regex: query, $options : 'i'} }, { location: {$regex: query, $options: 'i'} }]} )
+		.then((docs) => {
+			console.log(docs);
+			res.json(docs);
 		})
 		.catch((err) => {
-			console.log(`[event/search] ${query}: failure: ${err}`);
-			res.json('failure');
 			console.log(err);
+			res.json('failure')
 		});
+	// console.log(docs.length);
+	// console.log(docs);
+	// const created_by_query = req.body.creatorId;
+	// Events.find({ email:`/${query}/` })
+	// 	.then((result) => {
+	// 		console.log(`[event/search] ${query}: success`);
+	// 		res.json(result);
+	// 		console.log(result);
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(`[event/search] ${query}: failure: ${err}`);
+	// 		res.json('failure');
+	// 		console.log(err);
+	// 	});
 
 	// Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
 	// 	if (err) console.log(err);
