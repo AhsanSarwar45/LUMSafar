@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AspectRatio, Button, Heading, HStack, Icon, Pressable, View } from 'native-base';
 import React from 'react';
+import { MaterialIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import HamburgerIcon from '../assets/icons/HamburgerIcon.svg';
 import SearchIcon from '../assets/icons/SearchIcon.svg';
 import { RootStackParamList } from '../config/RouteParams';
@@ -34,11 +35,23 @@ const TopBar = (props: TopBarProps) => {
 				alignItems="center"
 			>
 				<Heading size="xl">{props.label}</Heading>
-				<HStack alignItems="center" justifyContent="center">
-					{props.search ? <SearchIcon fill="black" height={32} onPress={() => props.onSearchPress} /> : null}
-					<HamburgerIcon
+				<HStack alignItems="center" justifyContent="center" space={4}>
+					{props.search ? (
+						//  <SearchIcon fill="black" height={32} onPress={() => props.onSearchPress} />
+						<Icon fontWeight={900} as={<FontAwesome5 name="search" />} size={6} color="text.primary" />
+					) : null}
+					{/* <HamburgerIcon
 						fill="black"
 						height={32}
+						onPress={() => {
+							navigation.navigate('Menu');
+						}}
+					/> */}
+					<Icon
+						fontWeight={900}
+						as={<Ionicons name="menu" />}
+						size={9}
+						color="text.primary"
 						onPress={() => {
 							navigation.navigate('Menu');
 						}}
