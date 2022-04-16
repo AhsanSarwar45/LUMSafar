@@ -3,7 +3,7 @@ import { Box, Button, VStack } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
-import { useToast, useTheme } from 'native-base';
+import { useToast, useTheme, Image } from 'native-base';
 
 import EventCard from '../components/EventCard';
 import Screen from '../components/Screen';
@@ -19,6 +19,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 	const toast = useToast();
 	const { borderRadius } = useTheme();
 	const [ isSubmitting, setSubmitting ] = useState(false);
+	const [ blobImage, setBlobImage ] = useState('');
 
 	useState;
 
@@ -30,21 +31,49 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 
 	function CreateEvent(data: EventData) {
 		setSubmitting(true);
-		FetchImageFromUri(data.imagePath).then((value: Blob) => {
-			const formData = new FormData();
-			formData.append('file', value);
-			formData.append('upload_preset', 'lumsafar_cloudinary');
+		// console.log(data.imagePath);
+		// FetchImageFromUri(data.imagePath)
+		// 	.then((image: Blob) => {
+		// 		console.log(image.size);
+		// const fileReaderInstance = new FileReader();
+		// fileReaderInstance.readAsDataURL(image);
+		// let base64Image = fileReaderInstance.result as string;
+		// fileReaderInstance.onload = () => {
+		// 	setBlobImage();
+		// 	// console.log(base64data);
+		// };
+		const cloudName = 'lumsafar';
+		const url = `https://api.cloudinary.com/v1_1/lumsafar/image/upload`;
+		// const formData = new FormData();
+		// formData.append('file', image);
+		// formData.append('upload_preset', 'lumsafar_cloudinary');
+		// formData.append('cloud_name', 'lumsafar');
 
-			Axios.post(
-				'cloudinary://996178665614644:lIrHB-5ng1tqpnqjSJKgJkVVRa4@lumsafar',
-				formData
-			).then((response) => {
-				data.imagePath = response.data.url;
+		let fileData = {
+			file: data.imageBase64,
+			upload_preset: 'lumsafar_cloudinary'
+		};
+
+		// console.log('base64', data.imageBase64);
+
+		fetch(url, {
+			body: JSON.stringify(fileData),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(async (response) => {
+				let responseData = await response.json();
+				// console.log(responseData);
+				data.imageBase64 = '';
+				data.imagePath = responseData.secure_url;
+
+				console.log(data);
 				Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
 					headers: JsonHeader
 				})
 					.then((response) => {
-						setSubmitting(false);
 						if (response.data === 'success') {
 							toast.show({
 								render: () => {
@@ -68,14 +97,26 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 						}
 					})
 					.catch((response) => {
-						console.log(response);
+						console.log('Add event', response);
+					})
+					.finally(() => {
+						setSubmitting(false);
 					});
+			})
+			.catch((response) => {
+				console.log('Image Upload', response);
+				setSubmitting(false);
 			});
-		});
+		// })
+		// .catch((response) => {
+		// 	console.log('Image Fetch', response);
+		// 	setSubmitting(false);
+		// });
 	}
 
 	return (
 		<Screen
+			lightScreen
 			heading="Preview"
 			backButton
 			onBackButton={() => {
@@ -94,6 +135,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 			>
 				Create Event
 			</Button>
+			{/* <Image height="100px" width="200px" source={{ uri: blobImage as string }} /> */}
 		</Screen>
 	);
 };

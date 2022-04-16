@@ -12,4 +12,5 @@ export interface EventData {
 	endTime: number;
 	interestedUsers: Array<number>;
 	imagePath: string;
+	imageBase64: string;
 }

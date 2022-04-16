@@ -5,6 +5,7 @@ import { AspectRatio, Button, Image, Text, Pressable } from 'native-base';
 interface ImagePickerProps {
 	imagePath: string;
 	setImage: Function;
+	setImagePath: Function;
 }
 
 const ImagePicker = (props: ImagePickerProps) => {
@@ -14,13 +15,16 @@ const ImagePicker = (props: ImagePickerProps) => {
 			mediaTypes: ExpoImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
 			aspect: [ 4, 3 ],
+			base64: true,
 			quality: 1
 		});
 
 		// console.log(result);
 
 		if (!result.cancelled) {
-			props.setImage(result.uri);
+			// console.log(result);
+			props.setImagePath(result.uri);
+			props.setImage(`data:image/jpg;base64,${result.base64}`);
 		}
 	};
 	return (

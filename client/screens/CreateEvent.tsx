@@ -26,7 +26,8 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 		data.title = values.title;
 		data.description = values.description;
 		data.location = values.location;
-		data.imagePath = formikProps.values.imagePath;
+		data.imagePath = values.imagePath;
+		data.imageBase64 = values.imageBase64;
 		props.navigation.navigate('CreateEventTags', {
 			data: eventData
 		});
@@ -39,7 +40,8 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 					title: data.title,
 					description: data.description,
 					location: data.location,
-					imagePath: data.imagePath
+					imagePath: data.imagePath,
+					imageBase64: data.imageBase64
 				}}
 				onSubmit={Submit}
 				validationSchema={CreateEventSchema}
@@ -55,7 +57,10 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 
 						<ImagePicker
 							imagePath={formikProps.values.imagePath}
-							setImage={(imagePath: string) => {
+							setImage={(imageBase64: string) => {
+								formikProps.setFieldValue('imageBase64', imageBase64);
+							}}
+							setImagePath={(imagePath: string) => {
 								formikProps.setFieldValue('imagePath', imagePath);
 							}}
 						/>

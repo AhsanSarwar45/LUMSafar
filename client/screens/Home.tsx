@@ -79,6 +79,7 @@ export const Home = (props: HomeScreenProps) => {
 							endTime: moment().add(1, 'hour').startOf('hour').unix(),
 							startTime: moment().add(2, 'hour').startOf('hour').unix(),
 							imagePath: '',
+							imageBase64: '',
 							interestedUsers: []
 						}
 					});
