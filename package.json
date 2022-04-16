@@ -11,10 +11,10 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@imranbarbhuiya/mongoose-fuzzy-searching": "^3.0.5",
 		"cryptr": "^6.0.2",
 		"express": "^4.17.3",
-		"mongoose": "^6.2.9",
+		"mongoose": "5.10.x",
+		"mongoose-fuzzy-searching": "^2.0.2",
 		"nodemailer": "^6.7.3"
 	},
 	"devDependencies": {
