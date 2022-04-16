@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
+const mongoose_fuzzy_searching = require('mongoose-fuzzy-search');
 const user = require('./user_model.js');
 
 const eventSchema = new mongoose.Schema({
