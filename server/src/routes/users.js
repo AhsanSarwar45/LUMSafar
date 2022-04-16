@@ -29,7 +29,8 @@ router.route('/add').post((req, res) => {
 		email: email,
 		password: password,
 		accountType: accountType,
-		profilePicPath: 'https://www.gravatar.com/avatar/0?d=mp'
+		profilePicPath: 'https://www.gravatar.com/avatar/0?d=mp',
+		bio: 'Empty'
 	});
 
 	// TODO: Encrypt password. beshak
