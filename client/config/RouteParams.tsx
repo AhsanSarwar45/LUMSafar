@@ -16,6 +16,7 @@ export type RootStackParamList = {
 	CreateEventTags: { data: EventData };
 	CreateEventTime: { data: EventData };
 	CreateEventPreview: { data: EventData };
+	EventDetails: { data: EventData };
 	ChipsSearch: undefined;
 	Menu: undefined;
 	Splash: undefined;

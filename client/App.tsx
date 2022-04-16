@@ -24,6 +24,7 @@ import CreateEventPreviewScreen from './screens/CreateEventPreview';
 import { UserData } from './interfaces/UserData';
 import { UserDataContext } from './data/UserDataContext';
 import ProfileScreen from './screens/Profile';
+import EventDetailsScreen from './screens/EventDetails';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -74,6 +75,11 @@ export default function App() {
 							options={{ headerShown: false }}
 							name="CreateEventPreview"
 							component={CreateEventPreviewScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="EventDetails"
+							component={EventDetailsScreen}
 						/>
 						{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
 						<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />

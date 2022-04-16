@@ -14,14 +14,15 @@ export const TimeCard = (props: TimeCardProps) => {
 		<Button
 			onPress={() => props.onPress()}
 			width="47.5%"
-			borderWidth={1}
-			borderColor="border.light"
+			// borderWidth={1}
+			// borderColor="border.light"
 			bgColor="background"
 			rounded="2xl"
-			shadow={0}
+			shadow={2}
 			px={5}
 			py={3}
 			space={2}
+			justifyContent="flex-start"
 		>
 			<Text color="text.secondary">{props.label}</Text>
 

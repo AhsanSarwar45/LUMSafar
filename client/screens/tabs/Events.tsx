@@ -3,8 +3,6 @@ import { AspectRatio, Box, FlatList, HStack, Skeleton, View, VStack } from 'nati
 import { useNavigation } from '@react-navigation/native';
 import Axios from 'axios';
 
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 import TopBar from '../../components/TopBar';
 import Screen from '../../components/Screen';
 import TabsProps from '../../interfaces/TabsProps';
@@ -17,7 +15,6 @@ import { UserDataContext } from '../../data/UserDataContext';
 import StatusBar from '../../components/StatusBar';
 
 export const EventsTab = (props: TabsProps) => {
-	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
 
