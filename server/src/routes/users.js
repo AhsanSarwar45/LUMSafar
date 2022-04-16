@@ -276,6 +276,26 @@ router.route('/following-menu').post((req, res) => {
 	});
 });
 
+
+router.route('/set-profile-pic').post((req, res) => {
+	const userId = mongoose.Types.ObjectId(req.body.userId);
+	const imagePath = req.body.imagePath;
+
+	User.findById((userId), (err, user) => {
+		user.imagePath = imagePath;
+		user.save()
+			.then(() => {
+				res.json('success');
+				console.log('[user/set-profile-pic] success');
+			})
+			.catch((err) => {
+				res.json('failure');
+				console.log('[user/set-profile-pic] failure');
+			})
+	})
+});
+
+
 router.route('/friends-menu').post((req, res) => {
 	// dont think this is needed, since we will have the entire doc saved in local storage. We would need to update local storage after adding or removing friends/followers
 	let email = req.body.email;
