@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootStackParamList } from '../config/RouteParams';
-
+import { Ionicons } from '@expo/vector-icons';
 import Screen from '../components/Screen';
-import { Button, Heading, Text, VStack, HStack, useTheme, Spacer } from 'native-base';
+import { Button, Heading, Text, VStack, HStack, useTheme, Spacer, Icon } from 'native-base';
 import TimeCard from '../components/TimeCard';
 import moment from 'moment';
 import MapIcon from '../assets/icons/MapIcon.svg';
@@ -49,35 +49,39 @@ const EventDetailsScreen = (props: EventDetailsScreenProps) => {
 					{/* <Spacer /> */}
 					<Text>{data.location}</Text>
 				</VStack>
-				<MapIcon fill={colors.primary[500]} width={32} height={32} />
+				<Icon as={<Ionicons name="md-location" />} fontWeight={700} size={6} color="primary.500" />
+
+				{/* <MapIcon fill={colors.primary[500]} width={32} height={32} /> */}
 			</HStack>
-			<VStack
+			<HStack
 				bgColor="background"
 				rounded="2xl"
 				shadow={2}
 				px={5}
 				py={3}
-				space={2}
 				width="full"
 				justifyContent="space-between"
-				alignItems="flex-start"
+				alignItems="center"
 			>
-				<Text color="text.secondary">Tags</Text>
-				{/* <Spacer /> */}
-				{data.tags.length === 0 ? (
-					<Text color="text.primary">None</Text>
-				) : (
-					<HStack flexWrap="wrap" width="full">
-						{data.tags.map((item: string, index: number) => (
-							<Chip
-								key={index}
-								color={colors.cards[index % Object.keys(colors.cards).length]}
-								label={item}
-							/>
-						))}
-					</HStack>
-				)}
-			</VStack>
+				<VStack space={2}>
+					<Text color="text.secondary">Tags</Text>
+					{/* <Spacer /> */}
+					{data.tags.length === 0 ? (
+						<Text color="text.primary">None</Text>
+					) : (
+						<HStack flexWrap="wrap" width="full">
+							{data.tags.map((item: string, index: number) => (
+								<Chip
+									key={index}
+									color={colors.cards[index % Object.keys(colors.cards).length]}
+									label={item}
+								/>
+							))}
+						</HStack>
+					)}
+				</VStack>
+				<Icon as={<Ionicons name="ios-pricetag" />} size={6} color="primary.500" />
+			</HStack>
 			<HStack
 				bgColor="background"
 				rounded="2xl"
@@ -94,7 +98,10 @@ const EventDetailsScreen = (props: EventDetailsScreenProps) => {
 					{/* <Spacer /> */}
 					<Text>{data.interestedUsers.length}</Text>
 				</VStack>
-				<PersonIcon fill={colors.primary[500]} width={32} height={32} />
+				{/* <Ionicons name="person-outline" size={24} color="black" /> */}
+				<Icon as={<Ionicons name="person" />} size={6} color="primary.500" />
+
+				{/* <PersonIcon fill={colors.primary[500]} width={32} height={32} /> */}
 			</HStack>
 		</Screen>
 	);

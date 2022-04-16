@@ -26,23 +26,18 @@ const EventCard = (props: EventCardProps) => {
 
 	const colorIndex: number = props.index % Object.keys(colors.cards).length;
 	const isTitleLong = props.data.title.length > 14;
-	// const fontSize =
-
-	// useEffect(() => {
-	// 	// console.log('Card imagePath', props.data.imagePath);
-	// }, []);
 
 	function ToggleInterest() {
 		let modifiedData = props.data;
 		if (modifiedData.interestedUsers.includes(userData._id)) {
+			setInterested(false);
 			const index = modifiedData.interestedUsers.indexOf(userData._id);
 			if (index > -1) {
 				modifiedData.interestedUsers.splice(index, 1); // 2nd parameter means remove one item only
 			}
-			setInterested(false);
 		} else {
-			modifiedData.interestedUsers.push(userData._id);
 			setInterested(true);
+			modifiedData.interestedUsers.push(userData._id);
 		}
 		props.setEvents(props.index, modifiedData);
 		Axios.post(

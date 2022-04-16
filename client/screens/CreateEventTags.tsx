@@ -6,7 +6,10 @@ import Screen from '../components/Screen';
 import SimpleScreen from '../components/SimpleScreen';
 import { RootStackParamList } from '../config/RouteParams';
 
-const Tags = [ 'Badminton', 'Study', 'Cricket', 'Party', 'Music', 'Concert', 'Shugul', 'Sports Fest' ];
+const Tags = [ 'Art', 'Crafts', 'Dancing', 'Design', 'Make-up',
+ 'Video Making', 'Photography', 'Singing', 'Writing', 'sports',
+ 'Cafe-hoping', 'Nightclubs', 'Cooking', 'Board Games', 'Video Games', 'Movies', 
+ 'TV Shows', 'Reading', 'Music', 'Food', 'Travelling', 'Pets' ];
 
 type CreateEventTagsScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEventTags'>;
 
