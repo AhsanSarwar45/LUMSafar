@@ -84,11 +84,11 @@ router.route('/toggle-interest').post((req, res) => {
 	const eventId = mongoose.Types.ObjectId(req.body.eventId);
 	const userId = mongoose.Types.ObjectId(req.body.userId);
 
-	Events.findById(eventId).then((err, event) => {
+	Events.findById(eventId, (err, event) => {
 		if (err) {
-			res.json('failure');
-			console.log(`[event-interest/add-remove-interest] ${userId}: failure: ${err}`);
-		} else if (event) {
+			res.json('failure finding');
+			console.log(`[event-interest/toggle-interest] ${userId}: failure: ${err}`);
+		} else {
 			if (event.interestedUsers.includes(userId)) {
 				const index = event.interestedUsers.indexOf(userId);
 				if (index > -1) {
@@ -102,12 +102,11 @@ router.route('/toggle-interest').post((req, res) => {
 				.save()
 				.then(() => {
 					res.json('success');
-					console.log(`[event-interest/add-remove-interest] ${userId}: success`);
+					console.log(`[event-interest/toggle-interest] ${userId}: success`);
 				})
 				.catch((err) => {
 					res.json('failure');
-
-					console.log(`[event-interest/add-remove-interest] ${userId}: failure: ${err}`);
+					console.log(`[event-interest/toggle-interest] ${userId}: failure saving: ${err}`);
 				});
 		}
 	});
