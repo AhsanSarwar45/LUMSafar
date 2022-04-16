@@ -210,7 +210,7 @@ router.route('/search').post((req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
 	// const created_by_query = req.body.creatorId;
-	Events.fuzzySearch(query).exec()
+	Events.find({ email:`/${query}/` })
 		.then((result) => {
 			console.log(`[event/search] ${query}: success`);
 			res.json(result);
