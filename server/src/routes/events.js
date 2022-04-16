@@ -206,7 +206,7 @@ router.route('/interested-users').post((req, res) => {
 	});
 });
 
-router.route('/search').get((req, res) => {
+router.route('/search').post((req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
 	// const created_by_query = req.body.creatorId;
