@@ -229,4 +229,32 @@ router.route('/search-event').get((req, res) => {
 	// });
 });
 
+router.route('/friends-interested').post((req,res) => {
+	let email = req.body.email
+	let event_title = req.body.event_title
+	let event_created_by = req.body.created_by
+
+	Users.find({email : email}).then((user) => {
+		Events.find({title : event_title, creatorId : event_created_by}).then((event) => {
+
+			let count = 0
+
+			for(let i = 0; i < user.friends.length; i++)
+			{
+				for(let j = 0; j < event.interestedUsers.length; j++)
+				{
+					if(event.interestedUsers[j] == user.friends[i])
+					{
+						count = count + 1
+					}
+				}
+			}
+			res.json(count)
+		})
+		.catch((err) => {
+			console.log(`[event/friends-interested] ${event_title}: failure: ${err}`);
+		})
+	})
+})
+
 module.exports = router;
