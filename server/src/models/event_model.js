@@ -47,7 +47,7 @@ const eventSchema = new mongoose.Schema({
 	}
 });
 
-eventSchema.plugin(mongoose_fuzzy_searching, { fields: [ 'title', 'location', 'tags' ] });
+eventSchema.plugin(mongoose_fuzzy_searching, { fields: [ 'title', 'location' ] });
 const eventModel = mongoose.model('events', eventSchema);
 
 module.exports = eventModel;
