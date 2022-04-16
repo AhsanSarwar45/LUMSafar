@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const eventModel = require('../models/event_model.js');
 let Events = require('../models/event_model.js');
 const { find } = require('../models/user_model.js');
 let Users = require('../models/user_model.js');
@@ -30,7 +31,7 @@ router.route('/view').get((req, res) => {
 router.route('/add').post((req, res) => {
 	const title = req.body.title;
 	console.log(`[events/add] ${title}: received`);
-	
+
 	// const event = req.body;
 	// const title = req.body.title;
 	const creatorId = mongoose.Types.ObjectId(req.body.creatorId);
@@ -45,7 +46,18 @@ router.route('/add').post((req, res) => {
 
 	// event.creatorId = mongoose.Types.ObjectId(event.creatorId);
 
-	const newEvent = new Events( {title, creatorId, creatorUsername, description, location, tags, startTime, endTime, interestedUsers, imagePath} );
+	const newEvent = new Events({
+		title,
+		creatorId,
+		creatorUsername,
+		description,
+		location,
+		tags,
+		startTime,
+		endTime,
+		interestedUsers,
+		imagePath
+	});
 	newEvent
 		.save()
 		.then(() => {
@@ -68,62 +80,63 @@ router.route('/update/:id').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add-remove-interest').post((req, res) => {
-	const title = req.body.title;
-	const creatorId = req.body.creatorId;
-	const email = req.body.email;
+router.route('/toggle-interest').post((req, res) => {
+	const eventId = mongoose.Types.ObjectId(req.body.eventId);
+	const userId = mongoose.Types.ObjectId(req.body.userId);
 
-	const user = Users.find({ email: email });
-
-	Events.find({ title: title, creatorId: creatorId }).then((err, data) => {
+	Events.findById(eventId).then((err, event) => {
 		if (err) {
 			res.json('failure');
-			console.log(`[event-interest/addition] ${email}: failure: ${err}`);
-		} else if (data) {
-			Events.find({
-				title: title,
-				creatorId: creatorId,
-				interestedUsers: email
-			}).then((err2, data2) => {
-				if (err2) {
-					res.json('failure-2');
-					console.log(`[event-interest/addition] ${email}: failure: ${err}`);
-				} else if (data2) {
-					res.json('already-marked-as-interested');
-					Events.updateOne({ title: title, creatorId: creatorId }, { $pull: { interestedUsers: user._id } });
-				} else {
-					Events.updateOne({ title: title, creatorId: creatorId }, { $push: { interestedUsers: user._id } });
+			console.log(`[event-interest/add-remove-interest] ${userId}: failure: ${err}`);
+		} else if (event) {
+			if (event.interestedUsers.includes(userId)) {
+				const index = event.interestedUsers.indexOf(userId);
+				if (index > -1) {
+					event.interestedUsers.splice(index, 1); // 2nd parameter means remove one item only
 				}
-			});
-		} else {
-			res.json('event-does-not-exist');
+			} else {
+				event.interestedUsers.push(userId);
+			}
+
+			event
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[event-interest/add-remove-interest] ${userId}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+
+					console.log(`[event-interest/add-remove-interest] ${userId}: failure: ${err}`);
+				});
 		}
 	});
-
-	//  User.where({ email: req.body.email }).findOne((err, user) => {
-	// 	if (err) {
-	// 		res.json('failure');
-	// 		console.log(`[user/exists] ${email}: failure: ${err}`);
-
-	// 	} else if (user) {
-	//         res.json('already-marked-as-interested');
-	// 		console.log(`[user/exists] ${email}: not-found`);
-
-	//     } else {
-	//         res.json('marked-as-interested');
-	//         console.log(`[user/exists] ${email}: success`);
-	//         Event.updateOne(
-	//             { title: title, creatorId: creatorId},
-	//             { $push: { interestedUsers: user} }
-	//          )
-	// 	}
-	// });
 });
+
+//  User.where({ email: req.body.email }).findOne((err, user) => {
+// 	if (err) {
+// 		res.json('failure');
+// 		console.log(`[user/exists] ${email}: failure: ${err}`);
+
+// 	} else if (user) {
+//         res.json('already-marked-as-interested');
+// 		console.log(`[user/exists] ${email}: not-found`);
+
+//     } else {
+//         res.json('marked-as-interested');
+//         console.log(`[user/exists] ${email}: success`);
+//         Event.updateOne(
+//             { title: title, creatorId: creatorId},
+//             { $push: { interestedUsers: user} }
+//          )
+// 	}
+// });
+// });
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
 	let currentEvents = req.body.currentEvents.map((id) => mongoose.Types.ObjectId(id));
-	console.log(currentEvents);
+	// console.log(currentEvents);
 	let promiseArray = [];
 
 	console.log(`[event/fetch-recommendations] ${own_id}: received`);
