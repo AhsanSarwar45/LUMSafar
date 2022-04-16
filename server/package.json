@@ -13,8 +13,8 @@
 	"dependencies": {
 		"cryptr": "^6.0.2",
 		"express": "^4.17.3",
-		"mongoose": "^6.2.9",
-		"mongoose-fuzzy-search": "^0.0.4",
+		"mongoose": "5.10.x",
+		"mongoose-fuzzy-searching": "^2.0.2",
 		"nodemailer": "^6.7.3"
 	},
 	"devDependencies": {
@@ -22,6 +22,8 @@
 		"supertest": "^6.2.2"
 	},
 	"jest": {
-		"transformIgnorePatterns": [ "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)" ]
+		"transformIgnorePatterns": [
+			"node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+		]
 	}
 }
