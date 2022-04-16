@@ -121,7 +121,7 @@ const EventCard = (props: EventCardProps) => {
 								color="white"
 							/>
 							<VStack alignItems="flex-end">
-								<Text color="white" fontSize="sm">
+								<Text color="rgba(255,255,255,0.75)" fontSize="sm">
 									{moment.unix(props.data.startTime).format('hh:mm A')}
 								</Text>
 								<Text color="white" fontSize="md">
