@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 	bio: {
-		type: String
+		type: String,
+		required: true
 	},
 	interests: [
 		{
@@ -26,11 +27,12 @@ const userSchema = new mongoose.Schema({
 	],
 	profilePicPath: {
 		type: String,
-		required: false
+		required: true
 	},
 	accountType: {
 		type: String,
-		enum: [ 'student', 'society' ]
+		enum: [ 'student', 'society' ],
+		required: true
 	},
 	friendRequests: [
 		{
