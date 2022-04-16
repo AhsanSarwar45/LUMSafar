@@ -4,6 +4,7 @@ const { randomBytes, createHash } = require('crypto');
 let User = require('../models/user_model.js');
 let Event = require('../models/event_model.js');
 const { route } = require('./events.js');
+const mongoose = require('mongoose');
 
 // * HEAVY BRO
 
@@ -434,5 +435,34 @@ router.route('/search-result').post((req, res) => {
 			});
 	}
 });
+
+router.route('/edit-bio').post((req, res) => {
+	
+	let email = req.body.email
+	let bio = req.body.bio
+
+	User.where({ email: email }).findOne((err, user) => {
+		if (err) {
+			res.json('failure');
+			console.log(`[user/edit-bio] ${email}: failure: ${err}`);
+		} else {
+			// find one returns doc entry, which u update and return to database
+			user.bio = bio;
+			user
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[user/edit-bio] ${email}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/edit-bio] ${email}: failure: ${err}`);
+				});
+		}
+	});
+
+
+
+})
 
 module.exports = router;
