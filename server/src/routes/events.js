@@ -30,11 +30,22 @@ router.route('/view').get((req, res) => {
 router.route('/add').post((req, res) => {
 	const title = req.body.title;
 	console.log(`[events/add] ${title}: received`);
+	
+	// const event = req.body;
+	// const title = req.body.title;
+	const creatorId = mongoose.Types.ObjectId(req.body.creatorId);
+	const creatorUsername = req.body.creatorUsername;
+	const description = req.body.description;
+	const location = req.body.location;
+	const tags = req.body.tags;
+	const startTime = req.body.startTime;
+	const endTime = req.body.endTime;
+	const interestedUsers = req.body.interestedUsers;
+	const imagePath = req.body.imagePath;
 
-	const event = req.body;
-	event.creatorId = mongoose.Types.ObjectId(event.creatorId);
+	// event.creatorId = mongoose.Types.ObjectId(event.creatorId);
 
-	const newEvent = new Events(event);
+	const newEvent = new Events( {title, creatorId, creatorUsername, description, location, tags, startTime, endTime, interestedUsers, imagePath} );
 	newEvent
 		.save()
 		.then(() => {
