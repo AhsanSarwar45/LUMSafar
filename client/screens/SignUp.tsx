@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon } from 'native-base';
+import { Box, VStack, HStack, Button, Text, Center, Heading, Pressable, View, Icon, useToast } from 'native-base';
 import { Formik } from 'formik';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Axios from 'axios';
@@ -12,20 +12,21 @@ import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
 import ErrorMessage from '../components/ErrorMessage';
+import { ShowToast } from '../components/Toast';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	const [ isDuplicate, setIsDuplicate ] = useState(false);
-
-	const { isSociety } = route.params;
+	const toast = useToast();
+	const { accountType } = route.params;
 
 	interface SignUpData {
 		username: string;
 		email: string;
 		password: string;
 		confirmPassword: string;
-		userType?: 'society' | 'student';
+		accountType?: 'society' | 'student';
 	}
 
 	const SignUpSchema = Yup.object().shape({
@@ -58,7 +59,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 						data: {
 							email: data.email,
 							username: data.username,
-							userType: data.userType,
+							accountType: accountType,
 							password: data.password
 						},
 						type: 'SignUp'
@@ -69,7 +70,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 			})
 			.catch((response) => {
 				formikProps.setSubmitting(false);
-				console.log(response);
+				ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
 			});
 	}
 
@@ -91,12 +92,12 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 				{(formikProps) => (
 					<VStack space="15px" width="full">
 						<TextInput
-							label={isSociety ? 'Society Name' : 'Name'}
+							label={accountType === 'society' ? 'Society Name' : 'Name'}
 							name="username"
 							formikProps={formikProps}
 						/>
 						<TextInput
-							label={isSociety ? 'Society Email' : 'University Email'}
+							label={accountType === 'society' ? 'Society Email' : 'University Email'}
 							name="email"
 							placeholder="example@lums.edu.pk"
 							formikProps={formikProps}

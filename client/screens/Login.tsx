@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { HStack, Button, Text, Pressable, VStack, View } from 'native-base';
+import { HStack, Button, Text, Pressable, VStack, View, useToast } from 'native-base';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
@@ -13,11 +13,13 @@ import { JsonHeader } from '../config/ControlHeader';
 import { UserDataContext } from '../data/UserDataContext';
 import { UserData } from '../interfaces/UserData';
 import { StoreUserData } from '../data/AsyncStorage';
+import { ShowToast } from '../components/Toast';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
 	const isMountedRef = useRef(false);
 	const { userData, setUserData } = useContext(UserDataContext);
+	const toast = useToast();
 
 	interface LoginData {
 		email: string;
@@ -61,7 +63,7 @@ export const LoginScreen = ({ navigation }: any) => {
 			})
 			.catch((response) => {
 				formikProps.setSubmitting(false);
-				console.log(response);
+				ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
 			});
 	}
 

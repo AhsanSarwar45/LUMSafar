@@ -20,11 +20,17 @@ router.route('/add').post((req, res) => {
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = hash(req.body.password);
-	const isSociety = req.body.isSociety;
+	const accountType = req.body.accountType;
 
 	console.log(`[user/add] ${email}: received`);
 
-	const newUser = new User({ username, email, password, isSociety });
+	const newUser = new User({
+		username: username,
+		email: email,
+		password: password,
+		accountType: accountType,
+		profilePicPath: 'https://www.gravatar.com/avatar/0?d=mp'
+	});
 
 	// TODO: Encrypt password. beshak
 
@@ -277,14 +283,14 @@ router.route('/following-menu').post((req, res) => {
 	});
 });
 
-
 router.route('/set-profile-pic').post((req, res) => {
 	const userId = mongoose.Types.ObjectId(req.body.userId);
 	const imagePath = req.body.imagePath;
 
-	User.findById((userId), (err, user) => {
+	User.findById(userId, (err, user) => {
 		user.imagePath = imagePath;
-		user.save()
+		user
+			.save()
 			.then(() => {
 				res.json('success');
 				console.log('[user/set-profile-pic] success');
@@ -292,10 +298,9 @@ router.route('/set-profile-pic').post((req, res) => {
 			.catch((err) => {
 				res.json('failure');
 				console.log('[user/set-profile-pic] failure');
-			})
-	})
+			});
+	});
 });
-
 
 router.route('/friends-menu').post((req, res) => {
 	// dont think this is needed, since we will have the entire doc saved in local storage. We would need to update local storage after adding or removing friends/followers
@@ -437,9 +442,8 @@ router.route('/search-result').post((req, res) => {
 });
 
 router.route('/edit-bio').post((req, res) => {
-	
-	let email = req.body.email
-	let bio = req.body.bio
+	let email = req.body.email;
+	let bio = req.body.bio;
 
 	User.where({ email: email }).findOne((err, user) => {
 		if (err) {
@@ -460,9 +464,6 @@ router.route('/edit-bio').post((req, res) => {
 				});
 		}
 	});
-
-
-
-})
+});
 
 module.exports = router;

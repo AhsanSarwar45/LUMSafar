@@ -16,7 +16,7 @@ const ImagePicker = (props: ImagePickerProps) => {
 			allowsEditing: true,
 			aspect: [ 4, 3 ],
 			base64: true,
-			quality: 1
+			quality: 0.2
 		});
 
 		// console.log(result);

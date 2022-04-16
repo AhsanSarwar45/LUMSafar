@@ -17,7 +17,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 				width="full"
 				icon={<MaterialIcons name="person" />}
 				onPress={() => {
-					navigation.navigate('SignUp', { isSociety: false });
+					navigation.navigate('SignUp', { accountType: 'student' });
 				}}
 			/>
 			<OptionCard
@@ -26,7 +26,7 @@ export const AccountTypeScreen = ({ navigation }: any) => {
 				width="full"
 				icon={<MaterialIcons name="groups" />}
 				onPress={() => {
-					navigation.navigate('SignUp', { isSociety: true });
+					navigation.navigate('SignUp', { accountType: 'society' });
 				}}
 			/>
 		</Screen>

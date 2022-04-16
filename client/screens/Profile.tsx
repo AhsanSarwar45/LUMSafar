@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Heading, VStack, Button, Text, Image, HStack, useTheme, Icon, Pressable } from 'native-base';
+import { Heading, VStack, Button, Text, Image, HStack, useTheme, Icon, Pressable, useToast } from 'native-base';
 import React, { useContext, useState } from 'react';
 import Axios from 'axios';
 import { LUMSAFAR_SERVER_URL } from '@env';
@@ -13,6 +13,7 @@ import Chip from '../components/Chip';
 import { Ionicons } from '@expo/vector-icons';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { JsonHeader } from '../config/ControlHeader';
+import { ShowToast } from '../components/Toast';
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
@@ -22,6 +23,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	const { colors } = useTheme();
 	const [ profilePicture, setProfilePicture ] = useState(userData.profilePicPath);
 	const [ ownProfile, setOwnProfile ] = useState(userData._id === data._id);
+	const toast = useToast();
 
 	const PickImage = async () => {
 		// No permissions request is necessary for launching the imagePath library
@@ -30,7 +32,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 			allowsEditing: true,
 			aspect: [ 1, 1 ],
 			base64: true,
-			quality: 1
+			quality: 0.1
 		});
 
 		// console.log(result);
@@ -78,9 +80,10 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 						})
 						.catch((response) => {
 							console.log(response);
+							ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
 						});
 				})
-				.catch((response) => console.log('response'));
+				.catch((response) => ShowToast(toast, "We couldn't upload your image 😔", 'failure'));
 		}
 	};
 
@@ -88,13 +91,13 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 		<Screen backButton heading="Profile">
 			<Button variant="unstyled" shadow={0} onPress={PickImage}>
 				<Image
-					size="lg"
+					size="xl"
 					rounded="full"
 					source={{
 						uri: profilePicture
 					}}
 					fallbackSource={{
-						uri: 'https://wallpaperaccess.com/full/317501.jpg'
+						uri: 'https://www.gravatar.com/avatar/0?d=mp'
 					}}
 					alt="Profile Picture"
 				/>

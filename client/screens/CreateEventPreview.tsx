@@ -11,6 +11,7 @@ import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
 import { EventData } from '../interfaces/EventsData';
+import { ShowToast } from '../components/Toast';
 
 type CreateEventPreviewScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEventPreview'>;
 
@@ -19,21 +20,12 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 	const toast = useToast();
 	const { borderRadius } = useTheme();
 	const [ isSubmitting, setSubmitting ] = useState(false);
-	const [ blobImage, setBlobImage ] = useState('');
-
-	useState;
-
-	const FetchImageFromUri = async (uri: string) => {
-		const response = await fetch(uri);
-		const blob = await response.blob();
-		return blob;
-	};
 
 	function CreateEvent(data: EventData) {
 		setSubmitting(true);
 
 		const cloudName = 'lumsafar';
-		const url = `https://api.cloudinary.com/v1_1/lumsafar/image/upload`;
+		const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
 		let fileData = {
 			file: data.imageBase64,
@@ -62,22 +54,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 					.then((response) => {
 						if (response.data === 'success') {
 							setSubmitting(false);
-							toast.show({
-								render: () => {
-									return (
-										<Box
-											_text={{ color: 'white' }}
-											bg="emerald.500"
-											px="3"
-											py="2"
-											rounded={borderRadius}
-											mb={10}
-										>
-											Event created! 🚀
-										</Box>
-									);
-								}
-							});
+							ShowToast(toast, 'Event created! 🚀', 'success');
 							props.navigation.navigate('Home');
 						} else if (response.data === 'failure') {
 							console.log('Failure creating event');

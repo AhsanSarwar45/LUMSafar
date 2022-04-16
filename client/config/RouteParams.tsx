@@ -5,8 +5,8 @@ import { UserData } from '../interfaces/UserData';
 export type RootStackParamList = {
 	Login: undefined;
 	AccountType: undefined;
-	SignUp: { isSociety: boolean };
-	SignUpInfo: { email: string; isSociety: boolean };
+	SignUp: { accountType: 'student' | 'society' };
+	SignUpInfo: { email: string; accountType: 'student' | 'society' };
 	Verification: { data: any; type: 'SignUp' | 'ForgotPassword' };
 	ForgotPassword: undefined;
 	SetPassword: { email: string };
