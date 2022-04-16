@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AspectRatio, Box, FlatList, HStack, Skeleton, View, VStack } from 'native-base';
+import { AspectRatio, Box, FlatList, HStack, Text, View, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import Axios from 'axios';
 
@@ -17,7 +17,7 @@ import StatusBar from '../../components/StatusBar';
 export const EventsTab = (props: TabsProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
-
+	const [ areEventsFinished, setAreEventsFinished ] = useState(false);
 	const [ events, setEvents ] = useState<Array<EventData>>([]);
 
 	useEffect(
@@ -40,6 +40,7 @@ export const EventsTab = (props: TabsProps) => {
 	);
 
 	const Refresh = () => {
+		setAreEventsFinished(false);
 		setEvents([]);
 	};
 
@@ -54,8 +55,13 @@ export const EventsTab = (props: TabsProps) => {
 			}
 		)
 			.then((response) => {
-				setEvents((old) => [ ...old, ...response.data ]);
+				if (response.data.length === 0) {
+					setAreEventsFinished(true);
+				} else {
+					setEvents((old) => [ ...old, ...response.data ]);
+				}
 				callback();
+
 				// setIsFetching(false);
 			})
 			.catch((response) => {
@@ -75,15 +81,22 @@ export const EventsTab = (props: TabsProps) => {
 					refreshing={isFetching}
 					onRefresh={() => setIsFetching(true)}
 					ListFooterComponent={
-						<VStack space={0.5}>
-							{[ ...Array(3) ].map((value: any, index: number) => <EventSkeletonCard key={index} />)}
-						</VStack>
+						areEventsFinished ? (
+							<VStack pt="40px" width="100%" alignItems={'center'} height="500px">
+								<Text fontSize="xl" key={0}>
+									You have reached the end 😲
+								</Text>
+							</VStack>
+						) : (
+							<VStack space={0.5} height="500px">
+								{[ ...Array(3) ].map((value: any, index: number) => <EventSkeletonCard key={index} />)}
+							</VStack>
+						)
 					}
 					renderItem={({ item, index }) => <EventCard data={item as EventData} index={index} key={index} />}
 					keyExtractor={(item: EventData) => item._id}
 					onEndReached={() => {
-						FetchRecommendations(() => {});
-						console.log('fetching new');
+						if (!areEventsFinished) FetchRecommendations(() => {});
 					}}
 					onEndReachedThreshold={0.5}
 				/>
