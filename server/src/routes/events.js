@@ -208,12 +208,17 @@ router.route('/interested-users').post((req, res) => {
 
 router.route('/search').get((req, res) => {
 	const query = req.body.query;
+	console.log(`[event/search] ${query}: received`);
 	// const created_by_query = req.body.creatorId;
 	Events.fuzzySearch(query)
 		.then((result) => {
+			console.log(`[event/search] ${query}: success`);
+			res.json(result);
 			console.log(result);
 		})
 		.catch((err) => {
+			console.log(`[event/search] ${query}: failure: ${err}`);
+			res.json('failure');
 			console.log(err);
 		});
 
@@ -229,32 +234,29 @@ router.route('/search').get((req, res) => {
 	// });
 });
 
-router.route('/friends-interested').post((req,res) => {
-	let email = req.body.email
-	let event_title = req.body.event_title
-	let event_created_by = req.body.created_by
+router.route('/friends-interested').post((req, res) => {
+	let email = req.body.email;
+	let event_title = req.body.event_title;
+	let event_created_by = req.body.created_by;
 
-	Users.find({email : email}).then((user) => {
-		Events.find({title : event_title, creatorId : event_created_by}).then((event) => {
+	Users.find({ email: email }).then((user) => {
+		Events.find({ title: event_title, creatorId: event_created_by })
+			.then((event) => {
+				let count = 0;
 
-			let count = 0
-
-			for(let i = 0; i < user.friends.length; i++)
-			{
-				for(let j = 0; j < event.interestedUsers.length; j++)
-				{
-					if(event.interestedUsers[j] == user.friends[i])
-					{
-						count = count + 1
+				for (let i = 0; i < user.friends.length; i++) {
+					for (let j = 0; j < event.interestedUsers.length; j++) {
+						if (event.interestedUsers[j] == user.friends[i]) {
+							count = count + 1;
+						}
 					}
 				}
-			}
-			res.json(count)
-		})
-		.catch((err) => {
-			console.log(`[event/friends-interested] ${event_title}: failure: ${err}`);
-		})
-	})
-})
+				res.json(count);
+			})
+			.catch((err) => {
+				console.log(`[event/friends-interested] ${event_title}: failure: ${err}`);
+			});
+	});
+});
 
 module.exports = router;
