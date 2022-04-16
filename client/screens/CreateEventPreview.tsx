@@ -31,23 +31,9 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 
 	function CreateEvent(data: EventData) {
 		setSubmitting(true);
-		// console.log(data.imagePath);
-		// FetchImageFromUri(data.imagePath)
-		// 	.then((image: Blob) => {
-		// 		console.log(image.size);
-		// const fileReaderInstance = new FileReader();
-		// fileReaderInstance.readAsDataURL(image);
-		// let base64Image = fileReaderInstance.result as string;
-		// fileReaderInstance.onload = () => {
-		// 	setBlobImage();
-		// 	// console.log(base64data);
-		// };
+
 		const cloudName = 'lumsafar';
 		const url = `https://api.cloudinary.com/v1_1/lumsafar/image/upload`;
-		// const formData = new FormData();
-		// formData.append('file', image);
-		// formData.append('upload_preset', 'lumsafar_cloudinary');
-		// formData.append('cloud_name', 'lumsafar');
 
 		let fileData = {
 			file: data.imageBase64,

@@ -27,7 +27,7 @@ const minimalStyle = {
 	}
 };
 const focusedMinimalStyle = {
-	bgColor: 'background',
+	bgColor: 'focusedMinimal',
 	rounded: '2xl',
 	shadow: 2,
 	px: 5,

@@ -167,4 +167,8 @@ export const EventSkeletonCard = () => {
 	);
 };
 
+EventCard.defaultProps = {
+	setEvents: () => {}
+};
+
 export default EventCard;

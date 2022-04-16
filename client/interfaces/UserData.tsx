@@ -4,7 +4,7 @@ export interface UserData {
 	_id: string;
 	accountType: 'student' | 'society';
 	interests: Array<string>;
-	profile_pic_path: string;
+	profilePicPath: string;
 	friendRequests: number;
 	friends: number;
 	following: Array<number>;
