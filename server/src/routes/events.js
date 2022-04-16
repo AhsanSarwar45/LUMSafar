@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const eventModel = require('../models/event_model.js');
-let Events = require('../models/event_model.js');
-const { find } = require('../models/user_model.js');
-let Users = require('../models/user_model.js');
+const Events = require('../models/event_model.js');
+const Users = require('../models/user_model.js');
 
 router.route('/').get((req, res) => {
 	Events.find().then((events) => res.json(events)).catch((err) => res.status(400).json('Error: ' + err));
@@ -112,25 +110,7 @@ router.route('/toggle-interest').post((req, res) => {
 	});
 });
 
-//  User.where({ email: req.body.email }).findOne((err, user) => {
-// 	if (err) {
-// 		res.json('failure');
-// 		console.log(`[user/exists] ${email}: failure: ${err}`);
 
-// 	} else if (user) {
-//         res.json('already-marked-as-interested');
-// 		console.log(`[user/exists] ${email}: not-found`);
-
-//     } else {
-//         res.json('marked-as-interested');
-//         console.log(`[user/exists] ${email}: success`);
-//         Event.updateOne(
-//             { title: title, creatorId: creatorId},
-//             { $push: { interestedUsers: user} }
-//          )
-// 	}
-// });
-// });
 
 router.route('/fetch-recommendations').post((req, res) => {
 	let own_id = req.body.userId;
@@ -207,20 +187,42 @@ router.route('/fetch-recommendations').post((req, res) => {
 	// }
 });
 
-router.route('/search-event').get((req, res) => {
-	const event_title_query = req.body.title;
-	const created_by_query = req.body.creatorId;
+router.route('/interested-users').post((req, res) => {
+	const eventId = mongoose.Types.ObjectId(req.body.eventId);
 
-	Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
-		if (err) console.log(err);
-		if (event) {
-			// query result is not null
-			console.log('query successful', result);
-			res.json(result);
+	Events.findById(eventId, (err, event) => {
+		if (err) {
+			console.log(`[event/interested-users] ${eventId}: failure: ${err}`);
 		} else {
-			res.json('no_match');
+			Users.find({
+				'_id': { $in: event.interestedUsers}
+			}, function(err, users){
+				//  console.log(users);
+				res.json(users)
+			});
 		}
 	});
+})
+
+router.route('/search-event').get((req, res) => {
+	const query = req.body.query;
+	// const created_by_query = req.body.creatorId;
+	Events.fuzzySearch(query).then((result) => {
+		console.log(result)
+	}).catch((err) => {
+		console.log(err)
+	})
+
+	// Events.where({ title: event_title_query, creatorId: created_by_query }).findOne((err, event) => {
+	// 	if (err) console.log(err);
+	// 	if (event) {
+	// 		// query result is not null
+	// 		console.log('query successful', result);
+	// 		res.json(result);
+	// 	} else {
+	// 		res.json('no_match');
+	// 	}
+	// });
 });
 
 module.exports = router;

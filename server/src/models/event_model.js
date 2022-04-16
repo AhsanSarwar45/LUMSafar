@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 const user = require('./user_model.js');
 
 const eventSchema = new mongoose.Schema({
@@ -46,5 +47,12 @@ const eventSchema = new mongoose.Schema({
 	}
 });
 
+eventSchema.plugin(mongoose_fuzzy_searching, {fields: ['title', 'location', 'tags']});
 const eventModel = mongoose.model('events', eventSchema);
+
+// module.exports = {
+// 	eventModel: eventModel, 
+// 	eventSearch: eventSearch
+// }
+
 module.exports = eventModel;
