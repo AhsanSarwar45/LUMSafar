@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, FlatList, View } from 'native-base';
+import { AspectRatio, Box, FlatList, HStack, Skeleton, View, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import Axios from 'axios';
 
@@ -9,86 +9,19 @@ import TopBar from '../../components/TopBar';
 import Screen from '../../components/Screen';
 import TabsProps from '../../interfaces/TabsProps';
 import { RootStackParamList } from '../../config/RouteParams';
-import EventCard from '../../components/EventCard';
+import EventCard, { EventSkeletonCard } from '../../components/EventCard';
 import { EventData } from '../../interfaces/EventsData';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../../config/ControlHeader';
 import { UserDataContext } from '../../data/UserDataContext';
+import StatusBar from '../../components/StatusBar';
 
 export const EventsTab = (props: TabsProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
 
-	const [ events, setEvents ] = useState<Array<EventData>>(
-		[
-			// {
-			// 	_id: '1',
-			// 	creatorId: '',
-			// 	description: '',
-			// 	location: '',
-			// 	title: 'Badminton Fest',
-			// 	creatorUsername: 'Abdullah',
-			// 	imagePath: '',
-			// 	tags: [],
-			// 	startTime: 0,
-			// 	endTime: 0,
-			// 	interestedUsers: []
-			// },
-			// {
-			// 	_id: '2',
-			// 	creatorId: '',
-			// 	description: '',
-			// 	location: '',
-			// 	title: 'Codinguru',
-			// 	creatorUsername: 'IEEE',
-			// 	imagePath: '',
-			// 	tags: [],
-			// 	startTime: 0,
-			// 	endTime: 0,
-			// 	interestedUsers: []
-			// },
-			// {
-			// 	_id: '3',
-			// 	creatorId: '',
-			// 	description: '',
-			// 	location: '',
-			// 	title: 'UX Pakistan',
-			// 	creatorUsername: 'INDEX',
-			// 	imagePath: '',
-			// 	tags: [],
-			// 	startTime: 0,
-			// 	endTime: 0,
-			// 	interestedUsers: []
-			// },
-			// {
-			// 	_id: '4',
-			// 	creatorId: '',
-			// 	description: '',
-			// 	location: '',
-			// 	title: 'UX Pakistan',
-			// 	creatorUsername: 'INDEX',
-			// 	imagePath: '',
-			// 	tags: [],
-			// 	startTime: 0,
-			// 	endTime: 0,
-			// 	interestedUsers: []
-			// },
-			// {
-			// 	_id: '5',
-			// 	creatorId: '',
-			// 	description: '',
-			// 	location: '',
-			// 	title: 'Badminton Fest',
-			// 	creatorUsername: 'Abdullah',
-			// 	imagePath: '',
-			// 	tags: [],
-			// 	startTime: 0,
-			// 	endTime: 0,
-			// 	interestedUsers: []
-			// }
-		]
-	);
+	const [ events, setEvents ] = useState<Array<EventData>>([]);
 
 	useEffect(
 		() => {
@@ -99,16 +32,21 @@ export const EventsTab = (props: TabsProps) => {
 		[ isFetching ]
 	);
 
-	useEffect(() => {
-		setIsFetching(true);
-	}, []);
+	useEffect(
+		() => {
+			if (events.length === 0) {
+				FetchRecommendations(() => setIsFetching(false));
+				console.log('refreshing');
+			}
+		},
+		[ events ]
+	);
 
 	const Refresh = () => {
 		setEvents([]);
-		FetchRecommendations();
 	};
 
-	function FetchRecommendations() {
+	function FetchRecommendations(callback: Function) {
 		const currentEvents = events.map((value: EventData, index: number) => value._id);
 		console.log(currentEvents);
 		Axios.post(
@@ -120,7 +58,8 @@ export const EventsTab = (props: TabsProps) => {
 		)
 			.then((response) => {
 				setEvents((old) => [ ...old, ...response.data ]);
-				setIsFetching(false);
+				callback();
+				// setIsFetching(false);
 			})
 			.catch((response) => {
 				console.log(response);
@@ -128,20 +67,33 @@ export const EventsTab = (props: TabsProps) => {
 	}
 
 	return (
-		<Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}>
-			<FlatList
-				showsVerticalScrollIndicator={false}
-				data={events}
-				refreshing={isFetching}
-				onRefresh={() => setIsFetching(true)}
-				ListFooterComponent={<Box height="300px" />}
-				renderItem={({ item, index }) => <EventCard data={item as EventData} index={index} key={index} />}
-				keyExtractor={(item: EventData) => item._id}
-				onEndReached={FetchRecommendations}
-				onEndReachedThreshold={0}
-			/>
+		<View marginTop="5%">
+			<StatusBar />
+			<TopBar search label={'Events'} />
+			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}> */}
+			<View px="8%" pb="20%" width="full">
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					data={events}
+					refreshing={isFetching}
+					onRefresh={() => setIsFetching(true)}
+					ListFooterComponent={
+						<VStack space={0.5}>
+							{[ ...Array(3) ].map((value: any, index: number) => <EventSkeletonCard key={index} />)}
+						</VStack>
+					}
+					renderItem={({ item, index }) => <EventCard data={item as EventData} index={index} key={index} />}
+					keyExtractor={(item: EventData) => item._id}
+					onEndReached={() => {
+						FetchRecommendations(() => {});
+						console.log('fetching new');
+					}}
+					onEndReachedThreshold={0.5}
+				/>
+			</View>
 			{/* {events.map((item, index) => <EventCard data={item as EventData} index={index} key={index} />)} */}
 			<Box height="120px" />
-		</Screen>
+			{/* </Screen> */}
+		</View>
 	);
 };

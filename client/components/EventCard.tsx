@@ -1,4 +1,4 @@
-import { AspectRatio, useTheme, VStack, Text, HStack, Image } from 'native-base';
+import { AspectRatio, useTheme, VStack, Text, HStack, Image, Skeleton } from 'native-base';
 import React, { useEffect } from 'react';
 import { EventData } from '../interfaces/EventsData';
 import HeartIcon from '../assets/icons/HeartIcon.svg';
@@ -71,6 +71,37 @@ const EventCard = (props: EventCardProps) => {
 						alt="Event Card Image"
 					/>
 				) : null}
+			</HStack>
+		</AspectRatio>
+	);
+};
+
+export const EventSkeletonCard = () => {
+	return (
+		<AspectRatio
+			marginBottom={4}
+			width="full"
+			ratio={{
+				base: 16 / 9,
+				md: 16 / 9
+			}}
+		>
+			<HStack justifyContent="space-between" rounded={'3xl'} bgColor={'gray.400'} shadow={5}>
+				<VStack width="60%" px="9%" pt="8%" pb="6%" justifyContent="space-between">
+					<VStack width="100%">
+						<Skeleton.Text key={1} />
+					</VStack>
+
+					<Skeleton width={5} height={5} rounded="2xl" startColor="gray.100" key={2} />
+				</VStack>
+				<Skeleton
+					width="40%"
+					roundedLeft="none"
+					roundedRight="2xl"
+					startColor="gray.100"
+					height="full"
+					key={2}
+				/>
 			</HStack>
 		</AspectRatio>
 	);
