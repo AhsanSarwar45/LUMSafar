@@ -210,7 +210,7 @@ router.route('/search').get((req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
 	// const created_by_query = req.body.creatorId;
-	Events.fuzzySearch(query)
+	Events.fuzzySearch(query).exec()
 		.then((result) => {
 			console.log(`[event/search] ${query}: success`);
 			res.json(result);
