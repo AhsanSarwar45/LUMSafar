@@ -14,6 +14,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../../config/ControlHeader';
 import { UserDataContext } from '../../data/UserDataContext';
 import StatusBar from '../../components/StatusBar';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const EventsTab = (props: TabsProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -21,6 +22,8 @@ export const EventsTab = (props: TabsProps) => {
 	const [ areEventsFinished, setAreEventsFinished ] = useState(false);
 	const [ events, setEvents ] = useState<Array<EventData>>([]);
 	const [ isSearching, setIsSearching ] = useState(false);
+
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	useEffect(
 		() => {
@@ -84,58 +87,12 @@ export const EventsTab = (props: TabsProps) => {
 	// 	[ searchTerm ]
 	// );
 
-	const SearchBar = () => {
-		const [ searchTerm, setSearchTerm ] = useState('');
-		return (
-			<View width="full" px="10%" pt="6%" pb="2%" zIndex={5}>
-				<Input
-					placeholder="Search"
-					variant="unstyled"
-					borderWidth={1}
-					borderColor="border.light"
-					bgColor="background"
-					borderRadius="2xl"
-					value={searchTerm}
-					returnKeyType="search"
-					onChangeText={(text: string) => {
-						setSearchTerm(text);
-					}}
-					fontSize="md"
-					_focus={{ borderColor: 'border.light' }}
-					px={5}
-					py={3}
-					InputRightElement={
-						<Icon
-							as={<Ionicons name="ios-close" />}
-							size={6}
-							color="text.primary"
-							onPress={() => setSearchTerm('')}
-							mr={3}
-						/>
-					}
-					InputLeftElement={
-						<Icon
-							as={<Ionicons name="chevron-back" />}
-							size={6}
-							color="text.primary"
-							onPress={() => setIsSearching(false)}
-							mr={-2}
-							ml={3}
-						/>
-					}
-				/>
-			</View>
-		);
-	};
-
 	return (
 		<View marginTop="5%">
 			<StatusBar />
-			{isSearching ? (
-				<SearchBar />
-			) : (
-				<TopBar onSearchPress={() => setIsSearching(true)} search label={'Events'} />
-			)}
+
+			<TopBar onSearchPress={() => navigation.navigate('EventsSearch')} search label={'Events'} />
+
 			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}> */}
 			<View px="8%" pb="20%" width="full">
 				<FlatList

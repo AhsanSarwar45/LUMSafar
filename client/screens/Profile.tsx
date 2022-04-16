@@ -128,7 +128,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 				>
 					<VStack justifyContent="flex-start">
 						<Text color="text.secondary">Bio</Text>
-						<Text color="text.primary">My name Jeff</Text>
+						<Text color="text.primary">{data.bio.length > 0 ? data.bio : 'Empty'}</Text>
 					</VStack>
 					<Icon as={<Ionicons name="md-information-circle" />} size={6} color="primary.500" />
 				</HStack>

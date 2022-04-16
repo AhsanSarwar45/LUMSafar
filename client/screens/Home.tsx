@@ -76,8 +76,8 @@ export const Home = (props: HomeScreenProps) => {
 							description: '',
 							location: '',
 							tags: [],
-							endTime: moment().add(1, 'hour').startOf('hour').unix(),
-							startTime: moment().add(2, 'hour').startOf('hour').unix(),
+							endTime: moment().add(2, 'hour').startOf('hour').unix(),
+							startTime: moment().add(1, 'hour').startOf('hour').unix(),
 							imagePath: '',
 							imageBase64: '',
 							interestedUsers: []

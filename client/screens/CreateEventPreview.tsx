@@ -47,7 +47,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 				data.imageBase64 = '';
 				data.imagePath = responseData.secure_url;
 
-				console.log(data);
+				// console.log(data);
 				Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
 					headers: JsonHeader
 				})
