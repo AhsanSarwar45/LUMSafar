@@ -68,13 +68,13 @@ const Screen = (props: ScreenProps) => {
 		return props.scrollType === 'none' ? (
 			<Inner />
 		) : props.scrollType === 'scroll' ? (
-			<KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
-				<Inner />
-			</KeyboardAwareScrollView>
-		) : (
 			<ScrollView keyboardShouldPersistTaps="handled" height={window.height} showsVerticalScrollIndicator={false}>
 				<Inner />
 			</ScrollView>
+		) : (
+			<KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
+				<Inner />
+			</KeyboardAwareScrollView>
 		);
 	};
 

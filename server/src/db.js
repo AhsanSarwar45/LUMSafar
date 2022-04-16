@@ -1,7 +1,14 @@
 const uri = 'mongodb+srv://admin:admin@cluster0.trz98.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const mongoose = require('mongoose');
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const options = {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
+};
+
+mongoose.connect(uri, options);
 const connection = mongoose.connection;
 
 connection.once('open', () => {
