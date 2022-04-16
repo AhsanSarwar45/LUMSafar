@@ -4,6 +4,7 @@ const { randomBytes, createHash } = require('crypto');
 let User = require('../models/user_model.js');
 let Event = require('../models/event_model.js');
 const { route } = require('./events.js');
+const mongoose = require('mongoose');
 
 // * HEAVY BRO
 
