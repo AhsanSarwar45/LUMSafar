@@ -20,38 +20,58 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 	const { borderRadius } = useTheme();
 	const [ isSubmitting, setSubmitting ] = useState(false);
 
+	useState;
+
+	const FetchImageFromUri = async (uri: string) => {
+		const response = await fetch(uri);
+		const blob = await response.blob();
+		return blob;
+	};
+
 	function CreateEvent(data: EventData) {
 		setSubmitting(true);
-		Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
-			headers: JsonHeader
-		})
-			.then((response) => {
-				setSubmitting(false);
-				if (response.data === 'success') {
-					toast.show({
-						render: () => {
-							return (
-								<Box
-									_text={{ color: 'white' }}
-									bg="emerald.500"
-									px="3"
-									py="2"
-									rounded={borderRadius}
-									mb={10}
-								>
-									Event created! 🚀
-								</Box>
-							);
+		FetchImageFromUri(data.imagePath).then((value: Blob) => {
+			const formData = new FormData();
+			formData.append('file', value);
+			formData.append('upload_preset', 'lumsafar_cloudinary');
+
+			Axios.post(
+				'cloudinary://996178665614644:lIrHB-5ng1tqpnqjSJKgJkVVRa4@lumsafar',
+				formData
+			).then((response) => {
+				data.imagePath = response.data.url;
+				Axios.post(`${LUMSAFAR_SERVER_URL}/events/add`, data, {
+					headers: JsonHeader
+				})
+					.then((response) => {
+						setSubmitting(false);
+						if (response.data === 'success') {
+							toast.show({
+								render: () => {
+									return (
+										<Box
+											_text={{ color: 'white' }}
+											bg="emerald.500"
+											px="3"
+											py="2"
+											rounded={borderRadius}
+											mb={10}
+										>
+											Event created! 🚀
+										</Box>
+									);
+								}
+							});
+							props.navigation.navigate('Home');
+						} else if (response.data === 'failure') {
+							console.log('Failure creating event');
 						}
+					})
+					.catch((response) => {
+						console.log(response);
 					});
-					props.navigation.navigate('Home');
-				} else if (response.data === 'failure') {
-					console.log('Failure creating event');
-				}
-			})
-			.catch((response) => {
-				console.log(response);
 			});
+		});
 	}
 
 	return (
