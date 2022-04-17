@@ -8,6 +8,7 @@ export interface UserData {
 	profilePicPath: string;
 	profilePicBase64: string;
 	friendRequests: Array<string>;
+	sentFriendRequests: Array<string>;
 	friends: Array<string>;
 	following: Array<string>;
 	followers: Array<string>;

@@ -23,13 +23,14 @@ const UsersSearchScreen = (props: UsersSearchScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
 	const [ Users, setUsers ] = useState<Array<UserData>>([]);
+	const { type } = props.route.params;
 
 	function FetchSearchResults(searchTerm: string) {
 		setIsFetching(true);
 		// console.log(currentUsers);
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/search`,
-			{ query: searchTerm, searchType: 'users', userId: userData._id },
+			{ query: searchTerm, searchType: type, userId: userData._id },
 			{
 				headers: JsonHeader
 			}
@@ -40,8 +41,14 @@ const UsersSearchScreen = (props: UsersSearchScreenProps) => {
 			.catch((response) => {
 				console.log(response);
 			})
-			.finally(() => setIsFetching(true));
+			.finally(() => setIsFetching(false));
 	}
+
+	useEffect(() => {
+		if (type != 'users') {
+			FetchSearchResults('');
+		}
+	}, []);
 
 	return (
 		<View marginTop="5%">
