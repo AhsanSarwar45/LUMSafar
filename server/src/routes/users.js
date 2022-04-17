@@ -609,4 +609,40 @@ router.route('/search').post((req, res) => {
 	}
 });
 
+router.route('/look-for-strangers').post((req, res) => {
+	// const eventId = mongoose.Types.ObjectId(req.body.eventId);
+	const userId = mongoose.Types.ObjectId(req.body.userId);
+	console.log(`[user/look-for-strangers] ${userId}: received`);
+
+	User.findById(userId, (err, user) => {
+		if (err) {
+			res.json('failure finding');
+			console.log(`[user/look-for-strangers] ${userId}: failure: ${err}`);
+		} else {
+			if (event.interestedUsers.includes(userId)) {
+				const index = event.interestedUsers.indexOf(userId);
+				if (index > -1) {
+					event.interestedUsers.splice(index, 1); // 2nd parameter means remove one item only
+				}
+			} else {
+				event.interestedUsers.push(userId);
+			}
+
+			event
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[event-interest/toggle-interest] ${userId}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[event-interest/toggle-interest] ${userId}: failure saving: ${err}`);
+				});
+		}
+	});
+})
+
+
+
+
 module.exports = router;

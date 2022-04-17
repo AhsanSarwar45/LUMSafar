@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	
+	flag: {
+		type: Boolean
+	},
 	accountType: {
 		type: String,
 		enum: [ 'student', 'society' ],
