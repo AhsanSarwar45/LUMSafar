@@ -440,7 +440,13 @@ router.route('/show-friend-requests').post((req, res) => {
 
 	User.findById(userId)
 		.then((user) => {
-			res.json(user.friendRequests);
+			// res.json(user.friendRequests);
+			User.find({
+				'_id': { $in: user.friendRequests }
+			}, function(err, docs){
+				res.json(docs);
+				console.log(docs);
+			});
 			console.log(`[user/show-friend-requests] ${userId}: success`);
 		})
 		.catch((err) => {
