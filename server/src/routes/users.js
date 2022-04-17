@@ -397,6 +397,46 @@ router.route('/friend-request').post((req, res) => {
 		});
 });
 
+router.route('/cancel-request').post((req, res) => {
+	const userId = req.body.userId;
+	const friendId = req.body.friendId;
+
+	User.findById(userId)
+		.then((user) => {
+			user.sentFriendRequests.pull(friendId);
+			user
+				.save()
+				.then(() => {
+					User.findById(friendId)
+						.then((user_friend) => {
+							user_friend.friendRequests.pull(userId);
+							user_friend
+								.save()
+								.then(() => {
+									res.json('success');
+									console.log('[user/cancel-request] success');
+								})
+								.catch((err) => {
+									res.json('failure');
+									console.log('[user/cancel-request] failure saving friend');
+								});
+						})
+						.catch((err) => {
+							res.json('failure');
+							console.log('[user/cancel-request] failure retrieving friend');
+						});
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log('[user/cancel-request] failure saving user');
+				});
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log('[user/cancel-request] failure retrieving own_id');
+		});
+});
+
 router.route('/accept-request').post((req, res) => {
 	let own_id = req.body.own_id;
 	let friend_id = req.body.friend_id;
@@ -426,6 +466,43 @@ router.route('/accept-request').post((req, res) => {
 				.catch((err) => {
 					res.json('failure');
 					console.log(`[user/accept-request] failure ${err}`);
+				});
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log(`[user/friend-request]: failure fetching user : ${err}`);
+		});
+});
+
+router.route('/decline-request').post((req, res) => {
+	let own_id = req.body.own_id;
+	let friend_id = req.body.friend_id;
+
+	User.findById(own_id)
+		.then((user) => {
+			// user.friends.push(friend_id);
+			user.friendRequests.pull({ _id: friend_id });
+			user
+				.save()
+				.then(() => {
+					User.findById(friend_id).then((user_friend) => {
+						// user_friend.friends.push(own_id);
+						user_friend.sentFriendRequests.pull({ _id: own_id });
+						user_friend
+							.save()
+							.then(() => {
+								res.json('unhandshake-complete');
+								console.log(`[user/decline-request: success]`);
+							})
+							.catch((err) => {
+								res.json('unhandshake-failed');
+								console.log(`[user/decline-request]: failed : ${err}`);
+							});
+					});
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/decline-request] failure ${err}`);
 				});
 		})
 		.catch((err) => {
