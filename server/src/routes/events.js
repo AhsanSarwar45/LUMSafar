@@ -259,4 +259,9 @@ router.route('/friends-interested').post((req, res) => {
 	});
 });
 
+router.route('/delete-event').post((req, res) => {
+	let eventId = req.body.eventId
+
+	Event.remove({_id : eventId})
+})
 module.exports = router;
