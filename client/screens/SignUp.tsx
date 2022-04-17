@@ -46,6 +46,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 
 	// Does not enter user in database. That is done after verification. Only checks for duplicates etc.
 	function CheckDuplicate(data: SignUpData, formikProps: any) {
+		console.log(`${LUMSAFAR_SERVER_URL}/users/exists`)
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/exists`,
 			{ email: data.email },
