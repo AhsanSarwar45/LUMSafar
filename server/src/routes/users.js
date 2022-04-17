@@ -119,7 +119,7 @@ router.route('/search').post(async (req, res) => {
 	const query = req.body.query;
 	console.log(`[user/search] ${query}: received`);
 
-	Users.find( {$or: [{ username: {$regex: query, $options : 'i'} }, { email: {$regex: query, $options: 'i'} }]} )
+	User.find( {$or: [{ username: {$regex: query, $options : 'i'} }, { email: {$regex: query, $options: 'i'} }]} )
 		.then((docs) => {
 			console.log(`[users/search] ${query}: success`);
 			// console.log(docs);
