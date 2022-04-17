@@ -476,6 +476,7 @@ router.route('/accept-request').post((req, res) => {
 
 router.route('/decline-request').post((req, res) => {
 	const own_id = req.body.userId;
+	
 	const friend_id = req.body.friendId;
 
 	User.findById(own_id)
@@ -607,5 +608,38 @@ router.route('/search').post((req, res) => {
 			});
 	}
 });
+
+router.route('/look-for-strangers').post((req, res) => {
+	// const eventId = mongoose.Types.ObjectId(req.body.eventId);
+	const userId = mongoose.Types.ObjectId(req.body.userId);
+	console.log(`[user/look-for-strangers] ${userId}: received`);
+
+	User.findById(userId, (err, user) => {
+		if (err) {
+			res.json('failure finding');
+			console.log(`[user/look-for-strangers] ${userId}: failure: ${err}`);
+		} else {
+			User.flag = true 
+
+			User
+				.save()
+				.then(() => {
+					console.log(`[user/look-for-strangers] ${userId}: success`);
+
+					User.find({flag : true}).then((users) => {
+						res.json(users)
+					})
+
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/look-for-strangers] ${userId}: failure saving: ${err}`);
+				});
+		}
+	});
+})
+
+
+
 
 module.exports = router;
