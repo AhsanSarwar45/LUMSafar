@@ -88,7 +88,7 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 				/>
 			}
 		>
-			<EventCard data={data} index={0} />
+			<EventCard disableInterests={true} data={data} index={0} />
 			<Button
 				disabled={isSubmitting}
 				isLoading={isSubmitting}

@@ -24,7 +24,7 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
 	const [ friendRequests, setFriendRequests ] = useState<Array<UserData>>([]);
-	// const [ isEmpty, setIsEmpty ] = useState(false);
+	const [ hasSent, SetSent ] = useState(false);
 
 	function FetchFriendRequests() {
 		setIsFetching(true);
@@ -38,6 +38,7 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 		)
 			.then((response) => {
 				setFriendRequests(response.data);
+				SetSent(true);
 			})
 			.catch((response) => {
 				console.log(response);
@@ -71,7 +72,7 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 					showsVerticalScrollIndicator={false}
 					data={friendRequests}
 					ListFooterComponent={
-						isFetching ? (
+						isFetching || !hasSent ? (
 							<VStack space={0.5} height="500px">
 								{[ ...Array(5) ].map((value: any, index: number) => <UserSkeletonCard key={index} />)}
 							</VStack>

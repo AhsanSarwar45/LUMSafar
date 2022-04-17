@@ -36,11 +36,15 @@ const UserCard = (props: UserCardProps) => {
 	const { colors } = useTheme();
 
 	const colorIndex: number = props.index % Object.keys(colors.cards).length;
-	const isTitleLong = props.data.username.length > 14;
+	// const isTitleLong = props.data.username.length > 14;
 
 	function CapitalizeFirstLetter(string: string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
+
+	useEffect(() => {
+		console.log(props);
+	}, []);
 
 	return (
 		<AspectRatio

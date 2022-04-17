@@ -20,6 +20,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { Formik } from 'formik';
 import ImagePicker from '../components/ImagePicker';
 import { UserData } from '../interfaces/UserData';
+import { StoreUserData } from '../data/AsyncStorage';
 
 type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -50,6 +51,7 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 					formikProps.setSubmitting(false);
 
 					setUserData(dataCopy);
+					StoreUserData(newData, () => {});
 					ShowToast(toast, 'Profile updated! 🚀', 'success');
 				} else {
 					ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
@@ -98,7 +100,11 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 	});
 
 	return (
-		<Screen scrollType="keyboardAware" header={<ScreenHeader text={'Edit Profile'} backButton icons={[]} />}>
+		<Screen
+			lightScreen
+			scrollType="keyboardAware"
+			header={<ScreenHeader text={'Edit Profile'} backButton icons={[]} />}
+		>
 			<Formik
 				initialValues={{
 					username: userData.username,
@@ -131,7 +137,15 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 						<TextInput label="Name" name="username" formikProps={formikProps} fontSize="xl" />
 						<TextInput label="Bio" name="bio" formikProps={formikProps} multiline />
 
-						<Button width="100%" onPress={() => formikProps.handleSubmit()}>
+						<Button
+							disabled={formikProps.isSubmitting}
+							onPress={() => {
+								formikProps.handleSubmit();
+							}}
+							width="100%"
+							isLoading={formikProps.isSubmitting}
+							isLoadingText="Saving"
+						>
 							Save
 						</Button>
 
