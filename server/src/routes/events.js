@@ -206,17 +206,19 @@ router.route('/interested-users').post((req, res) => {
 	});
 });
 
-router.route('/search').post(async (req, res) => {
+router.route('/search-events').post(async (req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
 
 	Events.find( {$or: [{ title: {$regex: query, $options : 'i'} }, { location: {$regex: query, $options: 'i'} }]} )
 		.then((docs) => {
-			console.log(docs);
+			console.log(`[event/search] ${query}: success`);
+			// console.log(docs);
 			res.json(docs);
 		})
 		.catch((err) => {
-			console.log(err);
+			// console.log(err);
+			console.log(`[event/search] ${query}: failure: ${err}`);
 			res.json('failure')
 		});
 	// console.log(docs.length);
