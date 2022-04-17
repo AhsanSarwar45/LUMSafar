@@ -115,6 +115,23 @@ router.route('/send-email').post((req, res) => {
 	// else return 'failure'
 });
 
+router.route('/search').post(async (req, res) => {
+	const query = req.body.query;
+	console.log(`[user/search] ${query}: received`);
+
+	Users.find( {$or: [{ username: {$regex: query, $options : 'i'} }, { email: {$regex: query, $options: 'i'} }]} )
+		.then((docs) => {
+			console.log(`[users/search] ${query}: success`);
+			// console.log(docs);
+			res.json(docs);
+		})
+		.catch((err) => {
+			// console.log(err);
+			console.log(`[users/search] ${query}: failure: ${err}`);
+			res.json('failure')
+		});
+});
+
 router.route('/set-username').post((req, res) => {
 	const email = req.body.email;
 	const name = req.body.name;
