@@ -16,8 +16,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 	const { colors } = useTheme();
 	const { userData, setUserData } = useContext(UserDataContext);
 	return (
-		<Screen header={<ScreenHeader backButton />}>
-			<Heading>{userData.username} </Heading>
+		<Screen header={<ScreenHeader backButton text="Menu" />}>
 			<MenuCard
 				iconColor={colors.cards[0]}
 				label="Profile"

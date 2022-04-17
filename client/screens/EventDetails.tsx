@@ -3,7 +3,7 @@ import React from 'react';
 import { RootStackParamList } from '../config/RouteParams';
 import { Ionicons } from '@expo/vector-icons';
 import Screen from '../components/Screen';
-import { Button, Heading, Text, VStack, HStack, useTheme, Spacer, Icon } from 'native-base';
+import { Button, Heading, Text, VStack, HStack, useTheme, Image, Icon, AspectRatio } from 'native-base';
 import TimeCard from '../components/TimeCard';
 import moment from 'moment';
 import MapIcon from '../assets/icons/MapIcon.svg';
@@ -21,6 +21,24 @@ const EventDetailsScreen = (props: EventDetailsScreenProps) => {
 	return (
 		<Screen header={<ScreenHeader backButton />}>
 			<VStack width="full">
+				{data.imagePath ? (
+					<AspectRatio
+						marginBottom={4}
+						width={'full'}
+						ratio={{
+							base: 4 / 3,
+							md: 4 / 3
+						}}
+					>
+						<Image
+							rounded={'2xl'}
+							source={{
+								uri: data.imagePath
+							}}
+							alt="Event Card Image"
+						/>
+					</AspectRatio>
+				) : null}
 				<Heading size="2xl" width="full">
 					{data.title}
 				</Heading>

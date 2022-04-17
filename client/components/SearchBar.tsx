@@ -50,7 +50,7 @@ const SearchBar = (props: SearchBarProps) => {
 						size={6}
 						color="text.primary"
 						onPress={() => navigation.goBack()}
-						mr={-2}
+						mr={-1}
 						ml={3}
 					/>
 				}

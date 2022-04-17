@@ -290,8 +290,30 @@ router.route('/update/:id').post((req, res) => {
 			user
 				.save()
 				.then(() => {
-					res.json('success');
-					console.log(`[user/update] ${userId}: success`);
+					Event.where({ creatorId: userId })
+						.then((events) => {
+							// console.log(events);
+							promises = [];
+
+							events.forEach((event) => {
+								event.creatorUsername = req.body.username;
+
+								promises.push(event.save());
+							});
+							Promise.all(promises)
+								.then(() => {
+									res.json('success');
+									console.log(`[user/update] ${userId}: success`);
+								})
+								.catch((err) => {
+									res.status(400).json('failure');
+									console.log(`[user/update] ${userId}: failure: ${err}`);
+								});
+						})
+						.catch((err) => {
+							res.status(400).json('failure');
+							console.log(`[user/update] ${userId}: failure: ${err}`);
+						});
 				})
 				.catch((err) => {
 					res.status(400).json('failure');
