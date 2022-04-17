@@ -66,14 +66,14 @@ const MenuScreen = (props: MenuScreenProps) => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
 			/> */}
-			<MenuCard
+			{/* <MenuCard
 				iconColor={colors.cards[1]}
 				label="About"
 				icon={<MaterialIcons name="info" />}
 				onPress={() => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
-			/>
+			/> */}
 			<MenuCard
 				iconColor={colors.cards[2]}
 				label="Log Out"
