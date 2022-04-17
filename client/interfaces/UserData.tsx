@@ -6,7 +6,9 @@ export interface UserData {
 	accountType: 'student' | 'society';
 	interests: Array<string>;
 	profilePicPath: string;
-	friendRequests: number;
-	friends: number;
-	following: Array<number>;
+	profilePicBase64: string;
+	friendRequests: Array<string>;
+	friends: Array<string>;
+	following: Array<string>;
+	followers: Array<string>;
 }

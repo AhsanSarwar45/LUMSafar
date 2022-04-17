@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import ImagePicker from '../components/ImagePicker';
 import Screen from '../components/Screen';
+import ScreenHeader from '../components/ScreenHeader';
 import TextInput from '../components/TextInput';
 import { RootStackParamList } from '../config/RouteParams';
 
@@ -34,7 +35,7 @@ const CreateEventScreen = (props: CreateEventScreenProps) => {
 	};
 
 	return (
-		<Screen backButton scrollType="keyboardAware" heading="Create Event">
+		<Screen header={<ScreenHeader backButton text="Create Event" />} scrollType="keyboardAware">
 			<Formik
 				initialValues={{
 					title: data.title,

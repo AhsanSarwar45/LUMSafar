@@ -10,8 +10,9 @@ import Screen from '../components/Screen';
 import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
-import { EventData } from '../interfaces/EventsData';
+import { EventData } from '../interfaces/EventData';
 import { ShowToast } from '../components/Toast';
+import ScreenHeader from '../components/ScreenHeader';
 
 type CreateEventPreviewScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEventPreview'>;
 
@@ -70,23 +71,22 @@ const CreateEventPreviewScreen = (props: CreateEventPreviewScreenProps) => {
 				console.log('Image Upload', response);
 				setSubmitting(false);
 			});
-		// })
-		// .catch((response) => {
-		// 	console.log('Image Fetch', response);
-		// 	setSubmitting(false);
-		// });
 	}
 
 	return (
 		<Screen
 			lightScreen
-			heading="Preview"
-			backButton
-			onBackButton={() => {
-				props.navigation.navigate('CreateEventTime', {
-					data: data
-				});
-			}}
+			header={
+				<ScreenHeader
+					text="Preview"
+					backButton
+					onBackButton={() => {
+						props.navigation.navigate('CreateEventTime', {
+							data: data
+						});
+					}}
+				/>
+			}
 		>
 			<EventCard data={data} index={0} />
 			<Button

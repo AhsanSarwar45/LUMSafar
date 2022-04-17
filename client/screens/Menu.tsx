@@ -8,6 +8,7 @@ import OptionCard from '../components/Option';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { UserDataContext } from '../data/UserDataContext';
 import MenuCard from '../components/MenuCard';
+import ScreenHeader from '../components/ScreenHeader';
 
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -15,8 +16,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 	const { colors } = useTheme();
 	const { userData, setUserData } = useContext(UserDataContext);
 	return (
-		<Screen backButton>
-			<Heading>{userData.username} </Heading>
+		<Screen header={<ScreenHeader backButton text="Menu" />}>
 			<MenuCard
 				iconColor={colors.cards[0]}
 				label="Profile"
@@ -31,7 +31,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 				label="Friends"
 				icon={<MaterialIcons name="group" />}
 				onPress={() => {
-					props.navigation.navigate('Profile', { data: userData });
+					props.navigation.navigate('UsersSearch', { type: 'friends' });
 				}}
 			/>
 			<MenuCard
@@ -39,11 +39,19 @@ const MenuScreen = (props: MenuScreenProps) => {
 				label="Following"
 				icon={<MaterialCommunityIcons name="cards-heart" />}
 				onPress={() => {
-					props.navigation.navigate('Profile', { data: userData });
+					props.navigation.navigate('UsersSearch', { type: 'following' });
 				}}
 			/>
 			<MenuCard
 				iconColor={colors.cards[3]}
+				label="Search Users"
+				icon={<MaterialIcons name="groups" />}
+				onPress={() => {
+					props.navigation.navigate('UsersSearch', { type: 'users' });
+				}}
+			/>
+			<MenuCard
+				iconColor={colors.cards[4]}
 				label="Settings"
 				icon={<MaterialIcons name="settings" />}
 				onPress={() => {
@@ -51,7 +59,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 				}}
 			/>
 			<MenuCard
-				iconColor={colors.cards[4]}
+				iconColor={colors.cards[0]}
 				label="About"
 				icon={<MaterialIcons name="info" />}
 				onPress={() => {
@@ -59,7 +67,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 				}}
 			/>
 			<MenuCard
-				iconColor={colors.cards[0]}
+				iconColor={colors.cards[1]}
 				label="Log Out"
 				icon={<Ionicons name="arrow-undo" />}
 				onPress={() => {

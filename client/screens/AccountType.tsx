@@ -3,10 +3,11 @@ import { Heading } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import Screen from '../components/Screen';
 import OptionCard from '../components/Option';
+import ScreenHeader from '../components/ScreenHeader';
 
 export const AccountTypeScreen = ({ navigation }: any) => {
 	return (
-		<Screen backButton>
+		<Screen header={<ScreenHeader backButton />}>
 			<Heading size="lg" width="100%">
 				Are you signing up as a student or society?
 			</Heading>

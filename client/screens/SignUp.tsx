@@ -13,6 +13,7 @@ import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
 import ErrorMessage from '../components/ErrorMessage';
 import { ShowToast } from '../components/Toast';
+import ScreenHeader from '../components/ScreenHeader';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -75,7 +76,7 @@ export const SignUpScreen = ({ route, navigation }: SignUpScreenProps) => {
 	}
 
 	return (
-		<Screen scrollType="keyboardAware" heading="Sign Up" backButton>
+		<Screen scrollType="keyboardAware" header={<ScreenHeader text="Sign Up" backButton />}>
 			<ErrorMessage show={isDuplicate}>
 				The email you entered is already registered. Maybe you meant to login?
 			</ErrorMessage>

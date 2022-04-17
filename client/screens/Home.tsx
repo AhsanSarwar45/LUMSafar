@@ -138,13 +138,6 @@ export const Home = (props: HomeScreenProps) => {
 							}
 						};
 
-						const onLongPress = () => {
-							navigation.emit({
-								type: 'tabLongPress',
-								target: route.key
-							});
-						};
-
 						const color = isFocused ? 'white' : 'rgba(255, 255, 255,0.5)';
 						return (
 							<Pressable

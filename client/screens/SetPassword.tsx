@@ -11,6 +11,7 @@ import { RootStackParamList } from '../config/RouteParams';
 import TextInput from '../components/TextInput';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
+import ScreenHeader from '../components/ScreenHeader';
 
 type SetPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'SetPassword'>;
 
@@ -61,7 +62,7 @@ export const SetPasswordScreen = ({ route, navigation }: SetPasswordScreenProps)
 	}
 
 	return (
-		<Screen scrollType="keyboardAware" backButton>
+		<Screen scrollType="keyboardAware" header={<ScreenHeader backButton />}>
 			<Heading size="lg" width="100%">
 				Enter your new password
 			</Heading>

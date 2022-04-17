@@ -6,6 +6,10 @@ interface ImagePickerProps {
 	imagePath: string;
 	setImage: Function;
 	setImagePath: Function;
+	rounded: string | number;
+	ratioX: number;
+	ratioY: number;
+	width: string | number;
 }
 
 const ImagePicker = (props: ImagePickerProps) => {
@@ -14,7 +18,7 @@ const ImagePicker = (props: ImagePickerProps) => {
 		let result = await ExpoImagePicker.launchImageLibraryAsync({
 			mediaTypes: ExpoImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
-			aspect: [ 4, 3 ],
+			aspect: [ props.ratioX, props.ratioY ],
 			base64: true,
 			quality: 0.2
 		});
@@ -29,10 +33,10 @@ const ImagePicker = (props: ImagePickerProps) => {
 	};
 	return (
 		<AspectRatio
-			width="full"
+			width={props.width}
 			ratio={{
-				base: 4 / 3,
-				md: 4 / 3
+				base: props.ratioX / props.ratioY,
+				md: props.ratioX / props.ratioY
 			}}
 		>
 			<Button
@@ -42,17 +46,19 @@ const ImagePicker = (props: ImagePickerProps) => {
 				borderColor="border.light"
 				bgColor="background"
 				color="black"
+				rounded={props.rounded}
 				p={0}
 			>
 				{props.imagePath ? (
 					<AspectRatio
-						width="full"
+						width={'full'}
 						ratio={{
-							base: 4 / 3,
-							md: 4 / 3
+							base: props.ratioX / props.ratioY,
+							md: props.ratioX / props.ratioY
 						}}
 					>
 						<Image
+							rounded={props.rounded}
 							source={{
 								uri: props.imagePath
 							}}
@@ -65,6 +71,13 @@ const ImagePicker = (props: ImagePickerProps) => {
 			</Button>
 		</AspectRatio>
 	);
+};
+
+ImagePicker.defaultProps = {
+	rounded: '2xl',
+	ratioX: 4,
+	ratioY: 3,
+	width: 'full'
 };
 
 export default ImagePicker;

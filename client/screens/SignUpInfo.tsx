@@ -11,6 +11,7 @@ import { LUMSAFAR_SERVER_URL } from '@env';
 import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { JsonHeader } from '../config/ControlHeader';
+import ScreenHeader from '../components/ScreenHeader';
 
 type SignUpInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpInfo'>;
 
@@ -19,7 +20,7 @@ export interface UserInfoData {
 }
 
 export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) => {
-	const { email, isSociety } = route.params;
+	const { email, accountType } = route.params;
 
 	interface LoginData {
 		email?: string;
@@ -65,7 +66,7 @@ export const SignUpInfoScreen = ({ route, navigation }: SignUpInfoScreenProps) =
 	});
 
 	return (
-		<Screen scrollType="keyboardAware" backButton>
+		<Screen scrollType="keyboardAware" header={<ScreenHeader backButton />}>
 			<Heading size="lg" width="100%">
 				What should we call you?
 			</Heading>

@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 	bio: {
-		type: String,
+		type: String
 	},
 	interests: [
 		{
@@ -46,6 +46,12 @@ const userSchema = new mongoose.Schema({
 		}
 	],
 	following: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'user'
+		}
+	],
+	followers: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'user'

@@ -6,9 +6,7 @@ import ScreenHeader from './ScreenHeader';
 import StatusBar from './StatusBar';
 
 interface SimpleScreenProps {
-	heading: string;
-	backButton: boolean;
-	onBackButton: Function;
+	header: ReactNode;
 	topBar: ReactNode;
 	children: ReactNode;
 }
@@ -36,13 +34,7 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 					// overflowY="scroll"
 					// {...otherProps}
 				>
-					{props.heading || props.backButton ? (
-						<ScreenHeader
-							text={props.heading}
-							backButton={props.backButton}
-							onBackButton={props.onBackButton}
-						/>
-					) : null}
+					{props.header}
 					{props.children}
 				</VStack>
 			</ScrollView>
@@ -51,9 +43,7 @@ const SimpleScreen = (props: SimpleScreenProps) => {
 };
 
 SimpleScreen.defaultProps = {
-	heading: '',
-	backButton: false,
-	onBackButton: null,
+	header: null,
 	topBar: null
 };
 

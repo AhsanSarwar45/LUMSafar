@@ -12,6 +12,7 @@ import { RootStackParamList } from '../config/RouteParams';
 import Screen from '../components/Screen';
 import { DeviceEventEmitter } from 'react-native';
 import { JsonHeader } from '../config/ControlHeader';
+import ScreenHeader from '../components/ScreenHeader';
 
 type ForgotPasswordScreenProps = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -57,7 +58,7 @@ export const ForgotPasswordScreen = ({ route, navigation }: ForgotPasswordScreen
 	}
 
 	return (
-		<Screen scrollType="keyboardAware" backButton>
+		<Screen scrollType="keyboardAware" header={<ScreenHeader backButton />}>
 			<Heading size="lg" width="100%">
 				Lets get you a new password 🚀
 			</Heading>

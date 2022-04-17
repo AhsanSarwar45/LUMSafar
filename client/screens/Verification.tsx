@@ -16,6 +16,7 @@ import SimpleScreen from '../components/SimpleScreen';
 import { UserData } from '../interfaces/UserData';
 import { StoreUserData } from '../data/AsyncStorage';
 import { UserDataContext } from '../data/UserDataContext';
+import ScreenHeader from '../components/ScreenHeader';
 
 type VerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Verification'>;
 
@@ -124,7 +125,7 @@ export const VerificationScreen = ({ route, navigation }: VerificationScreenProp
 	}, []);
 
 	return (
-		<SimpleScreen backButton>
+		<SimpleScreen header={<ScreenHeader backButton />}>
 			<VStack width="full">
 				<Heading size="lg" width="100%">
 					Enter the 4-digit code sent to
