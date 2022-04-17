@@ -23,6 +23,7 @@ export type RootStackParamList = {
 	Menu: undefined;
 	Splash: undefined;
 	Profile: { data: UserData };
-	EditProfile: undefined;
+	EditProfile: { data: UserData };
+	EditProfileTags: { data: UserData };
 	FriendRequests: undefined;
 };

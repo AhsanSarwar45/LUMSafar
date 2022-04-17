@@ -87,7 +87,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 							[
 								<MaterialCommunityIcons
 									name="lead-pencil"
-									onPress={() => props.navigation.navigate('EditProfile')}
+									onPress={() => props.navigation.navigate('EditProfile', { data: userData })}
 								/>
 							]
 						) : (
@@ -161,7 +161,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 				alignItems="center"
 			>
 				<VStack space={2} width="90%">
-					<Text color="text.secondary">Tags</Text>
+					<Text color="text.secondary">Interests</Text>
 					{/* <Spacer /> */}
 					{data.interests.length === 0 ? (
 						<Text color="text.primary">None</Text>

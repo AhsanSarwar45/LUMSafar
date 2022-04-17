@@ -26,8 +26,9 @@ type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditPr
 
 const EditProfileScreen = (props: EditProfileScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { data } = props.route.params;
 	const { colors } = useTheme();
-	const [ profilePicture, setProfilePicture ] = useState(userData.profilePicPath);
+	const [ profilePicture, setProfilePicture ] = useState(data.profilePicPath);
 	const toast = useToast();
 	// const [ isSubmitting, setSubmitting ] = useState(false);
 
@@ -37,13 +38,13 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 		}
 
 		// console.log(responseData);
-		let dataCopy = userData;
+		let dataCopy = data;
 		dataCopy.username = newData.username;
 		dataCopy.bio = newData.bio;
 		dataCopy.profilePicPath = newData.profilePicPath;
 
 		// console.log(data);
-		Axios.post(`${LUMSAFAR_SERVER_URL}/users/update/${userData._id}`, dataCopy, {
+		Axios.post(`${LUMSAFAR_SERVER_URL}/users/update/${data._id}`, dataCopy, {
 			headers: JsonHeader
 		})
 			.then((response) => {
@@ -65,7 +66,7 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 	}
 
 	function SaveProfile(newData: any, formikProps: any) {
-		if (userData.profilePicPath !== newData.profilePicPath) {
+		if (data.profilePicPath !== newData.profilePicPath) {
 			const cloudName = 'lumsafar';
 			const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
@@ -107,10 +108,10 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 		>
 			<Formik
 				initialValues={{
-					username: userData.username,
-					bio: userData.bio,
-					profilePicPath: userData.profilePicPath,
-					profilePicBase64: userData.profilePicBase64
+					username: data.username,
+					bio: data.bio,
+					profilePicPath: data.profilePicPath,
+					profilePicBase64: data.profilePicBase64
 				}}
 				onSubmit={SaveProfile}
 				validationSchema={EditProfileSchema}
@@ -136,6 +137,45 @@ const EditProfileScreen = (props: EditProfileScreenProps) => {
 
 						<TextInput label="Name" name="username" formikProps={formikProps} fontSize="xl" />
 						<TextInput label="Bio" name="bio" formikProps={formikProps} multiline />
+
+						<Button
+							variant="minimal"
+							shadow={0}
+							px={5}
+							py={3}
+							width="100%"
+							justifyContent={'flex-start'}
+							onPress={() => {
+								let newData = data;
+								newData.username = formikProps.values.username;
+								newData.bio = formikProps.values.bio;
+								newData.profilePicPath = formikProps.values.profilePicPath;
+								newData.profilePicBase64 = formikProps.values.profilePicBase64;
+								props.navigation.navigate('EditProfileTags', { data: newData });
+							}}
+						>
+							<VStack space={2} width="100%">
+								<Text color="text.secondary" width="100%">
+									Interests
+								</Text>
+								{/* <Spacer /> */}
+								{data.interests.length === 0 ? (
+									<Text width="full" color="text.primary">
+										None
+									</Text>
+								) : (
+									<HStack flexWrap="wrap" width="full">
+										{data.interests.map((item: string, index: number) => (
+											<Chip
+												key={index}
+												color={colors.cards[index % Object.keys(colors.cards).length]}
+												label={item}
+											/>
+										))}
+									</HStack>
+								)}
+							</VStack>
+						</Button>
 
 						<Button
 							disabled={formikProps.isSubmitting}

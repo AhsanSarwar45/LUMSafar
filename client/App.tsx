@@ -29,6 +29,7 @@ import EventsSearchScreen from './screens/EventSearch';
 import EditProfileScreen from './screens/EditProfile';
 import UsersSearchScreen from './screens/UsersSearch';
 import FriendRequestsScreen from './screens/FriendRequests';
+import EditProfileTagsScreen from './screens/EditProfileTags';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -64,6 +65,11 @@ export default function App() {
 							options={{ headerShown: false }}
 							name="EditProfile"
 							component={EditProfileScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="EditProfileTags"
+							component={EditProfileTagsScreen}
 						/>
 						<Stack.Screen
 							options={{ headerShown: false }}
