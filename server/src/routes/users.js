@@ -363,7 +363,7 @@ router.route('/friend-request').post((req, res) => {
 
 	User.findById(friend_id)
 		.then((user) => {
-			user.friend_request.push(own_id);
+			user.friendRequests.push(own_id);
 			user
 				.save()
 				.then(() => {
