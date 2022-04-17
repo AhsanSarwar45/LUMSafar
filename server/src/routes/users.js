@@ -388,7 +388,7 @@ router.route('/friend-request').post((req, res) => {
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log('[user/friend-request] failure saving user');
+					console.log('[user/friend-request] failure saving user' + err);
 				});
 		})
 		.catch((err) => {
