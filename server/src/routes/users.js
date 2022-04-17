@@ -619,24 +619,21 @@ router.route('/look-for-strangers').post((req, res) => {
 			res.json('failure finding');
 			console.log(`[user/look-for-strangers] ${userId}: failure: ${err}`);
 		} else {
-			if (event.interestedUsers.includes(userId)) {
-				const index = event.interestedUsers.indexOf(userId);
-				if (index > -1) {
-					event.interestedUsers.splice(index, 1); // 2nd parameter means remove one item only
-				}
-			} else {
-				event.interestedUsers.push(userId);
-			}
+			User.flag = true 
 
-			event
+			User
 				.save()
 				.then(() => {
-					res.json('success');
-					console.log(`[event-interest/toggle-interest] ${userId}: success`);
+					console.log(`[user/look-for-strangers] ${userId}: success`);
+
+					User.find({flag : true}).then((users) => {
+						res.json(users)
+					})
+
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log(`[event-interest/toggle-interest] ${userId}: failure saving: ${err}`);
+					console.log(`[user/look-for-strangers] ${userId}: failure saving: ${err}`);
 				});
 		}
 	});
