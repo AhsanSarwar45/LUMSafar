@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { EventData } from '../interfaces/EventsData';
+import { EventData } from '../interfaces/EventData';
 import { UserData } from '../interfaces/UserData';
 
 export type RootStackParamList = {
@@ -18,6 +18,7 @@ export type RootStackParamList = {
 	CreateEventPreview: { data: EventData };
 	EventDetails: { data: EventData };
 	EventsSearch: undefined;
+	UsersSearch: { type: 'users' | 'friends' | 'following' };
 	ChipsSearch: undefined;
 	Menu: undefined;
 	Splash: undefined;

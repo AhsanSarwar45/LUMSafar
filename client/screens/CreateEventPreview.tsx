@@ -10,7 +10,7 @@ import Screen from '../components/Screen';
 import { RootStackParamList } from '../config/RouteParams';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
-import { EventData } from '../interfaces/EventsData';
+import { EventData } from '../interfaces/EventData';
 import { ShowToast } from '../components/Toast';
 import ScreenHeader from '../components/ScreenHeader';
 

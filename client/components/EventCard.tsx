@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
-import { EventData } from '../interfaces/EventsData';
+import { EventData } from '../interfaces/EventData';
 import HeartIcon from '../assets/icons/HeartIcon.svg';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../config/RouteParams';
@@ -121,7 +121,7 @@ const EventCard = (props: EventCardProps) => {
 								color="white"
 							/>
 							<VStack alignItems="flex-end">
-								<Text color="rgba(255,255,255,0.75)" fontSize="sm">
+								<Text color="rgba(255,255,255,0.75)" fontSize="xs" mb={-1}>
 									{moment.unix(props.data.startTime).format('hh:mm A')}
 								</Text>
 								<Text color="white" fontSize="md">

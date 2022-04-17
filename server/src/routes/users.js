@@ -115,22 +115,22 @@ router.route('/send-email').post((req, res) => {
 	// else return 'failure'
 });
 
-router.route('/search').post(async (req, res) => {
-	const query = req.body.query;
-	console.log(`[user/search] ${query}: received`);
+// router.route('/search').post(async (req, res) => {
+// 	const query = req.body.query;
+// 	console.log(`[user/search] ${query}: received`);
 
-	User.find({ $or: [ { username: { $regex: query, $options: 'i' } }, { email: { $regex: query, $options: 'i' } } ] })
-		.then((docs) => {
-			console.log(`[users/search] ${query}: success`);
-			// console.log(docs);
-			res.json(docs);
-		})
-		.catch((err) => {
-			// console.log(err);
-			console.log(`[users/search] ${query}: failure: ${err}`);
-			res.json('failure');
-		});
-});
+// 	User.find({ $or: [ { username: { $regex: query, $options: 'i' } }, { email: { $regex: query, $options: 'i' } } ] })
+// 		.then((docs) => {
+// 			console.log(`[users/search] ${query}: success`);
+// 			// console.log(docs);
+// 			res.json(docs);
+// 		})
+// 		.catch((err) => {
+// 			// console.log(err);
+// 			console.log(`[users/search] ${query}: failure: ${err}`);
+// 			res.json('failure');
+// 		});
+// });
 
 router.route('/set-username').post((req, res) => {
 	const email = req.body.email;
@@ -448,57 +448,50 @@ router.route('/follow-user').post((req, res) => {
 		});
 });
 
-router.route('/search-result').post((req, res) => {
+router.route('/search').post((req, res) => {
 	//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
-	let search = req.body.search;
-	let search_type = req.body.search_type;
+	const query = req.body.query;
+	const searchType = req.body.searchType;
+	const userId = req.body.userId;
 
-	if (search_type == 'users') {
-		User.find({ username: search })
-			.then((users) => {
-				console.log(`[user/search-result] ${search}: success`);
-				res.json(users);
+	if (searchType === 'users') {
+		User.find({
+			$or: [ { username: { $regex: query, $options: 'i' } }, { email: { $regex: query, $options: 'i' } } ]
+		})
+			.then((docs) => {
+				console.log(`[users/search] ${query}: success`);
+				// console.log(docs);
+				res.json(docs);
 			})
 			.catch((err) => {
+				// console.log(err);
+				console.log(`[users/search] ${query}: failure: ${err}`);
 				res.json('failure');
-				console.log(`[user/search-result]: failure fetching users : ${err}`);
 			});
-	} else if (search_type == 'events') {
-		Event.find({ title: search })
-			.then((events) => {
-				console.log(`[user/search-result] ${search}: success`);
-				res.json(events);
+	} else {
+		User.findById(userId)
+			.then((user) => {
+				const searchArray = searchType === 'following' ? user.following : user.friends;
+				User.find({
+					_id: { $in: searchArray },
+					$or: [ { username: { $regex: query, $options: 'i' } }, { email: { $regex: query, $options: 'i' } } ]
+				})
+					.then((docs) => {
+						console.log(`[users/search] ${query}: success`);
+						// console.log(docs);
+						res.json(docs);
+					})
+					.catch((err) => {
+						// console.log(err);
+						console.log(`[users/search] ${query}: failure: ${err}`);
+						res.json('failure');
+					});
 			})
 			.catch((err) => {
-				res.json('failure');
-				console.log(`[user/search-result]: failure fetching events : ${err}`);
+				res.status(400).json('failure');
+				console.log(`[user/search]: failure: ${err}`);
 			});
 	}
-});
-
-router.route('/edit-bio').post((req, res) => {
-	let email = req.body.email;
-	let bio = req.body.bio;
-
-	User.where({ email: email }).findOne((err, user) => {
-		if (err) {
-			res.json('failure');
-			console.log(`[user/edit-bio] ${email}: failure: ${err}`);
-		} else {
-			// find one returns doc entry, which u update and return to database
-			user.bio = bio;
-			user
-				.save()
-				.then(() => {
-					res.json('success');
-					console.log(`[user/edit-bio] ${email}: success`);
-				})
-				.catch((err) => {
-					res.json('failure');
-					console.log(`[user/edit-bio] ${email}: failure: ${err}`);
-				});
-		}
-	});
 });
 
 module.exports = router;

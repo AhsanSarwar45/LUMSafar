@@ -9,12 +9,13 @@ import Screen from '../components/Screen';
 import TabsProps from '../interfaces/TabsProps';
 import { RootStackParamList } from '../config/RouteParams';
 import EventCard, { EventSkeletonCard } from '../components/EventCard';
-import { EventData } from '../interfaces/EventsData';
+import { EventData } from '../interfaces/EventData';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
 import { UserDataContext } from '../data/UserDataContext';
 import StatusBar from '../components/StatusBar';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import SearchBar from '../components/SearchBar';
 
 type EventsSearchScreenProps = NativeStackScreenProps<RootStackParamList, 'EventsSearch'>;
 
@@ -39,7 +40,7 @@ const EventsSearchScreen = (props: EventsSearchScreenProps) => {
 			.catch((response) => {
 				console.log(response);
 			})
-			.finally(() => setIsFetching(true));
+			.finally(() => setIsFetching(false));
 	}
 
 	const ModifyEvent = (index: number, data: EventData) => {
@@ -48,58 +49,58 @@ const EventsSearchScreen = (props: EventsSearchScreenProps) => {
 		setEvents(newArr);
 	};
 
-	const SearchBar = () => {
-		const [ searchTerm, setSearchTerm ] = useState('');
-		return (
-			<View width="full" px="8%" pt="6%" pb="2%" zIndex={5}>
-				<Input
-					placeholder="Search"
-					variant="unstyled"
-					borderWidth={1}
-					borderColor="border.light"
-					bgColor="background"
-					borderRadius="2xl"
-					value={searchTerm}
-					returnKeyType="search"
-					onSubmitEditing={() => {
-						FetchSearchResults(searchTerm);
-					}}
-					onChangeText={(text: string) => {
-						setSearchTerm(text);
-					}}
-					fontSize="md"
-					_focus={{ borderColor: 'border.light' }}
-					px={5}
-					py={3}
-					InputRightElement={
-						<Icon
-							as={<Ionicons name="ios-close" />}
-							size={6}
-							color="text.primary"
-							onPress={() => setSearchTerm('')}
-							mr={3}
-						/>
-					}
-					InputLeftElement={
-						<Icon
-							as={<Ionicons name="chevron-back" />}
-							size={6}
-							color="text.primary"
-							onPress={() => props.navigation.goBack()}
-							mr={-2}
-							ml={3}
-						/>
-					}
-				/>
-			</View>
-		);
-	};
+	// const SearchBar = () => {
+	// 	const [ searchTerm, setSearchTerm ] = useState('');
+	// 	return (
+	// 		<View width="full" px="8%" pt="6%" pb="2%" zIndex={5}>
+	// 			<Input
+	// 				placeholder="Search"
+	// 				variant="unstyled"
+	// 				borderWidth={1}
+	// 				borderColor="border.light"
+	// 				bgColor="background"
+	// 				borderRadius="2xl"
+	// 				value={searchTerm}
+	// 				returnKeyType="search"
+	// 				onSubmitEditing={() => {
+	// 					FetchSearchResults(searchTerm);
+	// 				}}
+	// 				onChangeText={(text: string) => {
+	// 					setSearchTerm(text);
+	// 				}}
+	// 				fontSize="md"
+	// 				_focus={{ borderColor: 'border.light' }}
+	// 				px={5}
+	// 				py={3}
+	// 				InputRightElement={
+	// 					<Icon
+	// 						as={<Ionicons name="ios-close" />}
+	// 						size={6}
+	// 						color="text.primary"
+	// 						onPress={() => setSearchTerm('')}
+	// 						mr={3}
+	// 					/>
+	// 				}
+	// 				InputLeftElement={
+	// 					<Icon
+	// 						as={<Ionicons name="chevron-back" />}
+	// 						size={6}
+	// 						color="text.primary"
+	// 						onPress={() => props.navigation.goBack()}
+	// 						mr={-2}
+	// 						ml={3}
+	// 					/>
+	// 				}
+	// 			/>
+	// 		</View>
+	// 	);
+	// };
 
 	return (
 		<View marginTop="5%">
 			<StatusBar />
 
-			<SearchBar />
+			<SearchBar onSubmit={(searchTerm: string) => FetchSearchResults(searchTerm)} />
 
 			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}> */}
 			<View px="8%" pb="20%" width="full">

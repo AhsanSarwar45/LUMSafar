@@ -55,7 +55,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 
 			<Heading>{data.username} </Heading>
 			{/* <Text>{data.accountType}</Text> */}
-			{ownProfile ? (
+			{!ownProfile ? (
 				<HStack space="5%">
 					<Button _text={{ fontSize: 'sm' }} width="47.5%">
 						Friend Request
