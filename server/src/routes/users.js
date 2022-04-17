@@ -536,6 +536,7 @@ router.route('/follow-user').post((req, res) => {
 	let own_id = req.body.own_id;
 	let friend_id = req.body.friend_id;
 
+	
 	User.findById(own_id)
 		.then((user) => {
 			user.following.push(friend_id);
