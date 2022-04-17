@@ -211,7 +211,11 @@ router.route('/search').post(async (req, res) => {
 	const query = req.body.query;
 	console.log(`[event/search] ${query}: received`);
 
-	Events.find( {$or: [{ title: {$regex: query, $options : 'i'} }, { location: {$regex: query, $options: 'i'} }]} )
+	Events.find( {$or: [{ title: {$regex: query, $options : 'i'} }, 
+						{ location: {$regex: query, $options: 'i'} }, 
+						{ description: {$regex: query, $options: 'i'} },
+						{ tags: {$in: {$regex: query, $options: 'i'}} }
+						]} )
 		.then((docs) => {
 			console.log(`[event/search] ${query}: success`);
 			// console.log(docs);
