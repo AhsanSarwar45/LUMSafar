@@ -22,7 +22,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	const { data } = props.route.params;
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { colors } = useTheme();
-	const [ profilePicture, setProfilePicture ] = useState(userData.profilePicPath);
+	const [ profilePicture, setProfilePicture ] = useState(data.profilePicPath);
 	const [ ownProfile, setOwnProfile ] = useState(userData._id === data._id);
 	const toast = useToast();
 
@@ -32,12 +32,18 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 				<ScreenHeader
 					text={'Profile'}
 					backButton
-					icons={[
-						<MaterialCommunityIcons
-							name="lead-pencil"
-							onPress={() => props.navigation.navigate('EditProfile')}
-						/>
-					]}
+					icons={
+						ownProfile ? (
+							[
+								<MaterialCommunityIcons
+									name="lead-pencil"
+									onPress={() => props.navigation.navigate('EditProfile')}
+								/>
+							]
+						) : (
+							[]
+						)
+					}
 				/>
 			}
 		>
