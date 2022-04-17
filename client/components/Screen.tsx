@@ -1,5 +1,5 @@
 import AppLoading from 'expo-app-loading';
-import { ScrollView, VStack, View, useTheme } from 'native-base';
+import { ScrollView, VStack, Text, View, useTheme } from 'native-base';
 import React, { useEffect, useState, ReactNode } from 'react';
 import { Dimensions, useWindowDimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -9,9 +9,7 @@ import ScreenHeader from './ScreenHeader';
 import StatusBar from './StatusBar';
 
 interface ScreenProps {
-	heading: string;
-	backButton: boolean;
-	onBackButton: Function;
+	header: ReactNode;
 	topBar: ReactNode;
 	children: ReactNode;
 	scrollType: 'none' | 'scroll' | 'keyboardAware';
@@ -41,24 +39,12 @@ const Screen = (props: ScreenProps) => {
 				// overflowY="scroll"
 				// {...otherProps}
 			>
-				{props.heading || props.backButton ? (
-					<ScreenHeader
-						text={props.heading}
-						backButton={props.backButton}
-						onBackButton={props.onBackButton}
-					/>
-				) : null}
+				{props.header}
 				{props.children}
 			</VStack>
 		) : (
 			<View px="8%" pb="20%" py={props.topBar ? '0' : '20px'} width="full">
-				{props.heading || props.backButton ? (
-					<ScreenHeader
-						text={props.heading}
-						backButton={props.backButton}
-						onBackButton={props.onBackButton}
-					/>
-				) : null}
+				{props.header}
 				{props.children}
 			</View>
 		);
@@ -101,10 +87,8 @@ const Screen = (props: ScreenProps) => {
 };
 
 Screen.defaultProps = {
-	heading: '',
+	header: null,
 	stacked: true,
-	backButton: false,
-	onBackButton: null,
 	topBar: null,
 	keyboardAware: false,
 	lightScreen: false,

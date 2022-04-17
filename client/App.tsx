@@ -26,6 +26,7 @@ import { UserDataContext } from './data/UserDataContext';
 import ProfileScreen from './screens/Profile';
 import EventDetailsScreen from './screens/EventDetails';
 import EventsSearchScreen from './screens/EventSearchScreen';
+import EditProfileScreen from './screens/EditProfile';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -57,6 +58,11 @@ export default function App() {
 						<Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
 						<Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 						<Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="EditProfile"
+							component={EditProfileScreen}
+						/>
 						<Stack.Screen
 							options={{ headerShown: false }}
 							name="CreateEvent"

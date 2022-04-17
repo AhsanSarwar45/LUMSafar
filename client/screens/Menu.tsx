@@ -8,6 +8,7 @@ import OptionCard from '../components/Option';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { UserDataContext } from '../data/UserDataContext';
 import MenuCard from '../components/MenuCard';
+import ScreenHeader from '../components/ScreenHeader';
 
 type MenuScreenProps = NativeStackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -15,7 +16,7 @@ const MenuScreen = (props: MenuScreenProps) => {
 	const { colors } = useTheme();
 	const { userData, setUserData } = useContext(UserDataContext);
 	return (
-		<Screen backButton>
+		<Screen header={<ScreenHeader backButton />}>
 			<Heading>{userData.username} </Heading>
 			<MenuCard
 				iconColor={colors.cards[0]}

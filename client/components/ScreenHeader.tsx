@@ -1,12 +1,13 @@
-import { HStack, Icon, Heading } from 'native-base';
+import { HStack, Icon, Heading, Spacer } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 interface ScreenHeaderProps {
 	text: string;
 	backButton: boolean;
 	onBackButton: Function;
+	icons: Array<ReactNode>;
 }
 
 const ScreenHeader = (props: ScreenHeaderProps) => {
@@ -29,6 +30,10 @@ const ScreenHeader = (props: ScreenHeaderProps) => {
 			<Heading py="0px" mt={1}>
 				{props.text}
 			</Heading>
+			<Spacer />
+			{props.icons.map((icon: ReactNode, index: number) => {
+				return <Icon key={index} as={icon} size={6} color="black" />;
+			})}
 		</HStack>
 	);
 };
@@ -36,7 +41,8 @@ const ScreenHeader = (props: ScreenHeaderProps) => {
 ScreenHeader.defaultProps = {
 	text: '',
 	backButton: false,
-	onBackButton: null
+	onBackButton: null,
+	icons: []
 };
 
 export default ScreenHeader;

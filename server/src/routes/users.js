@@ -119,7 +119,7 @@ router.route('/search').post(async (req, res) => {
 	const query = req.body.query;
 	console.log(`[user/search] ${query}: received`);
 
-	User.find( {$or: [{ username: {$regex: query, $options : 'i'} }, { email: {$regex: query, $options: 'i'} }]} )
+	User.find({ $or: [ { username: { $regex: query, $options: 'i' } }, { email: { $regex: query, $options: 'i' } } ] })
 		.then((docs) => {
 			console.log(`[users/search] ${query}: success`);
 			// console.log(docs);
@@ -128,7 +128,7 @@ router.route('/search').post(async (req, res) => {
 		.catch((err) => {
 			// console.log(err);
 			console.log(`[users/search] ${query}: failure: ${err}`);
-			res.json('failure')
+			res.json('failure');
 		});
 });
 
@@ -278,13 +278,30 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
-	User.findById(req.params.id) // returns doc
-		.then((user) => {
-			user = req.body;
+	const userId = req.params.id;
+	console.log(`[user/update] ${userId}: received`);
 
-			user.save().then(() => res.json('User updated!')).catch((err) => res.status(400).json('Error: ' + err));
+	User.findById(userId) // returns doc
+		.then((user) => {
+			user.username = req.body.username;
+			user.bio = req.body.bio;
+			user.interests = req.body.interests;
+			user.profilePicPath = req.body.profilePicPath;
+			user
+				.save()
+				.then(() => {
+					res.json('success');
+					console.log(`[user/update] ${userId}: success`);
+				})
+				.catch((err) => {
+					res.status(400).json('failure');
+					console.log(`[user/update] ${userId}: failure: ${err}`);
+				});
 		})
-		.catch((err) => res.status(400).json('Error: ' + err));
+		.catch((err) => {
+			res.status(400).json('failure');
+			console.log(`[user/update] ${userId}: failure: ${err}`);
+		});
 });
 
 router.route('/following-menu').post((req, res) => {

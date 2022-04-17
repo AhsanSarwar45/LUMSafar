@@ -8,6 +8,7 @@ import Screen from '../components/Screen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../config/RouteParams';
 import SimpleScreen from '../components/SimpleScreen';
+import ScreenHeader from '../components/ScreenHeader';
 
 type CreateEventTimeScreenProps = NativeStackScreenProps<RootStackParamList, 'CreateEventTime'>;
 
@@ -49,16 +50,20 @@ const CreateEventTimeScreen = (props: CreateEventTimeScreenProps) => {
 
 	return (
 		<Screen
-			heading="Set Time"
-			backButton
-			onBackButton={() => {
-				let eventData = data;
-				eventData.startTime = startTime.unix();
-				eventData.endTime = endTime.unix();
-				props.navigation.navigate('CreateEventTags', {
-					data: eventData
-				});
-			}}
+			header={
+				<ScreenHeader
+					text="Set Time"
+					backButton
+					onBackButton={() => {
+						let eventData = data;
+						eventData.startTime = startTime.unix();
+						eventData.endTime = endTime.unix();
+						props.navigation.navigate('CreateEventTags', {
+							data: eventData
+						});
+					}}
+				/>
+			}
 		>
 			{showTimePicker ? (
 				<DateTimePicker

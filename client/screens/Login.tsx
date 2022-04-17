@@ -14,6 +14,7 @@ import { UserDataContext } from '../data/UserDataContext';
 import { UserData } from '../interfaces/UserData';
 import { StoreUserData } from '../data/AsyncStorage';
 import { ShowToast } from '../components/Toast';
+import ScreenHeader from '../components/ScreenHeader';
 
 export const LoginScreen = ({ navigation }: any) => {
 	const [ userNotFound, setUserNotFound ] = useState(false);
@@ -68,7 +69,7 @@ export const LoginScreen = ({ navigation }: any) => {
 	}
 
 	return (
-		<Screen scrollType="keyboardAware" heading="Login">
+		<Screen scrollType="keyboardAware" header={<ScreenHeader text="Login" />}>
 			<ErrorMessage show={userNotFound}>
 				We couldn't find you. Please make sure your email and password are correct!
 			</ErrorMessage>

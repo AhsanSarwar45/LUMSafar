@@ -26,6 +26,7 @@ const TextInput = (props: TextInputProps) => {
 			borderColor="border.light"
 			bgColor="background"
 			space={0}
+			width="full"
 			rounded="2xl"
 			px={5}
 			py={3}

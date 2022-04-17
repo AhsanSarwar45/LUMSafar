@@ -3,6 +3,7 @@ import { Button, VStack } from 'native-base';
 import React, { useState } from 'react';
 import ChipsSearch from '../components/ChipsSearch';
 import Screen from '../components/Screen';
+import ScreenHeader from '../components/ScreenHeader';
 import SimpleScreen from '../components/SimpleScreen';
 import { RootStackParamList } from '../config/RouteParams';
 
@@ -47,15 +48,19 @@ const CreateEventTagsScreen = (props: CreateEventTagsScreenProps) => {
 
 	return (
 		<SimpleScreen
-			heading="Add Tags"
-			backButton
-			onBackButton={() => {
-				let eventData = data;
-				eventData.tags = selectedTags;
-				props.navigation.navigate('CreateEvent', {
-					data: data
-				});
-			}}
+			header={
+				<ScreenHeader
+					text="Add Tags"
+					backButton
+					onBackButton={() => {
+						let eventData = data;
+						eventData.tags = selectedTags;
+						props.navigation.navigate('CreateEvent', {
+							data: data
+						});
+					}}
+				/>
+			}
 		>
 			<ChipsSearch items={Tags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
 			<Button

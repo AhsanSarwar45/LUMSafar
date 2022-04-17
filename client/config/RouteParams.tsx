@@ -22,4 +22,5 @@ export type RootStackParamList = {
 	Menu: undefined;
 	Splash: undefined;
 	Profile: { data: UserData };
+	EditProfile: undefined;
 };
