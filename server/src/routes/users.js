@@ -361,23 +361,37 @@ router.route('/friend-request').post((req, res) => {
 	let own_id = req.body.own_id;
 	let friend_id = req.body.friend_id;
 
-	User.findById(friend_id)
+	User.findById(own_id)
 		.then((user) => {
-			user.friendRequests.push(own_id);
-			user
-				.save()
+			user.sentFriendRequests.push(friend_id);
+			user.save()
 				.then(() => {
-					res.json('success');
-					console.log(`[user/friend-request] ${own_id}: success`);
+					User.findById(friend_id)
+						.then((user_friend) => {
+							user_friend.friendRequests.push(own_id);
+							user_friend.save()
+								.then(() => {
+									res.json('success');
+									console.log('[user/friend-request] success');
+								})
+								.catch((err) => {
+									res.json('failure');
+									console.log('[user/friend-request] failure saving friend');
+								});
+						})
+						.catch((err) => {
+							res.json('failure');
+							console.log('[user/friend-request] failure retrieving friend');
+						});
 				})
 				.catch((err) => {
 					res.json('failure');
-					console.log(`[user/friend-request] failure ${err}`);
+					console.log('[user/friend-request] failure saving user');
 				});
 		})
 		.catch((err) => {
 			res.json('failure');
-			console.log(`[user/friend-request]: failure fetching user : ${err}`);
+			console.log('[user/friend-request] failure retrieving own_id');
 		});
 });
 
@@ -388,11 +402,13 @@ router.route('/accept-request').post((req, res) => {
 	User.findById(own_id)
 		.then((user) => {
 			user.friends.push(friend_id);
+			user.friendRequests.pull( { _id: friend_id });
 			user
 				.save()
 				.then(() => {
 					User.findById(friend_id).then((user_friend) => {
 						user_friend.friends.push(own_id);
+						user_friend.sentFriendRequests.pull( { _id: own_id });
 						user_friend
 							.save()
 							.then(() => {
