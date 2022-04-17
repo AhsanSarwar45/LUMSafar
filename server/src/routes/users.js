@@ -373,7 +373,7 @@ router.route('/friend-request').post((req, res) => {
 							user_friend
 								.save()
 								.then(() => {
-									res.json('success');
+									res.json(user);
 									console.log('[user/friend-request] success');
 								})
 								.catch((err) => {
@@ -413,7 +413,7 @@ router.route('/cancel-request').post((req, res) => {
 							user_friend
 								.save()
 								.then(() => {
-									res.json('success');
+									res.json(user);
 									console.log('[user/cancel-request] success');
 								})
 								.catch((err) => {
@@ -454,7 +454,7 @@ router.route('/accept-request').post((req, res) => {
 						user_friend
 							.save()
 							.then(() => {
-								res.json('success');
+								res.json(user);
 								console.log(`[user/accept-request: success]`);
 							})
 							.catch((err) => {
@@ -476,7 +476,7 @@ router.route('/accept-request').post((req, res) => {
 
 router.route('/decline-request').post((req, res) => {
 	const own_id = req.body.userId;
-	
+
 	const friend_id = req.body.friendId;
 
 	User.findById(own_id)
@@ -492,7 +492,7 @@ router.route('/decline-request').post((req, res) => {
 						user_friend
 							.save()
 							.then(() => {
-								res.json('unhandshake-complete');
+								res.json(user);
 								console.log(`[user/decline-request: success]`);
 							})
 							.catch((err) => {
@@ -547,7 +547,7 @@ router.route('/follow-user').post((req, res) => {
 			user
 				.save()
 				.then(() => {
-					res.json('success');
+					res.json(user);
 					console.log(`[user/follow-user] ${friend_id}: success`);
 				})
 				.catch((err) => {
@@ -560,6 +560,32 @@ router.route('/follow-user').post((req, res) => {
 			console.log(`[user/follow-user]: failure fetching user : ${err}`);
 		});
 });
+
+router.route('/unfollow-user').post((req, res) => {
+	const own_id = req.body.userId;
+	const friend_id = req.body.friendId;
+
+
+	User.findById(own_id)
+		.then((user) => {
+			user.following.pull(friend_id);
+			user
+				.save()
+				.then(() => {
+					res.json(user);
+					console.log(`[user/follow-user] ${friend_id}: success`);
+				})
+				.catch((err) => {
+					res.json('failure');
+					console.log(`[user/friend-request] failure ${err}`);
+				});
+		})
+		.catch((err) => {
+			res.json('failure');
+			console.log(`[user/follow-user]: failure fetching user : ${err}`);
+		});
+});
+
 
 router.route('/search').post((req, res) => {
 	//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
