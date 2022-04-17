@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
 	
 	flag: {
 		type: Boolean,
-		required: true
 	},
 	accountType: {
 		type: String,
