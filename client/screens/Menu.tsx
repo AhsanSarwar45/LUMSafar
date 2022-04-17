@@ -17,14 +17,14 @@ const MenuScreen = (props: MenuScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	return (
 		<Screen header={<ScreenHeader backButton text="Menu" />}>
-			{/* <MenuCard
+			<MenuCard
 				iconColor={colors.cards[0]}
 				label="Profile"
 				icon={<MaterialIcons name="person" />}
 				onPress={() => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
-			/> */}
+			/>
 
 			<MenuCard
 				iconColor={colors.cards[1]}
@@ -58,14 +58,14 @@ const MenuScreen = (props: MenuScreenProps) => {
 					props.navigation.navigate('FriendRequests');
 				}}
 			/>
-			<MenuCard
+			{/* <MenuCard
 				iconColor={colors.cards[0]}
 				label="Settings"
 				icon={<MaterialIcons name="settings" />}
 				onPress={() => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
-			/>
+			/> */}
 			<MenuCard
 				iconColor={colors.cards[1]}
 				label="About"
