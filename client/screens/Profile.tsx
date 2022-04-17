@@ -23,7 +23,9 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { colors } = useTheme();
 	const [ profilePicture, setProfilePicture ] = useState(data.profilePicPath);
+	const [ isFriend, setIsFriend ] = useState(userData.friends.includes(data._id));
 	const [ ownProfile, setOwnProfile ] = useState(userData._id === data._id);
+	const [ sentFriendRequest, setSentFriendRequest ] = useState(userData.sentFriendRequests.includes(data._id));
 	const [ isSendingRequest, setIsSendingRequest ] = useState(false);
 	const toast = useToast();
 
@@ -39,6 +41,30 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 			.then((response) => {
 				if (response.data === 'success') {
 					ShowToast(toast, 'Friend request sent! 🚀', 'success');
+					setSentFriendRequest(true);
+				} else {
+					ShowToast(toast, 'Please try again later 😔', 'failure');
+				}
+			})
+			.catch((response) => {
+				ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
+			})
+			.finally(() => setIsSendingRequest(false));
+	}
+
+	function CancelFriendRequest() {
+		setIsSendingRequest(true);
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/cancel-request`,
+			{ userId: userData._id, friendId: data._id },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				if (response.data === 'success') {
+					ShowToast(toast, 'Friend request cancelled! 🚀', 'success');
+					setSentFriendRequest(false);
 				} else {
 					ShowToast(toast, 'Please try again later 😔', 'failure');
 				}
@@ -85,17 +111,17 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 
 			<Heading>{data.username} </Heading>
 			{/* <Text>{data.accountType}</Text> */}
-			{!ownProfile ? data.accountType === 'student' ? (
+			{!ownProfile && !isFriend ? data.accountType === 'student' ? (
 				<HStack space="5%">
 					<Button
 						disabled={isSendingRequest}
 						isLoading={isSendingRequest}
 						isLoadingText="Sending"
-						onPress={SendFriendRequest}
+						onPress={sentFriendRequest ? CancelFriendRequest : SendFriendRequest}
 						_text={{ fontSize: 'sm' }}
 						width="47.5%"
 					>
-						Friend Request
+						{sentFriendRequest ? 'Cancel Friend Request' : 'Send Friend Request'}
 					</Button>
 					<Button _text={{ fontSize: 'sm' }} width="47.5%">
 						Follow

@@ -76,12 +76,14 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 							<VStack space={0.5} height="500px">
 								{[ ...Array(5) ].map((value: any, index: number) => <UserSkeletonCard key={index} />)}
 							</VStack>
-						) : (
-							<VStack pt="40px" width="100%" alignItems={'center'} height="500px">
+						) : friendRequests.length === 0 ? (
+							<VStack pt="40px" height="500px" width="100%" alignItems={'center'}>
 								<Text fontSize="xl" key={0}>
 									Nothing... 🙂
 								</Text>
 							</VStack>
+						) : (
+							<Box height="500px" />
 						)
 					}
 					renderItem={({ item, index }) => <UserCard data={item as UserData} index={index} key={index} />}
