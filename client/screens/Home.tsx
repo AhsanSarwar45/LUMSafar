@@ -23,13 +23,13 @@ import { UserDataContext } from '../data/UserDataContext';
 
 const ThirdRoute = () => (
 	<Center flex={1} my="4">
-		This is Tab 3
+		Coming soon
 	</Center>
 );
 
 const FourthRoute = () => (
 	<Center flex={1} my="4">
-		This is Tab 4
+		Coming soon
 	</Center>
 );
 
