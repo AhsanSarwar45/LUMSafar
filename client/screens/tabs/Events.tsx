@@ -15,6 +15,7 @@ import { JsonHeader } from '../../config/ControlHeader';
 import { UserDataContext } from '../../data/UserDataContext';
 import StatusBar from '../../components/StatusBar';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import ScreenHeader from '../../components/ScreenHeader';
 
 export const EventsTab = (props: TabsProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -88,10 +89,10 @@ export const EventsTab = (props: TabsProps) => {
 	// );
 
 	return (
-		<View marginTop="5%">
+		<View marginTop="8%">
 			<StatusBar />
 
-			<TopBar onSearchPress={() => navigation.navigate('EventsSearch')} search label={'Events'} />
+			{/* <TopBar onSearchPress={() => navigation.navigate('EventsSearch')} search label={'Events'} /> */}
 
 			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}> */}
 			<View px="8%" pb="20%" width="full">
@@ -100,6 +101,21 @@ export const EventsTab = (props: TabsProps) => {
 					data={events}
 					refreshing={isFetching}
 					onRefresh={() => setIsFetching(true)}
+					ListHeaderComponent={
+						<ScreenHeader
+							text="Events"
+							icons={[
+								<FontAwesome5 name="search" onPress={() => navigation.navigate('EventsSearch')} />,
+								<FontAwesome5
+									name="bars"
+									onPress={() => {
+										navigation.navigate('Menu');
+									}}
+								/>
+							]}
+						/>
+					}
+					stickyHeaderIndices={[ 0 ]}
 					ListFooterComponent={
 						areEventsFinished ? (
 							<VStack pt="40px" width="100%" alignItems={'center'} height="500px">

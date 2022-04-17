@@ -13,7 +13,7 @@ interface ScreenHeaderProps {
 const ScreenHeader = (props: ScreenHeaderProps) => {
 	const navigation = useNavigation();
 	return (
-		<HStack alignItems="center" width="full" space={5}>
+		<HStack py="2%" alignItems="center" width="full" space={5} bgColor="background">
 			{props.backButton ? (
 				<Icon
 					as={

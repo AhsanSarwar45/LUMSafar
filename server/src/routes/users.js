@@ -358,18 +358,20 @@ router.route('/friends-menu').post((req, res) => {
 });
 
 router.route('/friend-request').post((req, res) => {
-	let own_id = req.body.own_id;
-	let friend_id = req.body.friend_id;
+	const userId = req.body.userId;
+	const friendId = req.body.friendId;
 
-	User.findById(own_id)
+	User.findById(userId)
 		.then((user) => {
-			user.sentFriendRequests.push(friend_id);
-			user.save()
+			user.sentFriendRequests.push(friendId);
+			user
+				.save()
 				.then(() => {
-					User.findById(friend_id)
+					User.findById(friendId)
 						.then((user_friend) => {
-							user_friend.friendRequests.push(own_id);
-							user_friend.save()
+							user_friend.friendRequests.push(userId);
+							user_friend
+								.save()
 								.then(() => {
 									res.json('success');
 									console.log('[user/friend-request] success');
@@ -402,13 +404,13 @@ router.route('/accept-request').post((req, res) => {
 	User.findById(own_id)
 		.then((user) => {
 			user.friends.push(friend_id);
-			user.friendRequests.pull( { _id: friend_id });
+			user.friendRequests.pull({ _id: friend_id });
 			user
 				.save()
 				.then(() => {
 					User.findById(friend_id).then((user_friend) => {
 						user_friend.friends.push(own_id);
-						user_friend.sentFriendRequests.pull( { _id: own_id });
+						user_friend.sentFriendRequests.pull({ _id: own_id });
 						user_friend
 							.save()
 							.then(() => {
@@ -433,15 +435,17 @@ router.route('/accept-request').post((req, res) => {
 });
 
 router.route('/show-friend-requests').post((req, res) => {
-	let own_id = req.body.own_id; //or should it be _id
+	const userId = req.body.userId; //or should it be _id
+	console.log(`[user/show-friend-requests] ${userId}: received`);
 
-	User.findById(own_id)
+	User.findById(userId)
 		.then((user) => {
-			res.json({ friendRequests: user.friendRequests });
+			res.json(user.friendRequests);
+			console.log(`[user/show-friend-requests] ${userId}: success`);
 		})
 		.catch((err) => {
 			res.json('failure');
-			console.log(`[user/show-friend-requests]: failure fetching friend requests : ${err}`);
+			console.log(`[user/show-friend-requests] ${userId}: failure fetching friend requests : ${err}`);
 		});
 });
 
@@ -474,6 +478,8 @@ router.route('/search').post((req, res) => {
 	const query = req.body.query;
 	const searchType = req.body.searchType;
 	const userId = req.body.userId;
+
+	console.log(`[users/search] ${query}: received`);
 
 	if (searchType === 'users') {
 		User.find({

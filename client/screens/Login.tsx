@@ -48,6 +48,8 @@ export const LoginScreen = ({ navigation }: any) => {
 	});
 
 	function Login(data: LoginData, formikProps: any) {
+
+		console.log(`${LUMSAFAR_SERVER_URL}/users/login`)
 		Axios.post(`${LUMSAFAR_SERVER_URL}/users/login`, data, {
 			headers: JsonHeader
 		})
