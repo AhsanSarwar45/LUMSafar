@@ -15,7 +15,7 @@ const SearchBar = (props: SearchBarProps) => {
 
 	const [ searchTerm, setSearchTerm ] = useState('');
 	return (
-		<View width="full" px="8%" pt="6%" pb="2%" zIndex={5}>
+		<View bgColor="background" width="full" pt="6%" pb="4%" zIndex={5}>
 			<Input
 				placeholder="Search"
 				variant="unstyled"

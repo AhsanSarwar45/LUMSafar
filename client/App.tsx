@@ -28,6 +28,7 @@ import EventDetailsScreen from './screens/EventDetails';
 import EventsSearchScreen from './screens/EventSearch';
 import EditProfileScreen from './screens/EditProfile';
 import UsersSearchScreen from './screens/UsersSearch';
+import FriendRequestsScreen from './screens/FriendRequests';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -98,6 +99,11 @@ export default function App() {
 							options={{ headerShown: false }}
 							name="UsersSearch"
 							component={UsersSearchScreen}
+						/>
+						<Stack.Screen
+							options={{ headerShown: false }}
+							name="FriendRequests"
+							component={FriendRequestsScreen}
 						/>
 						{/* <Stack.Screen options={{ headerShown: false }} name="ChipsSearch" component={ChipsSearchScreen} /> */}
 						<Stack.Screen options={{ headerShown: false }} name="Menu" component={Menu} />

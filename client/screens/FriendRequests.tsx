@@ -16,53 +16,71 @@ import { UserDataContext } from '../data/UserDataContext';
 import StatusBar from '../components/StatusBar';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import SearchBar from '../components/SearchBar';
+import ScreenHeader from '../components/ScreenHeader';
 
-type UsersSearchScreenProps = NativeStackScreenProps<RootStackParamList, 'UsersSearch'>;
+type FriendRequestsScreenProps = NativeStackScreenProps<RootStackParamList, 'FriendRequests'>;
 
-const UsersSearchScreen = (props: UsersSearchScreenProps) => {
+const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [ isFetching, setIsFetching ] = useState(false);
-	const [ Users, setUsers ] = useState<Array<UserData>>([]);
+	const [ friendRequests, setFriendRequests ] = useState<Array<UserData>>([]);
+	// const [ isEmpty, setIsEmpty ] = useState(false);
 
-	function FetchSearchResults(searchTerm: string) {
+	function FetchFriendRequests() {
 		setIsFetching(true);
 		// console.log(currentUsers);
 		Axios.post(
-			`${LUMSAFAR_SERVER_URL}/users/search`,
-			{ query: searchTerm, searchType: 'users', userId: userData._id },
+			`${LUMSAFAR_SERVER_URL}/users/show-friend-requests`,
+			{ userId: userData._id },
 			{
 				headers: JsonHeader
 			}
 		)
 			.then((response) => {
-				setUsers(response.data);
+				setFriendRequests(response.data);
 			})
 			.catch((response) => {
 				console.log(response);
 			})
-			.finally(() => setIsFetching(true));
+			.finally(() => setIsFetching(false));
 	}
 
+	useEffect(() => {
+		// setIsEmpty(false);
+		FetchFriendRequests();
+	}, []);
+
+	// useEffect(
+	// 	() => {
+	// 		if (friendRequests.length === 0) {
+	// 			setIsEmpty(true);
+	// 		}
+	// 	},
+	// 	[ friendRequests ]
+	// );
+
 	return (
-		<View marginTop="5%">
+		<View marginTop="8%">
 			<StatusBar />
 
 			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Users'} />}> */}
 			<View px="8%" pb="20%" width="full">
 				<FlatList
-					showsVerticalScrollIndicator={false}
-					data={Users}
-					ListHeaderComponent={
-						<SearchBar onSubmit={(searchTerm: string) => FetchSearchResults(searchTerm)} />
-					}
+					ListHeaderComponent={<ScreenHeader text="Friend Requests" backButton />}
 					stickyHeaderIndices={[ 0 ]}
+					showsVerticalScrollIndicator={false}
+					data={friendRequests}
 					ListFooterComponent={
 						isFetching ? (
 							<VStack space={0.5} height="500px">
 								{[ ...Array(5) ].map((value: any, index: number) => <UserSkeletonCard key={index} />)}
 							</VStack>
 						) : (
-							<Box height="500px" />
+							<VStack pt="40px" width="100%" alignItems={'center'} height="500px">
+								<Text fontSize="xl" key={0}>
+									Nothing... 🙂
+								</Text>
+							</VStack>
 						)
 					}
 					renderItem={({ item, index }) => <UserCard data={item as UserData} index={index} key={index} />}
@@ -75,4 +93,4 @@ const UsersSearchScreen = (props: UsersSearchScreenProps) => {
 	);
 };
 
-export default UsersSearchScreen;
+export default FriendRequestsScreen;

@@ -100,11 +100,13 @@ const EventsSearchScreen = (props: EventsSearchScreenProps) => {
 		<View marginTop="5%">
 			<StatusBar />
 
-			<SearchBar onSubmit={(searchTerm: string) => FetchSearchResults(searchTerm)} />
-
 			{/* <Screen lightScreen stacked={false} scrollType="none" topBar={<TopBar search label={'Events'} />}> */}
 			<View px="8%" pb="20%" width="full">
 				<FlatList
+					ListHeaderComponent={
+						<SearchBar onSubmit={(searchTerm: string) => FetchSearchResults(searchTerm)} />
+					}
+					stickyHeaderIndices={[ 0 ]}
 					showsVerticalScrollIndicator={false}
 					data={events}
 					ListFooterComponent={

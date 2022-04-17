@@ -24,4 +24,5 @@ export type RootStackParamList = {
 	Splash: undefined;
 	Profile: { data: UserData };
 	EditProfile: undefined;
+	FriendRequests: undefined;
 };

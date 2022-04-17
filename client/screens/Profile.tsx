@@ -24,10 +24,34 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	const { colors } = useTheme();
 	const [ profilePicture, setProfilePicture ] = useState(data.profilePicPath);
 	const [ ownProfile, setOwnProfile ] = useState(userData._id === data._id);
+	const [ isSendingRequest, setIsSendingRequest ] = useState(false);
 	const toast = useToast();
+
+	function SendFriendRequest() {
+		setIsSendingRequest(true);
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/friend-request`,
+			{ userId: userData._id, friendId: data._id },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				if (response.data === 'success') {
+					ShowToast(toast, 'Friend request sent! 🚀', 'success');
+				} else {
+					ShowToast(toast, 'Please try again later 😔', 'failure');
+				}
+			})
+			.catch((response) => {
+				ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
+			})
+			.finally(() => setIsSendingRequest(false));
+	}
 
 	return (
 		<Screen
+			lightScreen
 			header={
 				<ScreenHeader
 					text={'Profile'}
@@ -61,15 +85,26 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 
 			<Heading>{data.username} </Heading>
 			{/* <Text>{data.accountType}</Text> */}
-			{!ownProfile ? (
+			{!ownProfile ? data.accountType === 'student' ? (
 				<HStack space="5%">
-					<Button _text={{ fontSize: 'sm' }} width="47.5%">
+					<Button
+						disabled={isSendingRequest}
+						isLoading={isSendingRequest}
+						isLoadingText="Sending"
+						onPress={SendFriendRequest}
+						_text={{ fontSize: 'sm' }}
+						width="47.5%"
+					>
 						Friend Request
 					</Button>
 					<Button _text={{ fontSize: 'sm' }} width="47.5%">
 						Follow
 					</Button>
 				</HStack>
+			) : (
+				<Button _text={{ fontSize: 'sm' }} width="100%">
+					Follow
+				</Button>
 			) : null}
 
 			<HStack
