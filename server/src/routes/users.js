@@ -438,8 +438,8 @@ router.route('/cancel-request').post((req, res) => {
 });
 
 router.route('/accept-request').post((req, res) => {
-	let own_id = req.body.own_id;
-	let friend_id = req.body.friend_id;
+	const own_id = req.body.userId;
+	const friend_id = req.body.friendId;
 
 	User.findById(own_id)
 		.then((user) => {
@@ -475,8 +475,8 @@ router.route('/accept-request').post((req, res) => {
 });
 
 router.route('/decline-request').post((req, res) => {
-	let own_id = req.body.own_id;
-	let friend_id = req.body.friend_id;
+	const own_id = req.body.userId;
+	const friend_id = req.body.friendId;
 
 	User.findById(own_id)
 		.then((user) => {
@@ -536,8 +536,9 @@ router.route('/show-friend-requests').post((req, res) => {
 });
 
 router.route('/follow-user').post((req, res) => {
-	let own_id = req.body.own_id;
-	let friend_id = req.body.friend_id;
+	const own_id = req.body.userId;
+	const friend_id = req.body.friendId;
+
 
 	User.findById(own_id)
 		.then((user) => {
