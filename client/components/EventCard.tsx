@@ -16,6 +16,7 @@ interface EventCardProps {
 	index: number;
 	data: EventData;
 	setEvents: Function;
+	disableInterests: boolean;
 }
 
 const EventCard = (props: EventCardProps) => {
@@ -29,6 +30,8 @@ const EventCard = (props: EventCardProps) => {
 	const isTitleLong = props.data.title.length > 14;
 
 	function ToggleInterest() {
+		if (props.disableInterests) return;
+
 		let modifiedData = props.data;
 		if (modifiedData.interestedUsers.includes(userData._id)) {
 			setInterested(false);
@@ -179,7 +182,8 @@ export const EventSkeletonCard = () => {
 };
 
 EventCard.defaultProps = {
-	setEvents: () => {}
+	setEvents: () => {},
+	disableInterests: false
 };
 
 export default EventCard;
