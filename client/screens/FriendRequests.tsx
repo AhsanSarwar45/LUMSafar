@@ -8,7 +8,7 @@ import TopBar from '../components/TopBar';
 import Screen from '../components/Screen';
 import TabsProps from '../interfaces/TabsProps';
 import { RootStackParamList } from '../config/RouteParams';
-import UserCard, { UserSkeletonCard } from '../components/UserCard';
+import UserCard, { UserSkeletonCard, UserRequestCard } from '../components/UserCard';
 import { UserData } from '../interfaces/UserData';
 import { LUMSAFAR_SERVER_URL } from '@env';
 import { JsonHeader } from '../config/ControlHeader';
@@ -38,6 +38,7 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 		)
 			.then((response) => {
 				setFriendRequests(response.data);
+
 				SetSent(true);
 			})
 			.catch((response) => {
@@ -51,14 +52,19 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 		FetchFriendRequests();
 	}, []);
 
-	// useEffect(
-	// 	() => {
-	// 		if (friendRequests.length === 0) {
-	// 			setIsEmpty(true);
-	// 		}
-	// 	},
-	// 	[ friendRequests ]
-	// );
+	const RemoveRequest = (index: number) => {
+		console.log(friendRequests);
+		let copy = friendRequests;
+		copy.splice(index, 1);
+		setFriendRequests(copy);
+	};
+
+	useEffect(
+		() => {
+			console.log(friendRequests);
+		},
+		[ friendRequests ]
+	);
 
 	return (
 		<View marginTop="8%">
@@ -86,7 +92,14 @@ const FriendRequestsScreen = (props: FriendRequestsScreenProps) => {
 							<Box height="500px" />
 						)
 					}
-					renderItem={({ item, index }) => <UserCard data={item as UserData} index={index} key={index} />}
+					renderItem={({ item, index }) => (
+						<UserRequestCard
+							removeRequest={RemoveRequest}
+							data={item as UserData}
+							index={index}
+							key={index}
+						/>
+					)}
 					keyExtractor={(item: UserData) => item._id}
 				/>
 			</View>

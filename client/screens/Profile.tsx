@@ -27,9 +27,33 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	const [ ownProfile, setOwnProfile ] = useState(userData._id === data._id);
 	const [ sentFriendRequest, setSentFriendRequest ] = useState(userData.sentFriendRequests.includes(data._id));
 	const [ isSendingRequest, setIsSendingRequest ] = useState(false);
+	const [ isSendingFollowRequest, setIsSendingFollowRequest ] = useState(false);
 	const toast = useToast();
 
 	function SendFriendRequest() {
+		setIsSendingRequest(true);
+		Axios.post(
+			`${LUMSAFAR_SERVER_URL}/users/friend-request`,
+			{ userId: userData._id, friendId: data._id },
+			{
+				headers: JsonHeader
+			}
+		)
+			.then((response) => {
+				if (response.data === 'success') {
+					ShowToast(toast, 'Friend request sent! 🚀', 'success');
+					setSentFriendRequest(true);
+				} else {
+					ShowToast(toast, 'Please try again later 😔', 'failure');
+				}
+			})
+			.catch((response) => {
+				ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
+			})
+			.finally(() => setIsSendingRequest(false));
+	}
+
+	function Follow() {
 		setIsSendingRequest(true);
 		Axios.post(
 			`${LUMSAFAR_SERVER_URL}/users/friend-request`,
@@ -111,7 +135,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 
 			<Heading>{data.username} </Heading>
 			{/* <Text>{data.accountType}</Text> */}
-			{!ownProfile && !isFriend ? data.accountType === 'student' ? (
+			{!ownProfile ? data.accountType === 'student' && !isFriend ? (
 				<HStack space="5%">
 					<Button
 						disabled={isSendingRequest}

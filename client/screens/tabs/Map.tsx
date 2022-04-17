@@ -1,10 +1,10 @@
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AspectRatio, Box, Container, Heading, useTheme, Text, VStack, View } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
-
+import * as Location from 'expo-location';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import TopBar from '../../components/TopBar';
@@ -16,6 +16,21 @@ import { useWindowDimensions } from 'react-native';
 
 const MapTab = (props: TabsProps) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const [ myLocation, setMyLocation ] = useState<Location.LocationObject>();
+	const [ permissionGranted, setPermissionGranted ] = useState(false);
+
+	useEffect(() => {
+		(async () => {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status === 'granted') {
+				setPermissionGranted(true);
+			}
+
+			let location = await Location.getCurrentPositionAsync({});
+			setMyLocation(location);
+			console.log(location);
+		})();
+	}, []);
 
 	const window = useWindowDimensions();
 	return (
@@ -31,7 +46,17 @@ const MapTab = (props: TabsProps) => {
 					width: window.width,
 					height: window.height
 				}}
-			/>
+			>
+				{myLocation ? (
+					<Marker
+						coordinate={{
+							latitude: (myLocation as Location.LocationObject).coords.latitude,
+							longitude: (myLocation as Location.LocationObject).coords.longitude
+						}}
+						title={'Me'}
+					/>
+				) : null}
+			</MapView>
 		</Screen>
 	);
 };

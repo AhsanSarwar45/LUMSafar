@@ -58,14 +58,14 @@ const MenuScreen = (props: MenuScreenProps) => {
 					props.navigation.navigate('FriendRequests');
 				}}
 			/>
-			<MenuCard
+			{/* <MenuCard
 				iconColor={colors.cards[0]}
 				label="Settings"
 				icon={<MaterialIcons name="settings" />}
 				onPress={() => {
 					props.navigation.navigate('Profile', { data: userData });
 				}}
-			/>
+			/> */}
 			<MenuCard
 				iconColor={colors.cards[1]}
 				label="About"
