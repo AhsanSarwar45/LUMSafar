@@ -496,7 +496,7 @@ router.route('/decline-request').post((req, res) => {
 								console.log(`[user/decline-request: success]`);
 							})
 							.catch((err) => {
-								res.json('unhandshake-failed');
+								res.json('failure');
 								console.log(`[user/decline-request]: failed : ${err}`);
 							});
 					});
@@ -540,7 +540,6 @@ router.route('/follow-user').post((req, res) => {
 	const own_id = req.body.userId;
 	const friend_id = req.body.friendId;
 
-
 	User.findById(own_id)
 		.then((user) => {
 			user.following.push(friend_id);
@@ -565,7 +564,6 @@ router.route('/unfollow-user').post((req, res) => {
 	const own_id = req.body.userId;
 	const friend_id = req.body.friendId;
 
-
 	User.findById(own_id)
 		.then((user) => {
 			user.following.pull(friend_id);
@@ -585,7 +583,6 @@ router.route('/unfollow-user').post((req, res) => {
 			console.log(`[user/follow-user]: failure fetching user : ${err}`);
 		});
 });
-
 
 router.route('/search').post((req, res) => {
 	//this is a multipurpose function, that can work with any search type e.g users/events/friends, by specifying in search type
@@ -645,17 +642,15 @@ router.route('/look-for-strangers').post((req, res) => {
 			res.json('failure finding');
 			console.log(`[user/look-for-strangers] ${userId}: failure: ${err}`);
 		} else {
-			User.flag = true 
+			User.flag = true;
 
-			User
-				.save()
+			User.save()
 				.then(() => {
 					console.log(`[user/look-for-strangers] ${userId}: success`);
 
-					User.find({flag : true}).then((users) => {
-						res.json(users)
-					})
-
+					User.find({ flag: true }).then((users) => {
+						res.json(users);
+					});
 				})
 				.catch((err) => {
 					res.json('failure');
@@ -663,9 +658,6 @@ router.route('/look-for-strangers').post((req, res) => {
 				});
 		}
 	});
-})
-
-
-
+});
 
 module.exports = router;

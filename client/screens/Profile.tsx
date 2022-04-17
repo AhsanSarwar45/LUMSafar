@@ -15,6 +15,7 @@ import * as ExpoImagePicker from 'expo-image-picker';
 import { JsonHeader } from '../config/ControlHeader';
 import { ShowToast } from '../components/Toast';
 import ScreenHeader from '../components/ScreenHeader';
+import { StoreUserData } from '../data/AsyncStorage';
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
@@ -40,11 +41,12 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
-					ShowToast(toast, 'Friend request sent! 🚀', 'success');
-					setSentFriendRequest(true);
-				} else {
+				if (response.data === 'failure') {
 					ShowToast(toast, 'Please try again later 😔', 'failure');
+				} else {
+					setUserData(response.data);
+					StoreUserData(response.data, () => {});
+					ShowToast(toast, 'Friend request sent! 🚀', 'success');
 				}
 			})
 			.catch((response) => {
@@ -56,7 +58,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 	function Follow() {
 		setIsSendingRequest(true);
 		Axios.post(
-			`${LUMSAFAR_SERVER_URL}/users/friend-request`,
+			`${LUMSAFAR_SERVER_URL}/users/follow-user`,
 			{ userId: userData._id, friendId: data._id },
 			{
 				headers: JsonHeader
@@ -64,7 +66,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 		)
 			.then((response) => {
 				if (response.data === 'success') {
-					ShowToast(toast, 'Friend request sent! 🚀', 'success');
+					ShowToast(toast, 'Followed user! 🚀', 'success');
 					setSentFriendRequest(true);
 				} else {
 					ShowToast(toast, 'Please try again later 😔', 'failure');
@@ -86,11 +88,12 @@ const ProfileScreen = (props: ProfileScreenProps) => {
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
-					ShowToast(toast, 'Friend request cancelled! 🚀', 'success');
-					setSentFriendRequest(false);
-				} else {
+				if (response.data === 'failure') {
 					ShowToast(toast, 'Please try again later 😔', 'failure');
+				} else {
+					setUserData(response.data);
+					StoreUserData(response.data, () => {});
+					ShowToast(toast, 'Friend request cancelled! 🚀', 'success');
 				}
 			})
 			.catch((response) => {

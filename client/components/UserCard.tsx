@@ -26,6 +26,7 @@ import { JsonHeader } from '../config/ControlHeader';
 import { UserDataContext } from '../data/UserDataContext';
 import moment from 'moment';
 import { ShowToast } from './Toast';
+import { StoreUserData } from '../data/AsyncStorage';
 
 interface UserCardProps {
 	index: number;
@@ -127,10 +128,11 @@ export const UserRequestCard = (props: UserRequestCardProps) => {
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
-					props.removeRequest(props.index);
-				} else {
+				if (response.data === 'failure') {
 					ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
+				} else {
+					setUserData(response.data);
+					StoreUserData(response.data, () => {});
 				}
 			})
 			.catch((response) => {
@@ -147,10 +149,11 @@ export const UserRequestCard = (props: UserRequestCardProps) => {
 			}
 		)
 			.then((response) => {
-				if (response.data === 'success') {
-					props.removeRequest(props.index);
-				} else {
+				if (response.data === 'failure') {
 					ShowToast(toast, "We couldn't connect to our servers 😔", 'failure');
+				} else {
+					setUserData(response.data);
+					StoreUserData(response.data, () => {});
 				}
 			})
 			.catch((response) => {
