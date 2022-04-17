@@ -476,6 +476,7 @@ router.route('/accept-request').post((req, res) => {
 
 router.route('/decline-request').post((req, res) => {
 	const own_id = req.body.userId;
+	
 	const friend_id = req.body.friendId;
 
 	User.findById(own_id)
