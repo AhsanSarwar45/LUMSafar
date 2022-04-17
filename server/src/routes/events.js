@@ -176,6 +176,10 @@ router.route('/fetch-recommendations').post((req, res) => {
 			res.json(data1);
 			console.log(`[event/fetch-recommendations] ${own_id}: success`);
 		});
+	})
+	.catch((err) => {
+		res.json('failure');
+		console.log(`[event/fetch-recommendations] ${own_id}: failure: ${err}`);
 	});
 
 	// function (err, result) {
